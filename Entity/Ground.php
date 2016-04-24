@@ -28,11 +28,16 @@ class Ground
      */
     private $name;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="Event")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $event;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -55,10 +60,33 @@ class Ground
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set event
+     *
+     * @param Event $event
+     * @return Ground
+     */
+    public function setEvent(Event $event)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
     }
 }

@@ -22,30 +22,27 @@ class Game
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="team1", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Abienvenu\KyjoukanBundle\Entity\Team")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $team1;
 
     /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="team2", type="object")
+     * @ORM\ManyToOne(targetEntity="Abienvenu\KyjoukanBundle\Entity\Team")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $team2;
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="ground", type="object")
-     */
-    private $ground;
+	/**
+	 * @ORM\ManyToOne(targetEntity="Abienvenu\KyjoukanBundle\Entity\Ground")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $ground;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="score1", type="integer")
+     * @ORM\Column(name="score1", type="integer", nullable=true)
      */
     private $score1;
 
@@ -67,7 +64,7 @@ class Game
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -77,7 +74,7 @@ class Game
     /**
      * Set team1
      *
-     * @param string $team1
+     * @param Team $team1
      * @return Game
      */
     public function setTeam1($team1)
@@ -90,7 +87,7 @@ class Game
     /**
      * Get team1
      *
-     * @return string 
+     * @return Team
      */
     public function getTeam1()
     {
@@ -100,7 +97,7 @@ class Game
     /**
      * Set team2
      *
-     * @param \stdClass $team2
+     * @param Team $team2
      * @return Game
      */
     public function setTeam2($team2)
@@ -113,7 +110,7 @@ class Game
     /**
      * Get team2
      *
-     * @return \stdClass 
+     * @return Team
      */
     public function getTeam2()
     {
@@ -123,7 +120,7 @@ class Game
     /**
      * Set ground
      *
-     * @param \stdClass $ground
+     * @param Ground $ground
      * @return Game
      */
     public function setGround($ground)
@@ -136,7 +133,7 @@ class Game
     /**
      * Get ground
      *
-     * @return \stdClass 
+     * @return Ground
      */
     public function getGround()
     {
@@ -159,7 +156,7 @@ class Game
     /**
      * Get score1
      *
-     * @return integer 
+     * @return integer
      */
     public function getScore1()
     {
@@ -182,7 +179,7 @@ class Game
     /**
      * Get score2
      *
-     * @return integer 
+     * @return integer
      */
     public function getScore2()
     {
@@ -205,7 +202,7 @@ class Game
     /**
      * Get priority
      *
-     * @return integer 
+     * @return integer
      */
     public function getPriority()
     {

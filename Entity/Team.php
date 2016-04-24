@@ -12,53 +12,81 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Team
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="name", type="string", length=255)
+	 */
+	private $name;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Event")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $event;
+
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 * @return Team
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+
+		return $this;
+	}
+
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
     /**
-     * @var string
+     * Set event
      *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
+     * @param Event $event
      * @return Team
      */
-    public function setName($name)
+    public function setEvent(Event $event)
     {
-        $this->name = $name;
+        $this->event = $event;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get event
      *
-     * @return string 
+     * @return Event
      */
-    public function getName()
+    public function getEvent()
     {
-        return $this->name;
+        return $this->event;
     }
 }
