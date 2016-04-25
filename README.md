@@ -25,3 +25,44 @@ As soon as you enter the results, you will get a printable hall of fame, availab
 
 Once the first phase is over, you can create another one (and so on...).
 
+Server Installation
+-------------------
+
+If you want to install and run Kyjoukan on your own server :
+
+* Install Symfony 2.8
+ Download the bundle :
+```bash
+$ php composer.phar require "abienvenu/kyjoukan":"dev-master"
+```
+* Add the bundle in your AppKernel.php, and also load StofDoctrineExtensionsBundle :
+```php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Abienvenu\KyjoukanBundle\KyjoukanBundle(),
+        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+    );
+}
+```
+* Include the route from your app/config/routing.yml :
+```YAML
+kyjoukan:
+    resource: "@KyjoukanBundle/Resources/config/routing.yml"
+    prefix: /kyjoukan
+```
+* Include the config from your app/config/config.yml :
+```YAML
+    imports:
+	- { resource: "@KyjoukanBundle/Resources/config/config.yml" }
+```
+* Also activate sluggable in your app/config/config.yml :
+```YAML
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+```

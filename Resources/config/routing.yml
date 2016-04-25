@@ -1,0 +1,4 @@
+kyjoukan:
+    resource: "@KyjoukanBundle/Controller/"
+    type:     annotation
+    prefix:   /
