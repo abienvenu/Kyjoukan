@@ -36,6 +36,10 @@ class LoadTeam implements FixtureInterface
 			"La prévière",
 			"Kikonféla",
 			"ZEbet",
+			"Gibon",
+			"Sardines",
+			"Les cressonnettes",
+			"Loulou coptères",
 		];
 
 		foreach ($teams as $teamName)

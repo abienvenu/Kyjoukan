@@ -1,1 +1,9 @@
-Hello World!
+{% extends "KyjoukanBundle::layout.html.twig" %}
+
+{% block body %}
+	<ul>
+	{% for event in events %}
+		<li><a href="">{{ event.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% endblock %}
