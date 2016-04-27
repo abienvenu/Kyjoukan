@@ -1,0 +1,11 @@
+{% extends "KyjoukanBundle::layout.html.twig" %}
+
+{% block body %}
+	<h1>{{ phase.name }}</h1>
+	Pools :
+	<ul>
+		{% for pool in phase.pools %}
+			<li>-</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
