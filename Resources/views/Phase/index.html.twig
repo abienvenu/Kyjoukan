@@ -1,7 +1,14 @@
 {% extends "KyjoukanBundle::layout.html.twig" %}
 
 {% block body %}
+	{% for flash_message in app.session.flashBag.get('success') %}
+		<div class="alert alert-success" role="alert">
+			{{ flash_message }}
+		</div>
+	{% endfor %}
+	
 	<h1>{{ phase.name }}</h1>
+	<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Shuffle</a><br />
 	Pools :
 	<ul>
 		{% for pool in phase.pools %}

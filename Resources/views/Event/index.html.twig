@@ -5,7 +5,7 @@
 	Phases :
 	<ul>
 		{% for phase in event.phases %}
-			<li><a href="{{ event.slug }}/phase/{{ phase.slug }}">{{ phase.name }}</a></li>
+			<li><a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': event.slug, 'slug': phase.slug}) }}">{{ phase.name }}</a></li>
 		{% endfor %}
 	</ul>
 	Teams :
