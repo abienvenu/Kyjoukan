@@ -7,13 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
-* @Route("/event/{slug_event}/phase");
+* @Route("/event/{slug_event}/phase/{slug}");
 */
 
 class PhaseController extends Controller
 {
 	/**
-	 * @Route("/{slug}");
+	 * @Route("");
 	 * @param Phase $phase
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
@@ -23,7 +23,7 @@ class PhaseController extends Controller
 	}
 
 	/**
-	 * @Route("/{slug}/shuffle")
+	 * @Route("/shuffle")
 	 * @param Phase $phase
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
@@ -31,5 +31,15 @@ class PhaseController extends Controller
 	{
 		$this->addFlash('success', "Shuffle not implemented yet.");
 		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+	}
+
+	/**
+	 * @Route("/gamecards")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function gameCardsAction(Phase $phase)
+	{
+		return $this->render("KyjoukanBundle:Phase:gamecards.html.twig", ['phase' => $phase]);
 	}
 }
