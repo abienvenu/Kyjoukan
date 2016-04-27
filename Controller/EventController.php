@@ -10,7 +10,7 @@ class EventController extends Controller
 {
 
 	/**
-	 * @Route("/{slug}");
+	 * @Route("/event/{slug}");
 	 * @param Event $event
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */

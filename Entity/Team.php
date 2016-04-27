@@ -29,7 +29,7 @@ class Team
 	private $name;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="Event")
+	 * @ORM\ManyToOne(targetEntity="Event", inversedBy="teams")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $event;

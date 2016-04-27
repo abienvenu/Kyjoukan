@@ -2,4 +2,22 @@
 
 {% block body %}
 	<h1>{{ event.name }}</h1>
+	Phases :
+	<ul>
+		{% for phase in event.phases %}
+			<li><a href="{{ event.slug }}/phase/{{ phase.slug }}">{{ phase.name }}</a></li>
+		{% endfor %}
+	</ul>
+	Teams :
+	<ul>
+		{% for team in event.teams %}
+			<li>{{ team.name }}</li>
+		{% endfor %}
+	</ul>
+	Grounds :
+	<ul>
+		{% for ground in event.grounds %}
+			<li>{{ ground.name }}</li>
+		{% endfor %}
+	</ul>
 {% endblock %}

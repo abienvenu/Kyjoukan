@@ -12,81 +12,81 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ground
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="Event")
+	 * @var string
+	 *
+	 * @ORM\Column(name="name", type="string", length=255)
+	 */
+	private $name;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Event", inversedBy="grounds")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $event;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Ground
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 * @return Ground
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set event
-     *
-     * @param Event $event
-     * @return Ground
-     */
-    public function setEvent(Event $event)
-    {
-        $this->event = $event;
+	/**
+	 * Set event
+	 *
+	 * @param Event $event
+	 * @return Ground
+	 */
+	public function setEvent(Event $event)
+	{
+		$this->event = $event;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get event
-     *
-     * @return Event
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
+	/**
+	 * Get event
+	 *
+	 * @return Event
+	 */
+	public function getEvent()
+	{
+		return $this->event;
+	}
 }

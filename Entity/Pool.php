@@ -2,6 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,13 +22,26 @@ class Pool
 	 */
 	private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Phase")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $phase;
+	/**
+	 * @ORM\ManyToOne(targetEntity="Phase", inversedBy="pools")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $phase;
 
-    /**
+	/**
+	 * @ORM\OneToMany(targetEntity="Game", mappedBy="pool")
+	 */
+	private $games;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->games = new ArrayCollection();
+	}
+
+	/**
 	 * Get id
 	 *
 	 * @return integer
@@ -59,4 +73,38 @@ class Pool
 	{
 		return $this->phase;
 	}
+
+    /**
+     * Add games
+     *
+     * @param Game $game
+     * @return Pool
+     */
+    public function addGame(Game $game)
+    {
+        $this->games[] = $game;
+	    $game->setPool($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove games
+     *
+     * @param Game $game
+     */
+    public function removeGame(Game $game)
+    {
+        $this->games->removeElement($game);
+    }
+
+    /**
+     * Get games
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGames()
+    {
+        return $this->games;
+    }
 }

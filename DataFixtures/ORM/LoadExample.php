@@ -17,7 +17,7 @@ class LoadTeam implements FixtureInterface
 	{
 		// Event
 		$event = new Event();
-		$event->setName("Tournoi Volley Chanteloup du 11 juin");
+		$event->setName("Tournoi Volley Chanteloup du 10 juin");
 		$manager->persist($event);
 
 		// Teams
