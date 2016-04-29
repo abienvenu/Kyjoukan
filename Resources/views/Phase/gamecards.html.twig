@@ -12,39 +12,168 @@
 				}
 			}
 
-			html,body { height: 100%; margin: 0px; padding: 0px; }
+			html,body { height: 100%; margin: 0; padding: 0; }
 
-			.table {
+			section.table {
 				display: table;
-				border-spacing: 2px;
+				border-spacing: 20px;
 				width: 100%;
 				height: 100%;
 			}
-			.row {
+			section.table > div.row {
 				display: table-row;
 				width: 100%;
+				height: 25%;
 			}
-			div.row > div {
+			section.table > div.row > div {
 				display: table-cell;
 				border: solid 1px #ccc;
 				padding: 2px;
 			}
 
+			section.main > div.row > div
+			{
+				width: 33%;
+			}
+
+			section.match {
+				border: solid 1px #f00;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			section.match > div.headrow {
+				height: 20%;
+			}
+			section.match > div.row
+			{
+				height: 80%;
+				border: solid 1px #0f0;
+			}
+			section.match > div.row > div
+			{
+				width: 49%;
+				display: inline-block;
+				text-align: center;
+
+			}
+			section.match div.terrain {
+				float: left;
+			}
+			section.match div.numero {
+				float: right;
+			}
+			section.match div.arbitre {
+				text-align: center;
+			}
+
+			span.equipe {
+				border: 2px solid black;
+				padding: 6px;
+				font-size: 16px;
+			}
+
+			section.checkboxes {
+				display: table;
+				width: 100%;
+				border-spacing: 0px;
+			}
+			section.checkboxes > div.row {
+				display: table-row;
+			}
+			section.checkboxes > div.row > div {
+				display: table-cell;
+				border: solid 1px #0ff;
+				padding: 2px;
+				width: 10%;
+			}
+
 		</style>
 	</head>
 <body>
-	<section class="table">
-		<div class="row" style="height: 30%">
+	<section class="main table">
+		<div class="row">
+			<div>
+				<section class="match table">
+					<div class="row">
+						<div>Terrain: A</div><div>Arbitre: Iguane</div><div>Match N°1/4</div>
+					</div>
+					<div class="row">
+						<div style="width: 50%">C'est sur la ligne</div><div style="width: 50%">Kikonfélà</div>
+					</div>
+					<div class="row">
+						<section class="table checks">
+							<div class="row">
+								<div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div>
+							</div>
+						</section>
+					</div>
+					<div class="row">
+						<div>A: C'est sur la ligne</div><div>B: Kikonfélà</div>
+					</div>
+				</section>
+			</div>
+			<div>Col2</div>
+			<div>Col3</div>
+		</div>
+		<div class="row">
+			<div>
+				<section class="match">
+					<div class="headrow">
+						<div class="terrain">Terrain: A</div>
+						<div class="numero">Match N°1/4</div>
+						<div class="arbitre">Arbitre: Iguane</div>
+					</div>
+					<div class="row">
+						<div>
+							<span class="equipe">A: C'est sur la ligne</span>
+							<section class="checkboxes">
+								<div class="row">
+									<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+								</div>
+								<div class="row">
+									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+								</div>
+								<div class="row">
+									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+								</div>
+								<div class="row">
+									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+								</div>
+							</section>
+						</div>
+						<div style="border: 1px solid purple;">
+							<span class="equipe">B: Kikonfélà</span>
+							<section class="checkboxes">
+								<div class="row">
+									<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+								</div>
+								<div class="row">
+									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+								</div>
+								<div class="row">
+									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+								</div>
+								<div class="row">
+									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+								</div>
+							</section>
+
+						</div>
+					</div>
+				</section>
+			</div>
+			<div>Col2</div>
+			<div>Col3</div>
+		</div>
+		<div class="row">
 			<div>Col1</div>
 			<div>Col2</div>
 			<div>Col3</div>
 		</div>
-		<div class="row" style="height: 30%">
-			<div>Col1</div>
-			<div>Col2</div>
-			<div>Col3</div>
-		</div>
-		<div class="row" style="height: 30%">
+		<div class="row">
 			<div>Col1</div>
 			<div>Col2</div>
 			<div>Col3</div>
