@@ -3,12 +3,7 @@
 		<style>
 			@media print {
 				@page {
-					margin: 0;
-				}
-				div.row > div {
-					display: inline-block;
-					border: solid 1px #ccc;
-					margin: 0.2cm;
+					margin: 0px;
 				}
 			}
 
@@ -16,7 +11,7 @@
 
 			section.table {
 				display: table;
-				border-spacing: 20px;
+				border-spacing: 10px;
 				width: 100%;
 				height: 100%;
 			}
@@ -28,7 +23,6 @@
 			section.table > div.row > div {
 				display: table-cell;
 				border: solid 1px #ccc;
-				padding: 2px;
 			}
 
 			section.main > div.row > div
@@ -36,36 +30,45 @@
 				width: 33%;
 			}
 
-			section.match {
-				border: solid 1px #f00;
-				margin: 0;
-				padding: 0;
+			section.match, section.submatch {
+				display: table;
+				border-spacing: 0;
 				width: 100%;
 				height: 100%;
 			}
 
-			section.match > div.headrow {
-				height: 20%;
-			}
 			section.match > div.row
 			{
-				height: 80%;
-				border: solid 1px #0f0;
+				display: table-row;
 			}
 			section.match > div.row > div
 			{
-				width: 49%;
-				display: inline-block;
+				display: table-cell;
 				text-align: center;
+				padding: 10px;
+			}
+
+			section.submatch > div.row
+			{
+				display: table-row;
+			}
+			section.submatch > div.row > div
+			{
+				display: table-cell;
+				text-align: center;
+				width: 50%;
+				padding-left: 10px;
+				padding-right: 10px;
 
 			}
-			section.match div.terrain {
+
+			div.terrain {
 				float: left;
 			}
-			section.match div.numero {
+			div.numero {
 				float: right;
 			}
-			section.match div.arbitre {
+			div.arbitre, div.score {
 				text-align: center;
 			}
 
@@ -74,19 +77,26 @@
 				padding: 6px;
 				font-size: 16px;
 			}
+			span.score {
+				border: 2px solid black;
+				padding-right: 40px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+			}
 
 			section.checkboxes {
 				display: table;
 				width: 100%;
-				border-spacing: 0px;
+				border-spacing: 0;
 			}
 			section.checkboxes > div.row {
 				display: table-row;
 			}
 			section.checkboxes > div.row > div {
 				display: table-cell;
-				border: solid 1px #0ff;
-				padding: 2px;
+				border: solid 1px black;
+				font-size: 12px;
+				padding: 1px;
 				width: 10%;
 			}
 
@@ -94,89 +104,73 @@
 	</head>
 <body>
 	<section class="main table">
+		{% for i in range(1, 4) %}
 		<div class="row">
-			<div>
-				<section class="match table">
-					<div class="row">
-						<div>Terrain: A</div><div>Arbitre: Iguane</div><div>Match N°1/4</div>
-					</div>
-					<div class="row">
-						<div style="width: 50%">C'est sur la ligne</div><div style="width: 50%">Kikonfélà</div>
-					</div>
-					<div class="row">
-						<section class="table checks">
-							<div class="row">
-								<div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div>
-							</div>
-						</section>
-					</div>
-					<div class="row">
-						<div>A: C'est sur la ligne</div><div>B: Kikonfélà</div>
-					</div>
-				</section>
-			</div>
-			<div>Col2</div>
-			<div>Col3</div>
-		</div>
-		<div class="row">
+			{% for i in range(1, 3) %}
 			<div>
 				<section class="match">
-					<div class="headrow">
-						<div class="terrain">Terrain: A</div>
-						<div class="numero">Match N°1/4</div>
-						<div class="arbitre">Arbitre: Iguane</div>
-					</div>
-					<div class="row">
+					<div class="row" style="height: 20%;">
 						<div>
-							<span class="equipe">A: C'est sur la ligne</span>
-							<section class="checkboxes">
+							<div class="terrain">Terrain: A</div>
+							<div class="numero">Match N°1/4</div>
+							<div class="arbitre">Arbitre: Iguane</div>
+						</div>
+					</div>
+					<div class="row" style="height: 60%;">
+						<div>
+							<section class="submatch" style="height: 20%; margin-bottom: 10px;">
 								<div class="row">
-									<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+									<div><span class="equipe">A: C'est sur la ligne</span></div>
+									<div><span class="equipe">B: Kikonfélà</span></div>
 								</div>
+							</section>
+							<section class="submatch" style="height: 80%;">
 								<div class="row">
-									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
-								</div>
-								<div class="row">
-									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
-								</div>
-								<div class="row">
-									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+									<div>
+										<section class="checkboxes">
+											<div class="row">
+												<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+											</div>
+											<div class="row">
+												<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+											</div>
+											<div class="row">
+												<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+											</div>
+											<div class="row">
+												<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+											</div>
+										</section>
+									</div>
+									<div>
+										<section class="checkboxes">
+											<div class="row">
+												<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+											</div>
+											<div class="row">
+												<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+											</div>
+											<div class="row">
+												<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+											</div>
+											<div class="row">
+												<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+											</div>
+										</section>
+									</div>
 								</div>
 							</section>
 						</div>
-						<div style="border: 1px solid purple;">
-							<span class="equipe">B: Kikonfélà</span>
-							<section class="checkboxes">
-								<div class="row">
-									<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
-								</div>
-								<div class="row">
-									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
-								</div>
-								<div class="row">
-									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
-								</div>
-								<div class="row">
-									<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
-								</div>
-							</section>
-
+					</div>
+					<div class="row" style="height: 20%;">
+						<div>
+							Score: <span class="score">&nbsp;</span> à <span class="score">&nbsp;</span>
 						</div>
 					</div>
 				</section>
 			</div>
-			<div>Col2</div>
-			<div>Col3</div>
+			{% endfor %}
 		</div>
-		<div class="row">
-			<div>Col1</div>
-			<div>Col2</div>
-			<div>Col3</div>
-		</div>
-		<div class="row">
-			<div>Col1</div>
-			<div>Col2</div>
-			<div>Col3</div>
-		</div>
+		{% endfor %}
 	</section>
 </body>
