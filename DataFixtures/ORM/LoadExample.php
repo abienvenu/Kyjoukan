@@ -71,7 +71,7 @@ class LoadTeam implements FixtureInterface
 		$phase->setName("Poules phase 1");
 		$phase->setRule(Rule::ROUNDROBIN);
 		$manager->persist($phase);
-
+		
 		// Pools
 		for ($i = 1; $i <= 4; $i++)
 		{

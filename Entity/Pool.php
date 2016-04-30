@@ -34,11 +34,17 @@ class Pool
 	private $games;
 
 	/**
+	 * @ORM\ManyToMany(targetEntity="Team")
+	 */
+	private $teams;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
 		$this->games = new ArrayCollection();
+		$this->teams = new ArrayCollection();
 	}
 
 	/**
@@ -107,4 +113,48 @@ class Pool
     {
         return $this->games;
     }
+
+	/**
+	 * Add team
+	 *
+	 * @param Team $team
+	 * @return Phase
+	 */
+	public function addTeam(Team $team)
+	{
+		$this->teams[] = $team;
+		return $this;
+	}
+
+	/**
+	 * Remove team
+	 *
+	 * @param Team $team
+	 */
+	public function removeTeam(Team $team)
+	{
+		$this->teams->removeElement($team);
+	}
+
+	/**
+	 * Get teams
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getTeams()
+	{
+		return $this->teams;
+	}
+
+	/**
+	 * Test if the Team is already registered in the Pool
+	 *
+	 * @param Team $team
+	 * @return bool
+	 */
+	public function hasTeam(Team $team)
+	{
+		return $this->getTeams()->contains($team);
+	}
+
 }

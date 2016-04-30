@@ -173,7 +173,7 @@ class Phase
 	/**
 	 * Get pools
 	 *
-	 * @return \Doctrine\Common\Collections\Collection
+	 * @return Pool[]
 	 */
 	public function getPools()
 	{
@@ -236,7 +236,7 @@ class Phase
 	}
 
 	/**
-	 * Test if the Team is already registered in the Phase
+	 * Determine if the Team is already registered in the Phase
 	 *
 	 * @param Team $team
 	 * @return bool
@@ -244,5 +244,44 @@ class Phase
 	public function hasTeam(Team $team)
 	{
 		return $this->getTeams()->contains($team);
+	}
+
+	/**
+	 * Determine is the Team is inside a Pool of the Phase
+	 *
+	 * @param Team $team
+	 * @return bool
+	 */
+	public function isTeamPooled(Team $team)
+	{
+		foreach ($this->getPools() as $pool)
+		{
+			if ($pool->hasTeam($team))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Return the Pool that is the fewest teams inside it
+	 *
+	 * @return Pool|null
+	 */
+	public function getSmallestPool()
+	{
+		$min = null;
+		$minPool = null;
+		foreach ($this->getPools() as $pool)
+		{
+			$nbTeams = count($pool->getTeams());
+			if (is_null($min) || $nbTeams < $min)
+			{
+				$min = $nbTeams;
+				$minPool = $pool;
+			}
+		}
+		return $minPool;
 	}
 }

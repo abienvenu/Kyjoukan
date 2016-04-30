@@ -72,7 +72,26 @@ class PhaseController extends Controller
 	 */
 	public function dispatchTeamsAction(Phase $phase)
 	{
-		$this->addFlash('success', "Dispatch teams not implemented yet.");
+		$dispatched = 0;
+		foreach ($phase->getTeams() as $team)
+		{
+			if (!$phase->isTeamPooled($team))
+			{
+				$pool = $phase->getSmallestPool();
+				$pool->addTeam($team);
+				$dispatched++;
+			}
+		}
+		$this->getDoctrine()->getManager()->flush();
+
+		if ($dispatched)
+		{
+			$this->addFlash('success', "Teams dispatched into pools: $dispatched");
+		}
+		else
+		{
+			$this->addFlash('info', "All teams were already dispatched");
+		}
 		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
 	}
 

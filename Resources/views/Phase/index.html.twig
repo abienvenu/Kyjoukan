@@ -25,7 +25,13 @@
 	Pools :
 	<ul>
 		{% for pool in phase.pools %}
-			<li>-</li>
+			<li>
+				<ul>
+					{% for team in pool.teams %}
+						<li>{{ team.name }}</li>
+					{% endfor %}
+				</ul>
+			</li>
 		{% endfor %}
 	</ul>
 	<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Shuffle games</a><br />
