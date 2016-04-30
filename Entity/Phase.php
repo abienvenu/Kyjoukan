@@ -60,6 +60,15 @@ class Phase
 	private $teams;
 
 	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->pools = new ArrayCollection();
+		$this->teams= new ArrayCollection();
+	}
+
+	/**
 	 * Get id
 	 *
 	 * @return integer
@@ -136,14 +145,6 @@ class Phase
 	public function getEvent()
 	{
 		return $this->event;
-	}
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->pools = new ArrayCollection();
-		$this->teams= new ArrayCollection();
 	}
 
 	/**
@@ -228,7 +229,7 @@ class Phase
 	/**
 	 * Get teams
 	 *
-	 * @return \Doctrine\Common\Collections\Collection
+	 * @return ArrayCollection
 	 */
 	public function getTeams()
 	{
@@ -247,7 +248,7 @@ class Phase
 	}
 
 	/**
-	 * Determine is the Team is inside a Pool of the Phase
+	 * Determine if the Team is inside a Pool of the Phase
 	 *
 	 * @param Team $team
 	 * @return bool
@@ -265,23 +266,23 @@ class Phase
 	}
 
 	/**
-	 * Return the Pool that is the fewest teams inside it
+	 * Return the Pool that has the fewest teams inside it
 	 *
 	 * @return Pool|null
 	 */
 	public function getSmallestPool()
 	{
 		$min = null;
-		$minPool = null;
+		$smallestPool = null;
 		foreach ($this->getPools() as $pool)
 		{
 			$nbTeams = count($pool->getTeams());
 			if (is_null($min) || $nbTeams < $min)
 			{
 				$min = $nbTeams;
-				$minPool = $pool;
+				$smallestPool = $pool;
 			}
 		}
-		return $minPool;
+		return $smallestPool;
 	}
 }
