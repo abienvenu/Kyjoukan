@@ -55,6 +55,11 @@ class Phase
 	private $pools;
 
 	/**
+	 * @ORM\ManyToMany(targetEntity="Team")
+	 */
+	private $teams;
+
+	/**
 	 * Get id
 	 *
 	 * @return integer
@@ -138,6 +143,7 @@ class Phase
 	public function __construct()
 	{
 		$this->pools = new ArrayCollection();
+		$this->teams= new ArrayCollection();
 	}
 
 	/**
@@ -195,5 +201,48 @@ class Phase
 	public function getSlug()
 	{
 		return $this->slug;
+	}
+
+	/**
+	 * Add team
+	 *
+	 * @param Team $team
+	 * @return Phase
+	 */
+	public function addTeam(Team $team)
+	{
+		$this->teams[] = $team;
+		return $this;
+	}
+
+	/**
+	 * Remove team
+	 *
+	 * @param Team $team
+	 */
+	public function removeTeam(Team $team)
+	{
+		$this->teams->removeElement($team);
+	}
+
+	/**
+	 * Get teams
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getTeams()
+	{
+		return $this->teams;
+	}
+
+	/**
+	 * Test if the Team is already registered in the Phase
+	 *
+	 * @param Team $team
+	 * @return bool
+	 */
+	public function hasTeam(Team $team)
+	{
+		return $this->getTeams()->contains($team);
 	}
 }

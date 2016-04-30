@@ -34,6 +34,49 @@ class PhaseController extends Controller
 	}
 
 	/**
+	 * @Route("/load_teams")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 *
+	 * Copy every team of the Event into the Phase
+	 *
+	 */
+	public function loadTeamsAction(Phase $phase)
+	{
+		$loaded = 0;
+		foreach ($phase->getEvent()->getTeams() as $team)
+		{
+			if (!$phase->hasTeam($team))
+			{
+				$phase->addTeam($team);
+				$loaded++;
+			}
+		}
+		$this->getDoctrine()->getManager()->flush();
+
+		if ($loaded)
+		{
+			$this->addFlash('success', "Teams loaded from event: $loaded");
+		}
+		else
+		{
+			$this->addFlash('info', "All teams were already loaded");
+		}
+		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+	}
+
+	/**
+	 * @Route("/dispatch_teams")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function dispatchTeamsAction(Phase $phase)
+	{
+		$this->addFlash('success', "Dispatch teams not implemented yet.");
+		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+	}
+
+	/**
 	 * @Route("/gamecards")
 	 * @param Phase $phase
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse

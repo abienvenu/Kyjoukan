@@ -73,7 +73,7 @@ class LoadTeam implements FixtureInterface
 		$manager->persist($phase);
 
 		// Pools
-		for ($i = 1; $i <= 3; $i++)
+		for ($i = 1; $i <= 4; $i++)
 		{
 			$pool = new Pool();
 			$pool->setPhase($phase);
