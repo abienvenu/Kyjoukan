@@ -43,17 +43,7 @@ class PhaseController extends Controller
 	 */
 	public function loadTeamsAction(Phase $phase)
 	{
-		$loaded = 0;
-		foreach ($phase->getEvent()->getTeams() as $team)
-		{
-			if (!$phase->hasTeam($team))
-			{
-				$phase->addTeam($team);
-				$loaded++;
-			}
-		}
-		$this->getDoctrine()->getManager()->flush();
-
+		$loaded = $this->get('kyjoukan.dispatcher')->loadTeamsIntoPhase($phase);
 		if ($loaded)
 		{
 			$this->addFlash('success', "Teams loaded from event: $loaded");
@@ -72,18 +62,7 @@ class PhaseController extends Controller
 	 */
 	public function dispatchTeamsAction(Phase $phase)
 	{
-		$dispatched = 0;
-		foreach ($phase->getTeams() as $team)
-		{
-			if (!$phase->isTeamPooled($team))
-			{
-				$pool = $phase->getSmallestPool();
-				$pool->addTeam($team);
-				$dispatched++;
-			}
-		}
-		$this->getDoctrine()->getManager()->flush();
-
+		$dispatched = $this->get('kyjoukan.dispatcher')->dispatchTeamsIntoPools($phase);
 		if ($dispatched)
 		{
 			$this->addFlash('success', "Teams dispatched into pools: $dispatched");
