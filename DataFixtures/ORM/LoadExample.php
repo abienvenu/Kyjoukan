@@ -45,9 +45,8 @@ class LoadTeam implements FixtureInterface
 		foreach ($teams as $teamName)
 		{
 			$team = new Team();
-			$team->setEvent($event);
 			$team->setName($teamName);
-			$manager->persist($team);
+			$event->addTeam($team);
 		}
 
 		// Grounds
@@ -60,24 +59,21 @@ class LoadTeam implements FixtureInterface
 		foreach ($grounds as $groundName)
 		{
 			$ground = new Ground();
-			$ground->setEvent($event);
 			$ground->setName($groundName);
-			$manager->persist($ground);
+			$event->addGround($ground);
 		}
 
 		// Phase
 		$phase = new Phase();
-		$phase->setEvent($event);
 		$phase->setName("Poules phase 1");
 		$phase->setRule(Rule::ROUNDROBIN);
-		$manager->persist($phase);
-		
+		$event->addPhase($phase);
+
 		// Pools
 		for ($i = 1; $i <= 4; $i++)
 		{
 			$pool = new Pool();
-			$pool->setPhase($phase);
-			$manager->persist($pool);
+			$phase->addPool($pool);
 		}
 
 		$manager->flush();
