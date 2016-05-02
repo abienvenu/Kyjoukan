@@ -285,4 +285,19 @@ class Phase
 		}
 		return $smallestPool;
 	}
+
+	/**
+	 * Tell if the Phase is fully scheduled
+	 *
+	 * @return bool
+	 */
+	public function isFullyScheduled()
+	{
+		$isFullyScheduled = true;
+		foreach ($this->getPools() as $pool)
+		{
+			$isFullyScheduled &= $pool->getScheduledRate() >= 1;
+		}
+		return $isFullyScheduled;
+	}
 }

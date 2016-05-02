@@ -13,16 +13,16 @@
 	{% endfor %}
 
 	<h1>{{ phase.name }}</h1>
-	<a href="{{ path('abienvenu_kyjoukan_phase_loadteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Load teams</a><br />
-	Teams :
+	<a href="{{ path('abienvenu_kyjoukan_phase_loadteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Charger les équipes</a><br />
+	Équipes :
 	<ul>
 		{% for team in phase.teams %}
 			<li>{{ team.name }}</li>
 		{% endfor %}
 	</ul>
 
-	<a href="{{ path('abienvenu_kyjoukan_phase_dispatchteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Dispatch teams</a><br />
-	Pools :
+	<a href="{{ path('abienvenu_kyjoukan_phase_dispatchteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Répartir les équipes</a><br />
+	Groupes :
 	<ul>
 		{% for pool in phase.pools %}
 			<li>
@@ -34,6 +34,6 @@
 			</li>
 		{% endfor %}
 	</ul>
-	<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Shuffle games</a><br />
-	<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Game cards</a><br />
+	<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Programmer les matchs</a><br />
+	<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Feuilles de match</a><br />
 {% endblock %}

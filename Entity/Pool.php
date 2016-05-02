@@ -2,6 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Entity;
 
+use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,7 +30,7 @@ class Pool
 	private $phase;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Game", mappedBy="pool")
+	 * @ORM\OneToMany(targetEntity="Game", mappedBy="pool", cascade={"persist"})
 	 */
 	private $games;
 
@@ -107,7 +108,7 @@ class Pool
     /**
      * Get games
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Game[]
      */
     public function getGames()
     {
@@ -157,4 +158,25 @@ class Pool
 		return $this->getTeams()->contains($team);
 	}
 
+	/**
+	 * Tell how much games are scheduled
+	 *
+	 * @return mixed 0 if no game is scheduled, 1 if all games are scheduled
+	 * @throws \Exception
+	 */
+	public function getScheduledRate()
+	{
+		$rule = $this->getPhase()->getRule();
+		switch ($rule)
+		{
+			case Rule::ROUNDROBIN:
+				$nbTeams = count($this->getTeams());
+				$nbTotalGames = $nbTeams * ($nbTeams - 1) / 2;
+				break;
+			default:
+				throw new \Exception("Unknown rule: $rule");
+		}
+
+		return count($this->getGames()) / $nbTotalGames;
+	}
 }

@@ -23,34 +23,23 @@ class PhaseController extends Controller
 	}
 
 	/**
-	 * @Route("/shuffle")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 */
-	public function shuffleAction(Phase $phase)
-	{
-		$this->addFlash('success', "Shuffle not implemented yet.");
-		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
-	}
-
-	/**
+	 * Put every team of the Event into the Phase
+	 * The user may remove some of them (in case they are unable to participate in the given phase)
+	 *
 	 * @Route("/load_teams")
 	 * @param Phase $phase
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 *
-	 * Copy every team of the Event into the Phase
-	 *
 	 */
 	public function loadTeamsAction(Phase $phase)
 	{
 		$loaded = $this->get('kyjoukan.dispatcher')->loadTeamsIntoPhase($phase);
 		if ($loaded)
 		{
-			$this->addFlash('success', "Teams loaded from event: $loaded");
+			$this->addFlash('success', "Équipes chargées avec succès : $loaded");
 		}
 		else
 		{
-			$this->addFlash('info', "All teams were already loaded");
+			$this->addFlash('info', "Toutes les équipes étaient déjà chargées");
 		}
 		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
 	}
@@ -65,12 +54,26 @@ class PhaseController extends Controller
 		$dispatched = $this->get('kyjoukan.dispatcher')->dispatchTeamsIntoPools($phase);
 		if ($dispatched)
 		{
-			$this->addFlash('success', "Teams dispatched into pools: $dispatched");
+			$this->addFlash('success', "Équipes réparties dans des groupes : $dispatched");
 		}
 		else
 		{
-			$this->addFlash('info', "All teams were already dispatched");
+			$this->addFlash('info', "Toute les équipes étaient déjà réparties");
 		}
+		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+	}
+
+	/**
+	 * Shuffle games into the phase
+	 *
+	 * @Route("/shuffle")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function shuffleAction(Phase $phase)
+	{
+		$this->get('kyjoukan.dispatcher')->shuffleGames($phase);
+		$this->addFlash('success', "Les matchs sont programmés.");
 		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
 	}
 
