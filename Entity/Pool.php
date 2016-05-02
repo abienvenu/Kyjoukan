@@ -177,6 +177,38 @@ class Pool
 				throw new \Exception("Unknown rule: $rule");
 		}
 
-		return count($this->getGames()) / $nbTotalGames;
+		return $nbTotalGames ? count($this->getGames()) / $nbTotalGames : 1;
+	}
+
+	/**
+	 * Return the number of participations of the given team
+	 *
+	 * @param Team $team
+	 * @return int
+	 */
+	public function getTeamNbParticipations(Team $team)
+	{
+		$nb = 0;
+		foreach ($this->getGames() as $game)
+		{
+			if ($game->getTeam1() == $team || $game->getTeam2() == $team)
+			{
+				$nb++;
+			}
+		}
+		return $nb;
+	}
+
+	public function hasGame(Team $team1, Team $team2)
+	{
+		foreach ($this->getGames() as $game)
+		{
+			if (($game->getTeam1() == $team1 && $game->getTeam2() == $team2) ||
+			    ($game->getTeam1() == $team2 && $game->getTeam2() == $team1))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

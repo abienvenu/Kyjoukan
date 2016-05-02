@@ -25,19 +25,19 @@ class Game
 	 * @ORM\ManyToOne(targetEntity="Team")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
-	private $team1;
+	private $team1 = null;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Team")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
-	private $team2;
+	private $team2 = null;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Ground")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
-	private $ground;
+	private $ground = null;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Pool", inversedBy="games")
@@ -49,7 +49,7 @@ class Game
 	 * @ORM\ManyToOne(targetEntity="Round", inversedBy="games")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
-	private $round;
+	private $round = null;
 
 	/**
 	 * @var int

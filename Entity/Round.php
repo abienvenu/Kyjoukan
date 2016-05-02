@@ -139,4 +139,21 @@ class Round
 		return $this->games;
 	}
 
+	/**
+	 * Determine if the Team is already scheduled during this Round
+	 *
+	 * @param Team $team
+	 * @return bool
+	 */
+	public function hasTeam(Team $team)
+	{
+		foreach ($this->getGames() as $game)
+		{
+			if ($game->getTeam1() == $team || $game->getTeam2() == $team)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

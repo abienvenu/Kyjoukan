@@ -6,7 +6,9 @@ use Abienvenu\KyjoukanBundle\Entity\Game;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Pool;
 use Abienvenu\KyjoukanBundle\Entity\Round;
+use Abienvenu\KyjoukanBundle\Entity\Team;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
 class DispatcherService
@@ -98,6 +100,9 @@ class DispatcherService
 		// Loop while we have games to schedule
 		while (!$phase->isFullyScheduled())
 		{
+			// Create a new game
+			$newGame = $this->nextGameSlot($phase, $eventGrounds);
+
 			// Order the pools from the lazyiest to the busyiest
 			/** @var ArrayCollection $pools */
 			$pools = $phase->getPools();
@@ -113,58 +118,101 @@ class DispatcherService
 			/** @var Pool $pool */
 			foreach ($poolsArray as $pool)
 			{
-				$teams = $pool->getTeams();
-				if ($pool->getScheduledRate() < 1)
+				if ($pool->getScheduledRate() >= 1)
 				{
-					// Get the first incomplete round
-					$round = null;
-					$ground = null;
-					$roundNumber = 0;
-					foreach ($phase->getRounds() as $existingRound)
-					{
-						$roundNumber = $existingRound->getNumber();
-						$takenGrounds = new ArrayCollection();
-						foreach ($existingRound->getGames() as $game)
-						{
-							$takenGrounds->add($game->getGround());
-						}
-						// Search for a free ground
-						foreach ($eventGrounds as $eventGround)
-						{
-							if (!$takenGrounds->contains($eventGround))
-							{
-								// We found a free ground in an incomplete round
-								$round = $existingRound;
-								$ground = $eventGround;
-								break;
-							}
-						}
-						if ($round)
-						{
-							break;
-						}
-					}
-					// If no free ground in incomplete round, create a new round
-					if (!$round)
-					{
-						$round = new Round();
-						$round->setNumber($roundNumber + 1);
-						$phase->addRound($round);
-						$ground = $eventGrounds[0];
-					}
+					// This pool is already fully scheduled
+					continue;
+				}
 
-					// Create a new game
-					$game = new Game();
-					$game->setTeam1($teams[0]);
-					$game->setTeam2($teams[1]);
-					$game->setGround($ground);
-					$round->addGame($game);
-					$pool->addGame($game);
+				// Order the teams from the lazyiest to the busyiest
+				$teams = $pool->getTeams()->toArray();
+				usort($teams,
+				      function (Team $a, Team $b) use ($pool)
+				      {
+					      return $pool->getTeamNbParticipations($a) > $pool->getTeamNbParticipations($b);
+				      }
+				);
+
+				// Try to schedule the lazyiest team first
+				foreach ($teams as $team1)
+				{
+					// Is the team already playing in this round ?
+					if ($newGame->getRound()->hasTeam($team1))
+					{
+						continue;
+					}
+					foreach ($teams as $team2)
+					{
+						if ($team1 == $team2 || $newGame->getRound()->hasTeam($team2))
+						{
+							continue;
+						}
+						if ($pool->hasGame($team1, $team2))
+						{
+							continue;
+						}
+						$newGame->setTeam1($team1);
+						$newGame->setTeam2($team2);
+					}
+				}
+
+				if ($newGame->getTeam1() && $newGame->getTeam2())
+				{
+					$pool->addGame($newGame);
 					break;
 				}
 			}
 		}
 
 		$this->em->flush();
+	}
+
+	/**
+	 * Return a Game object pointing at the next available ground in the next available round
+	 * it may create a new Round if all rounds are complete
+	 *
+	 * @param Phase $phase
+	 * @param Collection $eventGrounds
+	 * @return Game
+	 */
+	private function nextGameSlot(Phase $phase, Collection $eventGrounds)
+	{
+		// Get the first incomplete round
+		$newGame = new Game();
+		$roundNumber = 0;
+		foreach ($phase->getRounds() as $existingRound)
+		{
+			$roundNumber = $existingRound->getNumber();
+			$takenGrounds = new ArrayCollection();
+			foreach ($existingRound->getGames() as $existingGame)
+			{
+				$takenGrounds->add($existingGame->getGround());
+			}
+			// Search for a free ground
+			foreach ($eventGrounds as $eventGround)
+			{
+				if (!$takenGrounds->contains($eventGround))
+				{
+					// We found a free ground in an incomplete round
+					$existingRound->addGame($newGame);
+					$newGame->setGround($eventGround);
+					break;
+				}
+			}
+			if ($newGame->getRound())
+			{
+				break;
+			}
+		}
+		// If no free ground in incomplete round, create a new round
+		if (!$newGame->getRound())
+		{
+			$round = new Round();
+			$round->setNumber($roundNumber + 1);
+			$round->addGame($newGame);
+			$phase->addRound($round);
+			$newGame->setGround($eventGrounds[0]);
+		}
+		return $newGame;
 	}
 }
