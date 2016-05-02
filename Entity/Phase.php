@@ -50,9 +50,15 @@ class Phase
 	private $event;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Pool", mappedBy="phase")
+	 * @ORM\OneToMany(targetEntity="Pool", mappedBy="phase", cascade={"persist"})
 	 */
 	private $pools;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Round", mappedBy="phase", cascade={"persist"})
+	 * @ORM\OrderBy({"number" = "ASC"})
+	 */
+	private $rounds;
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="Team")
@@ -65,6 +71,7 @@ class Phase
 	public function __construct()
 	{
 		$this->pools = new ArrayCollection();
+		$this->rounds = new ArrayCollection();
 		$this->teams= new ArrayCollection();
 	}
 
@@ -179,6 +186,40 @@ class Phase
 	public function getPools()
 	{
 		return $this->pools;
+	}
+
+	/**
+	 * Add round
+	 *
+	 * @param Round $round
+	 * @return Phase
+	 */
+	public function addRound(Round $round)
+	{
+		$this->rounds[] = $round;
+		$round->setPhase($this);
+
+		return $this;
+	}
+
+	/**
+	 * Remove round
+	 *
+	 * @param Round $round
+	 */
+	public function removeRound(Round $round)
+	{
+		$this->rounds->removeElement($round);
+	}
+
+	/**
+	 * Get rounds
+	 *
+	 * @return Round[]
+	 */
+	public function getRounds()
+	{
+		return $this->rounds;
 	}
 
 	/**

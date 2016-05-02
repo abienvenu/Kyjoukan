@@ -37,18 +37,18 @@ class Event
 	private $slug;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Phase", mappedBy="event")
+	 * @ORM\OneToMany(targetEntity="Phase", mappedBy="event", cascade={"persist"})
 	 */
 	private $phases;
 
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Ground", mappedBy="event")
+	 * @ORM\OneToMany(targetEntity="Ground", mappedBy="event", cascade={"persist"})
 	 */
 	private $grounds;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Team", mappedBy="event")
+	 * @ORM\OneToMany(targetEntity="Team", mappedBy="event", cascade={"persist"})
 	 */
 	private $teams;
 

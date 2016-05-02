@@ -5,6 +5,7 @@ namespace Abienvenu\KyjoukanBundle\Service;
 use Abienvenu\KyjoukanBundle\Entity\Game;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Pool;
+use Abienvenu\KyjoukanBundle\Entity\Round;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 
@@ -76,14 +77,25 @@ class DispatcherService
 				if (!$game->getScore1() && !$game->getScore2())
 				{
 					$pool->removeGame($game);
+					$game->getRound()->removeGame($game);
 					$this->em->remove($game);
 				}
 			}
 		}
 
-		$grounds = $phase->getEvent()->getGrounds();
+		// Delete empty rounds
+		foreach ($phase->getRounds() as $round)
+		{
+			if (!count($round->getGames()))
+			{
+				$phase->removeRound($round);
+				$this->em->remove($round);
+			}
+		}
 
-		// Loop while we have games to be scheduled
+		$eventGrounds = $phase->getEvent()->getGrounds();
+
+		// Loop while we have games to schedule
 		while (!$phase->isFullyScheduled())
 		{
 			// Order the pools from the lazyiest to the busyiest
@@ -104,14 +116,49 @@ class DispatcherService
 				$teams = $pool->getTeams();
 				if ($pool->getScheduledRate() < 1)
 				{
+					// Get the first incomplete round
+					$round = null;
+					$ground = null;
+					$roundNumber = 0;
+					foreach ($phase->getRounds() as $existingRound)
+					{
+						$roundNumber = $existingRound->getNumber();
+						$takenGrounds = new ArrayCollection();
+						foreach ($existingRound->getGames() as $game)
+						{
+							$takenGrounds->add($game->getGround());
+						}
+						// Search for a free ground
+						foreach ($eventGrounds as $eventGround)
+						{
+							if (!$takenGrounds->contains($eventGround))
+							{
+								// We found a free ground in an incomplete round
+								$round = $existingRound;
+								$ground = $eventGround;
+								break;
+							}
+						}
+						if ($round)
+						{
+							break;
+						}
+					}
+					// If no free ground in incomplete round, create a new round
+					if (!$round)
+					{
+						$round = new Round();
+						$round->setNumber($roundNumber + 1);
+						$phase->addRound($round);
+						$ground = $eventGrounds[0];
+					}
 
-
-
+					// Create a new game
 					$game = new Game();
 					$game->setTeam1($teams[0]);
 					$game->setTeam2($teams[1]);
-					$game->setPriority(1);
-					$game->setGround($grounds[0]);
+					$game->setGround($ground);
+					$round->addGame($game);
 					$pool->addGame($game);
 					break;
 				}

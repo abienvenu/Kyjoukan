@@ -35,5 +35,17 @@
 		{% endfor %}
 	</ul>
 	<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Programmer les matchs</a><br />
+	Matchs :
+	<ul>
+		{% for round in phase.rounds %}
+			<li>Round {{ round.number }} :
+				<ul>
+					{% for game in round.games %}
+						<li>{{ game.ground.name }}: {{ game.team1.name }} / {{ game.team2.name }}</li>
+					{% endfor %}
+				</ul>
+			</li>
+		{% endfor %}
+	</ul>
 	<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Feuilles de match</a><br />
 {% endblock %}

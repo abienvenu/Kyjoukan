@@ -44,7 +44,13 @@ class Game
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $pool;
-	
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Round", inversedBy="games")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $round;
+
 	/**
 	 * @var int
 	 *
@@ -58,13 +64,6 @@ class Game
 	 * @ORM\Column(name="score2", type="integer", nullable=true)
 	 */
 	private $score2;
-
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="priority", type="integer")
-	 */
-	private $priority;
 
 	/**
 	 * Get id
@@ -192,32 +191,9 @@ class Game
 	}
 
 	/**
-	 * Set priority
-	 *
-	 * @param integer $priority
-	 * @return Game
-	 */
-	public function setPriority($priority)
-	{
-		$this->priority = $priority;
-
-		return $this;
-	}
-
-	/**
-	 * Get priority
-	 *
-	 * @return integer
-	 */
-	public function getPriority()
-	{
-		return $this->priority;
-	}
-
-	/**
 	 * Set pool
 	 *
-	 * @param \Abienvenu\KyjoukanBundle\Entity\Pool $pool
+	 * @param Pool $pool
 	 * @return Game
 	 */
 	public function setPool(Pool $pool)
@@ -230,10 +206,33 @@ class Game
 	/**
 	 * Get pool
 	 *
-	 * @return \Abienvenu\KyjoukanBundle\Entity\Pool
+	 * @return Pool
 	 */
 	public function getPool()
 	{
 		return $this->pool;
+	}
+
+	/**
+	 * Set round
+	 *
+	 * @param Round $round
+	 * @return Game
+	 */
+	public function setRound(Round $round)
+	{
+		$this->round = $round;
+
+		return $this;
+	}
+
+	/**
+	 * Get round
+	 *
+	 * @return Round
+	 */
+	public function getRound()
+	{
+		return $this->round;
 	}
 }
