@@ -124,37 +124,7 @@ class DispatcherService
 					continue;
 				}
 
-				// Order the teams from the lazyiest to the busyiest
-				$teams = $pool->getTeams()->toArray();
-				usort($teams,
-				      function (Team $a, Team $b) use ($pool)
-				      {
-					      return $pool->getTeamNbParticipations($a) > $pool->getTeamNbParticipations($b);
-				      }
-				);
-
-				// Try to schedule the lazyiest team first
-				foreach ($teams as $team1)
-				{
-					// Is the team already playing in this round ?
-					if ($newGame->getRound()->hasTeam($team1))
-					{
-						continue;
-					}
-					foreach ($teams as $team2)
-					{
-						if ($team1 == $team2 || $newGame->getRound()->hasTeam($team2))
-						{
-							continue;
-						}
-						if ($pool->hasGame($team1, $team2))
-						{
-							continue;
-						}
-						$newGame->setTeam1($team1);
-						$newGame->setTeam2($team2);
-					}
-				}
+				$this->setLazyiestTeams($newGame, $pool);
 
 				if ($newGame->getTeam1() && $newGame->getTeam2())
 				{
@@ -214,5 +184,46 @@ class DispatcherService
 			$newGame->setGround($eventGrounds[0]);
 		}
 		return $newGame;
+	}
+
+	/**
+	 * Look for the lazyiest teams, and try to match them
+	 *
+	 * @param Game $newGame
+	 * @param Pool $pool
+	 */
+	private function setLazyiestTeams(Game $newGame, Pool $pool)
+	{
+		// Order the teams from the lazyiest to the busyiest
+		$teams = $pool->getTeams()->toArray();
+		usort($teams,
+			function (Team $a, Team $b) use ($pool)
+			{
+				return $pool->getTeamNbParticipations($a) > $pool->getTeamNbParticipations($b);
+			}
+		);
+
+		// Try to schedule the lazyiest team first
+		foreach ($teams as $team1)
+		{
+			// Is the team already playing in this round ?
+			if ($newGame->getRound()->hasTeam($team1))
+			{
+				continue;
+			}
+			foreach ($teams as $team2)
+			{
+				if ($team1 == $team2 || $newGame->getRound()->hasTeam($team2))
+				{
+					continue;
+				}
+				if ($pool->hasGame($team1, $team2))
+				{
+					continue;
+				}
+				$newGame->setTeam1($team1);
+				$newGame->setTeam2($team2);
+			}
+		}
 	}
 }
