@@ -202,7 +202,6 @@ class DispatcherService
 				return $pool->getTeamNbParticipations($a) > $pool->getTeamNbParticipations($b);
 			}
 		);
-
 		// Try to schedule the lazyiest team first
 		foreach ($teams as $team1)
 		{
@@ -221,8 +220,14 @@ class DispatcherService
 				{
 					continue;
 				}
+				// We found a viable match!
 				$newGame->setTeam1($team1);
 				$newGame->setTeam2($team2);
+				break;
+			}
+			if ($newGame->getTeam1())
+			{
+				break;
 			}
 		}
 	}
