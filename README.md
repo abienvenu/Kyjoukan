@@ -32,7 +32,7 @@ Server Installation
 
 To install and run Kyjoukan on your own server :
 
-* Install Symfony 2.8 [url]http://symfony.com/download[/url]
+* Install Symfony 2.8 http://symfony.com/download
 * Download Kyjoukan :
 ```bash
 $ php composer.phar require "abienvenu/kyjoukan":"dev-master"
