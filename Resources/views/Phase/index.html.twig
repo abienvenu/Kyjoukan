@@ -47,5 +47,5 @@
 			</li>
 		{% endfor %}
 	</ul>
-	<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Feuilles de match</a><br />
+	<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug, 'page': 1}) }}">Feuilles de match</a><br />
 {% endblock %}

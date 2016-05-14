@@ -78,12 +78,15 @@ class PhaseController extends Controller
 	}
 
 	/**
-	 * @Route("/gamecards")
+	 * @Route("/gamecards/{page}", requirements={"page": "\d+"})
 	 * @param Phase $phase
+	 * @param int $page
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
-	public function gameCardsAction(Phase $phase)
+	public function gameCardsAction(Phase $phase, $page)
 	{
-		return $this->render("KyjoukanBundle:Phase:gamecards.html.twig", ['phase' => $phase]);
+		$cardsPerPage = 6;
+		$games = array_slice($this->getDoctrine()->getRepository('KyjoukanBundle:Game')->findByPhase($phase), ($page-1)*$cardsPerPage, $cardsPerPage);
+		return $this->render("KyjoukanBundle:Phase:gamecards.html.twig", ['games' => $games]);
 	}
 }
