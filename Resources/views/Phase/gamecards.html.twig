@@ -14,13 +14,16 @@
 
 			div.navigation {
 				position: absolute;
-				left: 0px;
-				top: 0px;
-				font-size: 12px;
+				bottom: 3px;
+				font-size: 24px;
+				width: 100%;
+				text-align: center;
 			}
 			div.navigation a {
 				text-decoration: none;
-				font-size: 16px;
+				font-size: 30px;
+				background: lightblue;
+				border: 3px outset cadetblue;
 			}
 
 			section.table {
@@ -118,6 +121,7 @@
 	</head>
 <body>
 	<div class="navigation">
+		<a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">@</a>
 		{% if page > 1 %}
 			<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug, 'page': (page-1)}) }}">«</a>
 		{% endif %}
