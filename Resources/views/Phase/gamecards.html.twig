@@ -131,50 +131,53 @@
 		{% endif %}
 	</div>
 	<section class="main table">
-		{% for row in games|batch(2) %}
+		{% for row in range(0,2) %}
 		<div class="row">
-			{% for game in row %}
+			{% for col in range(0,1) %}
 			<div>
 				<section class="match">
-					<div class="row" style="height: 20%;">
-						<div>
-							<div class="terrain">Terrain: {{ game.ground.name }}</div>
-							<div class="numero">{{ phase.name }} Matchs {{ game.round.number }}/{{ phase.rounds|length }}</div>
-							<div class="arbitre">Arbitre: Iguane</div>
+					{% if games[row*2+col] is defined %}
+						{% set game = games[row*2+col] %}
+						<div class="row" style="height: 20%;">
+							<div>
+								<div class="terrain">Terrain: {{ game.ground.name }}</div>
+								<div class="numero">{{ phase.name }} Matchs {{ game.round.number }}/{{ phase.rounds|length }}</div>
+								<div class="arbitre">Arbitre: Iguane</div>
+							</div>
 						</div>
-					</div>
-					<div class="row" style="height: 60%;">
-						<div>
-							<section class="submatch" style="height: 20%; margin-bottom: 10px;">
-								<div class="row">
-									<div>A: <span class="equipe">{{ game.team1.name }}</span></div>
-									<div>B: <span class="equipe">{{ game.team2.name }}</span></div>
-								</div>
-							</section>
-							<section class="submatch" style="height: 80%;">
-								<div class="row">
-									{% for column in range(1,2) %}
-									<div>
-										<section class="checkboxes">
-											{% for row in range(1,40)|batch(10) %}
-											<div class="row">
-												{% for i in row %}
-													<div>{{ i }}</div>
-												{% endfor %}
-											</div>
-											{% endfor %}
-										</section>
+						<div class="row" style="height: 60%;">
+							<div>
+								<section class="submatch" style="height: 20%; margin-bottom: 10px;">
+									<div class="row">
+										<div>A: <span class="equipe">{{ game.team1.name }}</span></div>
+										<div>B: <span class="equipe">{{ game.team2.name }}</span></div>
 									</div>
-									{% endfor %}
-								</div>
-							</section>
+								</section>
+								<section class="submatch" style="height: 80%;">
+									<div class="row">
+										{% for column in range(1,2) %}
+										<div>
+											<section class="checkboxes">
+												{% for row in range(1,40)|batch(10) %}
+												<div class="row">
+													{% for i in row %}
+														<div>{{ i }}</div>
+													{% endfor %}
+												</div>
+												{% endfor %}
+											</section>
+										</div>
+										{% endfor %}
+									</div>
+								</section>
+							</div>
 						</div>
-					</div>
-					<div class="row" style="height: 20%;">
-						<div>
-							Score: <span class="score">&nbsp;</span> à <span class="score">&nbsp;</span>
+						<div class="row" style="height: 20%;">
+							<div>
+								Score: <span class="score">&nbsp;</span> à <span class="score">&nbsp;</span>
+							</div>
 						</div>
-					</div>
+					{% endif %}
 				</section>
 			</div>
 			{% endfor %}
