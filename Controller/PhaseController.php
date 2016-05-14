@@ -86,7 +86,9 @@ class PhaseController extends Controller
 	public function gameCardsAction(Phase $phase, $page)
 	{
 		$cardsPerPage = 6;
+		$games = $this->getDoctrine()->getRepository('KyjoukanBundle:Game')->findByPhase($phase);
+		$pages = floor((count($games) - 1) / 6) + 1;
 		$games = array_slice($this->getDoctrine()->getRepository('KyjoukanBundle:Game')->findByPhase($phase), ($page-1)*$cardsPerPage, $cardsPerPage);
-		return $this->render("KyjoukanBundle:Phase:gamecards.html.twig", ['games' => $games]);
+		return $this->render("KyjoukanBundle:Phase:gamecards.html.twig", ['phase' => $phase, 'games' => $games, 'page' => $page, 'pages' => $pages]);
 	}
 }
