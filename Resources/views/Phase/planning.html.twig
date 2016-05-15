@@ -16,13 +16,15 @@
 				width: 100%;
 				text-align: center;
 				border-collapse: collapse;
-				font-size: 16px;
+				font-size: 18px;
 			}
 			table, th, td
 			{
 				border: 3px solid black;
 			}
 			td { padding: 10px; }
+
+			.referee { font-size: 12px; }
 		</style>
 	</head>
 	<body>
@@ -42,7 +44,10 @@
 						{{ loop.index }}
 					</td>
 					{% for game in round.games %}
-						<td>{{ game.team1.name }} / {{ game.team2.name }}</td>
+						<td>
+							{{ game.team1.name }} -- {{ game.team2.name }}<br />
+							<span class="referee">({{ game.referee.name }})</span>
+						</td>
 					{% endfor %}
 				</tr>
 			{% endfor %}

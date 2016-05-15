@@ -41,7 +41,7 @@
 			<li>Round {{ round.number }} :
 				<ul>
 					{% for game in round.games %}
-						<li>{{ game.ground.name }}: {{ game.team1.name }} / {{ game.team2.name }}</li>
+						<li>{{ game.ground.name }}: {{ game.team1.name }} / {{ game.team2.name }} ({{ game.referee.name }})</li>
 					{% endfor %}
 				</ul>
 			</li>

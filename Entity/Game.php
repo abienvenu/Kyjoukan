@@ -34,6 +34,12 @@ class Game
 	private $team2 = null;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="Team")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $referee = null;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="Ground")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
@@ -119,6 +125,24 @@ class Game
 	public function getTeam2()
 	{
 		return $this->team2;
+	}
+
+	/**
+	 * @param Team $referee
+	 * @return Game
+	 */
+	public function setReferee($referee)
+	{
+		$this->referee = $referee;
+		return $this;
+	}
+
+	/**
+	 * @return Team
+	 */
+	public function getReferee()
+	{
+		return $this->referee;
 	}
 
 	/**

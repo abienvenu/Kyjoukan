@@ -124,11 +124,66 @@ class DispatcherService
 					continue;
 				}
 
+				// Populate the game with lazyiest teams
 				$this->setLazyiestTeams($newGame, $pool);
 
 				if ($newGame->getTeam1() && $newGame->getTeam2())
 				{
 					$pool->addGame($newGame);
+					break;
+				}
+			}
+		}
+
+		// The phase is fully scheduled with playing teams
+		// Now let's find referees for each game
+		$refereeCounter = [];
+		foreach ($phase->getRounds() as $round)
+		{
+			foreach ($round->getGames() as $game)
+			{
+				$poolTeams = $game->getPool()->getTeams();
+				$teams = $phase->getTeams()->toArray();
+				usort($teams,
+				      function (Team $a, Team $b) use ($refereeCounter, $poolTeams)
+				      {
+					      // Priority for teams in the same pool, because they know each other
+					      if ($poolTeams->contains($a) && !$poolTeams->contains($b))
+					      {
+						      return -1;
+					      }
+					      if (!$poolTeams->contains($a) && $poolTeams->contains($b))
+					      {
+						      return 1;
+					      }
+					      // Now priority to the teams that made few referees
+					      if (!isset($refereeCounter[$a->getId()]))
+					      {
+						      return -1;
+					      }
+					      if (!isset($refereeCounter[$b->getId()]))
+					      {
+						      return 1;
+					      }
+					      return $refereeCounter[$a->getId()] > $refereeCounter[$b->getId()];
+				      }
+				);
+
+				// Go find a referee
+				foreach ($teams as $team)
+				{
+					if  ($round->hasTeam($team))
+					{
+						// The team is already playing
+						continue;
+					}
+					// Team is available, set it as a referee
+					$game->setReferee($team);
+					if (!isset($refereeCounter[$team->getId()]))
+					{
+						$refereeCounter[$team->getId()] = 0;
+					}
+					$refereeCounter[$team->getId()]++;
 					break;
 				}
 			}
@@ -166,28 +221,21 @@ class DispatcherService
 					// We found a free ground in an incomplete round
 					$existingRound->addGame($newGame);
 					$newGame->setGround($eventGround);
-					break;
+					return $newGame;
 				}
-			}
-			if ($newGame->getRound())
-			{
-				break;
 			}
 		}
 		// If no free ground in incomplete round, create a new round
-		if (!$newGame->getRound())
-		{
-			$round = new Round();
-			$round->setNumber($roundNumber + 1);
-			$round->addGame($newGame);
-			$phase->addRound($round);
-			$newGame->setGround($eventGrounds[0]);
-		}
+		$round = new Round();
+		$round->setNumber($roundNumber + 1);
+		$round->addGame($newGame);
+		$phase->addRound($round);
+		$newGame->setGround($eventGrounds[0]);
 		return $newGame;
 	}
 
 	/**
-	 * Look for the lazyiest teams, and try to match them
+	 * Populate $newGame with the lazyiest teams in $pool
 	 *
 	 * @param Game $newGame
 	 * @param Pool $pool
@@ -223,11 +271,7 @@ class DispatcherService
 				// We found a viable match!
 				$newGame->setTeam1($team1);
 				$newGame->setTeam2($team2);
-				break;
-			}
-			if ($newGame->getTeam1())
-			{
-				break;
+				return;
 			}
 		}
 	}
