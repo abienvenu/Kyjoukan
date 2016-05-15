@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<style>
+			@media print {
+				@page {
+					margin: 12px;
+				}
+				div.navigation {
+					display: none;
+				}
+			}
+
+			html,body { height: 100%; margin: 0; padding: 0; }
+
+			table {
+				width: 100%;
+				text-align: center;
+				border-collapse: collapse;
+				font-size: 16px;
+			}
+			table, th, td
+			{
+				border: 3px solid black;
+			}
+			td { padding: 10px; }
+		</style>
+	</head>
+	<body>
+		<div class="navigation">
+			<a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Retour</a>
+		</div>
+		<table>
+			<tr>
+				<th>N°</th>
+				{% for ground in phase.event.grounds %}
+					<th>Terrain {{ ground.name }}</th>
+				{% endfor %}
+			</tr>
+			{% for round in phase.rounds %}
+				<tr>
+					<td>
+						{{ loop.index }}
+					</td>
+					{% for game in round.games %}
+						<td>{{ game.team1.name }} / {{ game.team2.name }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html>

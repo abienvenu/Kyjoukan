@@ -81,7 +81,7 @@ class PhaseController extends Controller
 	 * @Route("/gamecards/{page}", requirements={"page": "\d+"})
 	 * @param Phase $phase
 	 * @param int $page
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function gameCardsAction(Phase $phase, $page)
 	{
@@ -90,5 +90,15 @@ class PhaseController extends Controller
 		$pages = floor((count($games) - 1) / 6) + 1;
 		$games = array_slice($this->getDoctrine()->getRepository('KyjoukanBundle:Game')->findByPhase($phase), ($page-1)*$cardsPerPage, $cardsPerPage);
 		return $this->render("KyjoukanBundle:Phase:gamecards.html.twig", ['phase' => $phase, 'games' => $games, 'page' => $page, 'pages' => $pages]);
+	}
+
+	/**
+	 * @Route("/planning")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function planningAction(Phase $phase)
+	{
+		return $this->render("KyjoukanBundle:Phase:planning.html.twig", ['phase' => $phase]);
 	}
 }
