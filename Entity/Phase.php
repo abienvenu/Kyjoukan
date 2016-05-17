@@ -38,6 +38,20 @@ class Phase
 	private $rule;
 
 	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="start_date_time", type="datetime", nullable=true)
+	 */
+	private $startDateTime;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="round_duration", type="integer", nullable=true)
+	 */
+	private $roundDuration;
+
+	/**
 	 * @Gedmo\Slug(fields={"name"})
 	 * @ORM\Column(length=128, unique=true)
 	 */
@@ -129,6 +143,42 @@ class Phase
 	public function getRule()
 	{
 		return $this->rule;
+	}
+
+	/**
+	 * @param \DateTime $startDateTime
+	 * @return Phase
+	 */
+	public function setStartDateTime(\DateTime $startDateTime)
+	{
+		$this->startDateTime = $startDateTime;
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getStartDateTime()
+	{
+		return $this->startDateTime;
+	}
+
+	/**
+	 * @param int $roundDuration
+	 * @return Phase
+	 */
+	public function setRoundDuration($roundDuration)
+	{
+		$this->roundDuration = $roundDuration;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRoundDuration()
+	{
+		return $this->roundDuration;
 	}
 
 	/**

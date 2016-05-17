@@ -67,6 +67,8 @@ class LoadTeam implements FixtureInterface
 		$phase = new Phase();
 		$phase->setName("Poules phase 1");
 		$phase->setRule(Rule::ROUNDROBIN);
+		$phase->setStartDateTime(new \DateTime());
+		$phase->setRoundDuration(12*60);
 		$event->addPhase($phase);
 
 		// Pools

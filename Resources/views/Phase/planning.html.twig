@@ -33,7 +33,7 @@
 		</div>
 		<table>
 			<tr>
-				<th>N°</th>
+				<th>{% if phase.startdatetime %}Heure (approx.){% else %}N°{% endif %}</th>
 				{% for ground in phase.event.grounds %}
 					<th>Terrain {{ ground.name }}</th>
 				{% endfor %}
@@ -41,7 +41,7 @@
 			{% for round in phase.rounds %}
 				<tr>
 					<td>
-						{{ loop.index }}
+						{% if phase.startdatetime %}{{ phase.startDateTime|date("H:i:s") }}{% else %}{{ loop.index }}{% endif %}
 					</td>
 					{% for game in round.games %}
 						<td>
