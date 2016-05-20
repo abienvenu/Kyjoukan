@@ -132,35 +132,16 @@ class PhaseController extends Controller
 	/**
 	 * Deletes a Phase entity.
 	 *
-	 * @Route("/delete", name="phase_delete")
+	 * @Route("/delete")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
-	public function deleteAction(Request $request, Phase $phase)
+	public function deleteAction(Phase $phase)
 	{
-		$form = $this->createDeleteForm($phase);
-		$form->handleRequest($request);
+		$em = $this->getDoctrine()->getManager();
+		$em->remove($phase);
+		$em->flush();
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->remove($phase);
-			$em->flush();
-		}
-
-		return $this->redirectToRoute('phase_index');
-	}
-
-	/**
-	 * Creates a form to delete a Phase entity.
-	 *
-	 * @param Phase $phase The Phase entity
-	 *
-	 * @return \Symfony\Component\Form\Form The form
-	 */
-	private function createDeleteForm(Phase $phase)
-	{
-		return $this->createFormBuilder()
-					->setAction($this->generateUrl('phase_delete', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]))
-					->setMethod('DELETE')
-					->getForm()
-			;
+		return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $phase->getEvent()->getSlug()]);
 	}
 }
