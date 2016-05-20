@@ -1,52 +1,64 @@
 {% extends "KyjoukanBundle::layout.html.twig" %}
 
 {% block body %}
-	{% for flash_message in app.session.flashBag.get('success') %}
-		<div class="alert alert-success" role="alert">
-			{{ flash_message }}
-		</div>
-	{% endfor %}
-	{% for flash_message in app.session.flashBag.get('info') %}
-		<div class="alert alert-info" role="alert">
-			{{ flash_message }}
-		</div>
-	{% endfor %}
-
 	<h1>{{ phase.name }}</h1>
-	<a href="{{ path('abienvenu_kyjoukan_phase_loadteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Charger les équipes</a><br />
-	Équipes :
-	<ul>
-		{% for team in phase.teams %}
-			<li>{{ team.name }}</li>
-		{% endfor %}
-	</ul>
-
-	<a href="{{ path('abienvenu_kyjoukan_phase_dispatchteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Répartir les équipes</a><br />
-	Groupes :
-	<ul>
-		{% for pool in phase.pools %}
+	<div>
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#teams" aria-controls="teams" role="tab" data-toggle="tab">Équipes</a></li>
+			<li role="presentation"><a href="#pools" aria-controls="pools" role="tab" data-toggle="tab">Groupes</a></li>
+			<li role="presentation"><a href="#games" aria-controls="games" role="tab" data-toggle="tab">Matchs</a></li>
 			<li>
+				<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug, 'page': 1}) }}" target="_blank">
+					<span class="glyphicon glyphicon-print"></span> Feuilles de match
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('abienvenu_kyjoukan_phase_planning', {'slug_event': phase.event.slug, 'slug': phase.slug,}) }}" target="_blank">
+					<span class="glyphicon glyphicon-print"></span> Planning
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="teams">
+				<a href="{{ path('abienvenu_kyjoukan_phase_loadteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Charger les équipes</a><br />
+				Équipes :
 				<ul>
-					{% for team in pool.teams %}
+					{% for team in phase.teams %}
 						<li>{{ team.name }}</li>
 					{% endfor %}
 				</ul>
-			</li>
-		{% endfor %}
-	</ul>
-	<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Programmer les matchs</a><br />
-	Matchs :
-	<ul>
-		{% for round in phase.rounds %}
-			<li>Round {{ round.number }} :
+
+			</div>
+			<div role="tabpanel" class="tab-pane" id="pools">
+				<a href="{{ path('abienvenu_kyjoukan_phase_dispatchteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Répartir les équipes</a><br />
+				Groupes :
 				<ul>
-					{% for game in round.games %}
-						<li>{{ game.ground.name }}: {{ game.team1.name }} / {{ game.team2.name }} ({{ game.referee.name }})</li>
+					{% for pool in phase.pools %}
+						<li>
+							<ul>
+								{% for team in pool.teams %}
+									<li>{{ team.name }}</li>
+								{% endfor %}
+							</ul>
+						</li>
 					{% endfor %}
 				</ul>
-			</li>
-		{% endfor %}
-	</ul>
-	<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug, 'page': 1}) }}">Feuilles de match</a><br />
-	<a href="{{ path('abienvenu_kyjoukan_phase_planning', {'slug_event': phase.event.slug, 'slug': phase.slug,}) }}">Planning</a><br />
+			</div>
+			<div role="tabpanel" class="tab-pane" id="games">
+				<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Programmer les matchs</a><br />
+				Matchs :
+				<ul>
+					{% for round in phase.rounds %}
+						<li>Round {{ round.number }} :
+							<ul>
+								{% for game in round.games %}
+									<li>{{ game.ground.name }}: {{ game.team1.name }} / {{ game.team2.name }} ({{ game.referee.name }})</li>
+								{% endfor %}
+							</ul>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
 {% endblock %}

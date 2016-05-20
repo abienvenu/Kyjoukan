@@ -121,7 +121,6 @@
 	</head>
 <body>
 	<div class="navigation">
-		<a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Retour</a>
 		{% if page > 1 %}
 			<a href="{{ path('abienvenu_kyjoukan_phase_gamecards', {'slug_event': phase.event.slug, 'slug': phase.slug, 'page': (page-1)}) }}">«</a>
 		{% endif %}

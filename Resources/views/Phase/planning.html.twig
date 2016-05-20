@@ -5,9 +5,6 @@
 				@page {
 					margin: 12px;
 				}
-				div.navigation {
-					display: none;
-				}
 			}
 
 			html,body { height: 100%; margin: 0; padding: 0; }
@@ -28,9 +25,6 @@
 		</style>
 	</head>
 	<body>
-		<div class="navigation">
-			<a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Retour</a>
-		</div>
 		<table>
 			<tr>
 				<th>{% if phase.startdatetime %}Heure (approx.){% else %}N°{% endif %}</th>
