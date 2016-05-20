@@ -4,6 +4,7 @@ namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Event;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
+use Abienvenu\KyjoukanBundle\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,29 @@ class EventController extends Controller
 			return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()]);
 		}
 
-		return $this->render('KyjoukanBundle:Event:new_phase.html.twig', ['event' => $event, 'phase' => $phase, 'form' => $form->createView()]);
+		return $this->render('KyjoukanBundle:Event:new_phase.html.twig', ['event' => $event, 'form' => $form->createView()]);
+	}
+
+	/**
+	 * @Route("/new_team")
+	 * @param Request $request
+	 * @param Event $event
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function newTeamAction(Request $request, Event $event)
+	{
+		$team = new Team();
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\TeamType', $team);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			$event->addTeam($team);
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
+
+			return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()]);
+		}
+		return $this->render('KyjoukanBundle:Event:new_team.html.twig', ['event' => $event, 'form' => $form->createView()]);
 	}
 }
