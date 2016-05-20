@@ -7,9 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
-* @Route("/event/{slug_event}/phase/{slug}");
-*/
-
+ * @Route("/event/{slug_event}/phase/{slug}");
+ */
 class PhaseController extends Controller
 {
 	/**
