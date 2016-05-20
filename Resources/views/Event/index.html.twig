@@ -1,23 +1,36 @@
 {% extends "KyjoukanBundle::layout.html.twig" %}
 
 {% block body %}
-	<h1>{{ event.name }}</h1>
-	Phases :
-	<ul>
-		{% for phase in event.phases %}
-			<li><a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': event.slug, 'slug': phase.slug}) }}">{{ phase.name }}</a></li>
-		{% endfor %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('abienvenu_kyjoukan_default_index') }}">Accueil</a></li>
+		<li class="active">{{ event.name }}</li>
+	</ol>
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#phases" aria-controls="phases" role="tab" data-toggle="tab">Phases</a></li>
+		<li role="presentation"><a href="#teams" aria-controls="teams" role="tab" data-toggle="tab">Équipes</a></li>
+		<li role="presentation"><a href="#grounds" aria-controls="grounds" role="tab" data-toggle="tab">Terrains</a></li>
 	</ul>
-	Teams :
-	<ul>
-		{% for team in event.teams %}
-			<li>{{ team.name }}</li>
-		{% endfor %}
-	</ul>
-	Grounds :
-	<ul>
-		{% for ground in event.grounds %}
-			<li>{{ ground.name }}</li>
-		{% endfor %}
-	</ul>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="phases">
+			<ul>
+				{% for phase in event.phases %}
+					<li><a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': event.slug, 'slug': phase.slug}) }}">{{ phase.name }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="teams">
+			<ul>
+				{% for team in event.teams %}
+					<li>{{ team.name }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="grounds">
+			<ul>
+				{% for ground in event.grounds %}
+					<li>{{ ground.name }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
 {% endblock %}

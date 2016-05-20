@@ -1,6 +1,10 @@
 {% extends "KyjoukanBundle::layout.html.twig" %}
 
 {% block body %}
+	<ol class="breadcrumb">
+		<li class="active">Accueil</li>
+	</ol>
+	Évènements&nbsp;:
 	<ul>
 	{% for event in events %}
 		<li><a href="event/{{ event.slug }}">{{ event.name }}</a></li>

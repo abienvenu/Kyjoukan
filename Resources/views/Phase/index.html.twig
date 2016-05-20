@@ -1,7 +1,11 @@
 {% extends "KyjoukanBundle::layout.html.twig" %}
 
 {% block body %}
-	<h1>{{ phase.name }}</h1>
+	<ol class="breadcrumb">
+		<li><a href="{{ path('abienvenu_kyjoukan_default_index') }}">Accueil</a></li>
+		<li><a href="{{ path('abienvenu_kyjoukan_event_index', {'slug': phase.event.slug}) }}">{{ phase.event.name }}</a></li>
+		<li class="active">{{ phase.name }}</li>
+	</ol>
 	<div>
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#teams" aria-controls="teams" role="tab" data-toggle="tab">Équipes</a></li>
@@ -27,7 +31,6 @@
 						<li>{{ team.name }}</li>
 					{% endfor %}
 				</ul>
-
 			</div>
 			<div role="tabpanel" class="tab-pane" id="pools">
 				<a href="{{ path('abienvenu_kyjoukan_phase_dispatchteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Répartir les équipes</a><br />
