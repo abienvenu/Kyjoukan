@@ -17,6 +17,7 @@
 					<li><a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': event.slug, 'slug': phase.slug}) }}">{{ phase.name }}</a></li>
 				{% endfor %}
 			</ul>
+			<a href="{{ path('abienvenu_kyjoukan_event_newphase', {'slug': event.slug}) }}">Créer</a>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="teams">
 			<ul>
