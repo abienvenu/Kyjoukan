@@ -4,7 +4,6 @@ namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Event;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
-use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +28,9 @@ class EventController extends Controller
 	 * Creates a new Phase entity.
 	 *
 	 * @Route("/new_phase")
+	 * @param Request $request
+	 * @param Event $event
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function newPhaseAction(Request $request, Event $event)
 	{

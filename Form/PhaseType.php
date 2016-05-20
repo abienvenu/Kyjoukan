@@ -28,7 +28,6 @@ class PhaseType extends AbstractType
 			], 'expanded' => true, 'label' => false])
 			->add('startDateTime', DateTimeType::class, ['time_widget' => 'text', 'label' => "Heure de début"])
 			->add('roundDuration', IntegerType::class, ['label' => "Durée estimée d'un round (en secondes)", 'required' => false])
-			->add('save', SubmitType::class, ['label' => "Créer"])
 		;
 	}
 

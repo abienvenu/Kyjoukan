@@ -7,5 +7,8 @@
 		<li class="active">Nouvelle phase</li>
 	</ol>
 
-	{{ form(form) }}
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<input type="submit" value="Créer" />
+	{{ form_end(form) }}
 {% endblock %}

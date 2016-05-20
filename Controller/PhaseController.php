@@ -105,55 +105,34 @@ class PhaseController extends Controller
 		return $this->render("KyjoukanBundle:Phase:planning.html.twig", ['phase' => $phase]);
 	}
 
-
-	/**
-	 * Finds and displays a Phase entity.
-	 *
-	 * @Route("/{id}", name="phase_show")
-	 * @Method("GET")
-	 */
-	public function showAction(Phase $phase)
-	{
-		$deleteForm = $this->createDeleteForm($phase);
-
-		return $this->render('phase/show.html.twig', array(
-			'phase' => $phase,
-			'delete_form' => $deleteForm->createView(),
-		));
-	}
-
 	/**
 	 * Displays a form to edit an existing Phase entity.
 	 *
-	 * @Route("/{id}/edit", name="phase_edit")
-	 * @Method({"GET", "POST"})
+	 * @Route("/edit")
+	 * @param Request $request
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Phase $phase)
 	{
-		$deleteForm = $this->createDeleteForm($phase);
-		$editForm = $this->createForm('Abienvenu\KyjoukanBundle\Form\PhaseType', $phase);
-		$editForm->handleRequest($request);
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\PhaseType', $phase);
+		$form->handleRequest($request);
 
-		if ($editForm->isSubmitted() && $editForm->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
 			$em = $this->getDoctrine()->getManager();
-			$em->persist($phase);
 			$em->flush();
 
-			return $this->redirectToRoute('phase_edit', array('id' => $phase->getId()));
+			return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $phase->getEvent()->getSlug()]);
 		}
 
-		return $this->render('phase/edit.html.twig', array(
-			'phase' => $phase,
-			'edit_form' => $editForm->createView(),
-			'delete_form' => $deleteForm->createView(),
-		));
+		return $this->render('KyjoukanBundle:Phase:edit.html.twig', ['phase' => $phase, 'form' => $form->createView()]);
 	}
 
 	/**
 	 * Deletes a Phase entity.
 	 *
-	 * @Route("/{id}", name="phase_delete")
-	 * @Method("DELETE")
+	 * @Route("/delete", name="phase_delete")
 	 */
 	public function deleteAction(Request $request, Phase $phase)
 	{
@@ -179,9 +158,9 @@ class PhaseController extends Controller
 	private function createDeleteForm(Phase $phase)
 	{
 		return $this->createFormBuilder()
-			->setAction($this->generateUrl('phase_delete', array('id' => $phase->getId())))
-			->setMethod('DELETE')
-			->getForm()
-		;
+					->setAction($this->generateUrl('phase_delete', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]))
+					->setMethod('DELETE')
+					->getForm()
+			;
 	}
 }
