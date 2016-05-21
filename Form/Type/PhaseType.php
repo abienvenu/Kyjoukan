@@ -1,6 +1,6 @@
 <?php
 
-namespace Abienvenu\KyjoukanBundle\Form;
+namespace Abienvenu\KyjoukanBundle\Form\Type;
 
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Symfony\Component\Form\AbstractType;

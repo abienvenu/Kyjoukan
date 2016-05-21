@@ -1,6 +1,6 @@
 <?php
 
-namespace Abienvenu\KyjoukanBundle\Form;
+namespace Abienvenu\KyjoukanBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

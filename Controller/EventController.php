@@ -37,7 +37,7 @@ class EventController extends Controller
 	{
 		$phase = new Phase();
 		$phase->setStartDateTime(new \DateTime());
-		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\PhaseType', $phase);
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\PhaseType', $phase);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
@@ -61,7 +61,7 @@ class EventController extends Controller
 	public function newTeamAction(Request $request, Event $event)
 	{
 		$team = new Team();
-		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\TeamType', $team);
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\TeamType', $team);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())

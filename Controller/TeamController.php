@@ -22,7 +22,7 @@ class TeamController extends Controller
 	 */
 	public function editAction(Request $request, Team $team)
 	{
-		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\TeamType', $team);
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\TeamType', $team);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())

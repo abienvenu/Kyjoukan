@@ -5,9 +5,7 @@ namespace Abienvenu\KyjoukanBundle\Controller;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Component\HttpFoundation\Request;
-use Abienvenu\KyjoukanBundle\Form\PhaseType;
 
 /**
  * @Route("/event/{slug_event}/phase/{slug}");
@@ -114,7 +112,7 @@ class PhaseController extends Controller
 	 */
 	public function editAction(Request $request, Phase $phase)
 	{
-		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\PhaseType', $phase);
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\PhaseType', $phase);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
