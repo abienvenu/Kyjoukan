@@ -2,6 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Service;
 
+use Abienvenu\KyjoukanBundle\Entity\Event;
 use Abienvenu\KyjoukanBundle\Entity\Game;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Pool;
@@ -170,6 +171,7 @@ class DispatcherService
 				);
 
 				// Go find a referee
+				/** @var Team $team */
 				foreach ($teams as $team)
 				{
 					if  ($round->hasTeam($team))
@@ -274,5 +276,64 @@ class DispatcherService
 				return;
 			}
 		}
+	}
+
+	public function removeTeamFromPool(Pool $pool, Team $team)
+	{
+		$isClear = true;
+		// Delete the games where this team plays
+		foreach ($pool->getGames() as $game)
+		{
+			if ($game->hasTeam($team))
+			{
+				if ($game->isPlayed())
+				{
+					$isClear = false;
+				}
+				else
+				{
+					$pool->removeGame($game);
+					$this->em->remove($game);
+				}
+			}
+		}
+		// If the team is not playing anymore, remove it from the pool
+		if ($isClear)
+		{
+			$pool->removeTeam($team);
+		}
+		$this->em->flush();
+		return $isClear;
+	}
+
+	public function removeTeamFromPhase(Phase $phase, Team $team)
+	{
+		$isClear = true;
+		foreach ($phase->getPools() as $pool)
+		{
+			$isClear &= $this->removeTeamFromPool($pool, $team);
+		}
+		if ($isClear)
+		{
+			$phase->removeTeam($team);
+		}
+		$this->em->flush();
+		return $isClear;
+	}
+
+	public function removeTeamFromEvent(Event $event, Team $team)
+	{
+		$isClear = true;
+		foreach ($event->getPhases() as $phase)
+		{
+			$isClear &= $this->removeTeamFromPhase($phase, $team);
+		}
+		if ($isClear)
+		{
+			$event->removeTeam($team);
+			$this->em->remove($team);
+		}
+		$this->em->flush();
+		return $isClear;
 	}
 }

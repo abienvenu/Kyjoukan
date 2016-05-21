@@ -167,12 +167,9 @@ class PhaseController extends Controller
 	 */
 	public function removeTeamAction(Phase $phase, Team $team)
 	{
-		if ($phase->removeTeam($team))
+		if ($this->get('kyjoukan.dispatcher')->removeTeamFromPhase($phase, $team))
 		{
-			$em = $this->getDoctrine()->getManager();
-			$em->flush();
-
-			$this->addFlash('success', "Une équipe supprimée");
+			$this->addFlash('success', "L'équipe a été supprimée");
 		}
 		else
 		{

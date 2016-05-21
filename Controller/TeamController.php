@@ -45,9 +45,14 @@ class TeamController extends Controller
 	 */
 	public function deleteAction(Team $team)
 	{
-		$em = $this->getDoctrine()->getManager();
-		$em->remove($team);
-		$em->flush();
+		if ($this->get('kyjoukan.dispatcher')->removeTeamFromEvent($team->getEvent(), $team))
+		{
+			$this->addFlash('success', "L'équipe a bien été supprimée");
+		}
+		else
+		{
+			$this->addFlash('warning', "Impossible de supprimer l'équipe, elle a déjà joué des matchs!");
+		}
 
 		return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $team->getEvent()->getSlug()]) . "#teams");
 	}
