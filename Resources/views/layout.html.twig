@@ -53,15 +53,12 @@
 	</head>
 	<body>
 		<div class="container">
-			{% for flash_message in app.session.flashBag.get('success') %}
-				<div class="alert alert-success" role="alert">
-					{{ flash_message }}
-				</div>
-			{% endfor %}
-			{% for flash_message in app.session.flashBag.get('info') %}
-				<div class="alert alert-info" role="alert">
-					{{ flash_message }}
-				</div>
+			{% for level in ['success', 'info', 'warning', 'danger'] %}
+				{% for flash_message in app.session.flashBag.get(level) %}
+					<div class="alert alert-{{ level }}" role="alert">
+						{{ flash_message }}
+					</div>
+				{% endfor %}
 			{% endfor %}
 
 			{% block body %}{% endblock %}

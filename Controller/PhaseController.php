@@ -75,8 +75,19 @@ class PhaseController extends Controller
 	 */
 	public function shuffleAction(Phase $phase)
 	{
-		$this->get('kyjoukan.dispatcher')->shuffleGames($phase);
-		$this->addFlash('success', "Les matchs sont programmés.");
+		if (!count($phase->getEvent()->getGrounds()))
+		{
+			$this->addFlash('danger', "Impossible de programmer, veuillez d'abord ajouter des terrains!");
+		}
+		else if (!count($phase->getPools()))
+		{
+			$this->addFlash('danger', "Impossible de programmer, veuillez d'abord ajouter des groupes!");
+		}
+		else
+		{
+			$this->get('kyjoukan.dispatcher')->shuffleGames($phase);
+			$this->addFlash('success', "Les matchs sont programmés.");
+		}
 		return $this->redirect(
 			$this->generateUrl("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#games");
 	}
