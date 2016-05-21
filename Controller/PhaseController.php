@@ -3,6 +3,7 @@
 namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
+use Abienvenu\KyjoukanBundle\Entity\Pool;
 use Abienvenu\KyjoukanBundle\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -61,7 +62,8 @@ class PhaseController extends Controller
 		{
 			$this->addFlash('info', "Toute les équipes étaient déjà réparties");
 		}
-		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+		return $this->redirect(
+			$this->generateUrl("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#pools");
 	}
 
 	/**
@@ -143,7 +145,6 @@ class PhaseController extends Controller
 		return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $phase->getEvent()->getSlug()]);
 	}
 
-
 	/**
 	 * Remove a Team from a Phase
 	 *
@@ -160,5 +161,23 @@ class PhaseController extends Controller
 
 		$this->addFlash('success', "Une équipe supprimée");
 		return $this->redirectToRoute('abienvenu_kyjoukan_phase_index', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+	}
+
+	/**
+	 * Add a Pool to the Phase
+	 *
+	 * @Route("/add_pool")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function addPoolAction(Phase $phase)
+	{
+		$pool = new Pool();
+		$phase->addPool($pool);
+		$em = $this->getDoctrine()->getManager();
+		$em->flush();
+
+		return $this->redirect(
+			$this->generateUrl('abienvenu_kyjoukan_phase_index', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#pools");
 	}
 }
