@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/event/{slug_event}/team/{id}");
+ * @Route("/event/{slug_event}/team/{id}")
  */
 class TeamController extends Controller
 {

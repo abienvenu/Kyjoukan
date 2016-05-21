@@ -11,13 +11,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/event/{slug}");
+ * @Route("/event/{slug}")
  */
 class EventController extends Controller
 {
 
 	/**
-	 * @Route("");
+	 * @Route("")
 	 * @param Event $event
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */

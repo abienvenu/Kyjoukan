@@ -2,7 +2,6 @@
 
 namespace Abienvenu\KyjoukanBundle\Service;
 
-use Abienvenu\KyjoukanBundle\Entity\Event;
 use Abienvenu\KyjoukanBundle\Entity\Game;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Pool;

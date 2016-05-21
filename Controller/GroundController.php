@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/event/{slug_event}/ground/{id}");
+ * @Route("/event/{slug_event}/ground/{id}")
  */
 class GroundController extends Controller
 {

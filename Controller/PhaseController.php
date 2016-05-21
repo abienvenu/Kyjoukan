@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/event/{slug_event}/phase/{slug}");
+ * @Route("/event/{slug_event}/phase/{slug}")
  */
 class PhaseController extends Controller
 {
