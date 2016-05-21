@@ -3,6 +3,7 @@
 namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
+use Abienvenu\KyjoukanBundle\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,5 +141,24 @@ class PhaseController extends Controller
 		$em->flush();
 
 		return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $phase->getEvent()->getSlug()]);
+	}
+
+
+	/**
+	 * Remove a Team from a Phase
+	 *
+	 * @Route("/remove_team/{team}")
+	 * @param Phase $phase
+	 * @param Team $team
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function removeTeamAction(Phase $phase, Team $team)
+	{
+		$phase->removeTeam($team);
+		$em = $this->getDoctrine()->getManager();
+		$em->flush();
+
+		$this->addFlash('success', "Une équipe supprimée");
+		return $this->redirectToRoute('abienvenu_kyjoukan_phase_index', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
 	}
 }

@@ -84,6 +84,13 @@ class EventController extends Controller
 		if ($form->isSubmitted() && $form->isValid())
 		{
 			$event->addPhase($phase);
+
+			// By default, load event teams into phase
+			foreach ($event->getTeams() as $team)
+			{
+				$phase->addTeam($team);
+			}
+
 			$em = $this->getDoctrine()->getManager();
 			$em->flush();
 
@@ -94,6 +101,8 @@ class EventController extends Controller
 	}
 
 	/**
+	 * Create a new Team entity
+	 *
 	 * @Route("/new_team")
 	 * @param Request $request
 	 * @param Event $event
@@ -117,6 +126,8 @@ class EventController extends Controller
 	}
 
 	/**
+	 * Create a new Ground entity
+	 *
 	 * @Route("/new_ground")
 	 * @param Request $request
 	 * @param Event $event

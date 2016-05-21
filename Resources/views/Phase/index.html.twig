@@ -24,13 +24,26 @@
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="teams">
-				<a href="{{ path('abienvenu_kyjoukan_phase_loadteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Charger les équipes</a><br />
-				Équipes :
-				<ul>
+
+				<table class="table table-striped table-bordered table-hover">
 					{% for team in phase.teams %}
-						<li>{{ team.name }}</li>
+						<tr>
+							<td>
+								<a href="{{ path('abienvenu_kyjoukan_phase_removeteam', {'slug_event': phase.event.slug, 'slug': phase.slug, 'team': team.id}) }}">
+									<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>
+								</a>
+							</td>
+							<td width="99%">
+								{{ team.name }}
+							</td>
+						</tr>
 					{% endfor %}
-				</ul>
+				</table>
+
+				<a href="{{ path('abienvenu_kyjoukan_phase_loadteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}" class="btn btn-primary">
+					<span class="glyphicon glyphicon-upload"></span>
+					Charger les équipes de l'évènement
+				</a>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="pools">
 				<a href="{{ path('abienvenu_kyjoukan_phase_dispatchteams', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Répartir les équipes</a><br />
