@@ -30,7 +30,7 @@ class TeamController extends Controller
 			$em = $this->getDoctrine()->getManager();
 			$em->flush();
 
-			return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $team->getEvent()->getSlug()]);
+			return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $team->getEvent()->getSlug()]) . "#teams");
 		}
 
 		return $this->render('KyjoukanBundle:Team:edit.html.twig', ['team' => $team, 'form' => $form->createView()]);
@@ -49,6 +49,6 @@ class TeamController extends Controller
 		$em->remove($team);
 		$em->flush();
 
-		return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $team->getEvent()->getSlug()]);
+		return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $team->getEvent()->getSlug()]) . "#teams");
 	}
 }

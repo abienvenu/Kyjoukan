@@ -70,7 +70,7 @@ class EventController extends Controller
 			$em = $this->getDoctrine()->getManager();
 			$em->flush();
 
-			return $this->redirectToRoute('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()]);
+			return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()]) . "#teams");
 		}
 		return $this->render('KyjoukanBundle:Event:new_team.html.twig', ['event' => $event, 'form' => $form->createView()]);
 	}
