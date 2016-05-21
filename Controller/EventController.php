@@ -3,6 +3,7 @@
 namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Event;
+use Abienvenu\KyjoukanBundle\Entity\Ground;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -73,5 +74,29 @@ class EventController extends Controller
 			return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()]) . "#teams");
 		}
 		return $this->render('KyjoukanBundle:Event:new_team.html.twig', ['event' => $event, 'form' => $form->createView()]);
+	}
+
+	/**
+	 * @Route("/new_ground")
+	 * @param Request $request
+	 * @param Event $event
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function newGroundAction(Request $request, Event $event)
+	{
+		$ground = new Ground();
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\GroundType', $ground);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			$event->addGround($ground);
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
+
+			return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()]) . "#grounds");
+		}
+
+		return $this->render('KyjoukanBundle:Event:new_ground.html.twig', ['event' => $event, 'form' => $form->createView()]);
 	}
 }
