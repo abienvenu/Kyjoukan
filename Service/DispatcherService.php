@@ -321,17 +321,41 @@ class DispatcherService
 		return $isClear;
 	}
 
-	public function removeTeamFromEvent(Event $event, Team $team)
+	public function removeTeamFromEvent(Team $team)
 	{
 		$isClear = true;
-		foreach ($event->getPhases() as $phase)
+		foreach ($team->getEvent()->getPhases() as $phase)
 		{
 			$isClear &= $this->removeTeamFromPhase($phase, $team);
 		}
 		if ($isClear)
 		{
-			$event->removeTeam($team);
+			$team->getEvent()->removeTeam($team);
 			$this->em->remove($team);
+		}
+		$this->em->flush();
+		return $isClear;
+	}
+
+	public function removePoolFromPhase(Pool $pool)
+	{
+		$isClear = true;
+		foreach($pool->getGames() as $game)
+		{
+			if ($game->isPlayed())
+			{
+				$isClear = false;
+			}
+			else
+			{
+				$pool->removeGame($game);
+				$this->em->remove($game);
+			}
+		}
+		if ($isClear)
+		{
+			$pool->getPhase()->removePool($pool);
+			$this->em->remove($pool);
 		}
 		$this->em->flush();
 		return $isClear;

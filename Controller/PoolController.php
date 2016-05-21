@@ -20,11 +20,14 @@ class PoolController extends Controller
 	 */
 	public function deleteAction(Pool $pool)
 	{
-		$em = $this->getDoctrine()->getManager();
-		$em->remove($pool);
-		$em->flush();
-
-		$this->addFlash("success", "Groupe supprimé");
+		if ($this->get('kyjoukan.dispatcher')->removePoolFromPhase($pool))
+		{
+			$this->addFlash('success', "Groupe supprimé");
+		}
+		else
+		{
+			$this->addFlash('warning', "Impossible de supprimer le groupe, il y a des matchs déjà joués dedans");
+		}
 
 		return $this->redirect($this->generateUrl('abienvenu_kyjoukan_phase_index', [
 			                       'slug_event' => $pool->getPhase()->getEvent()->getSlug(),

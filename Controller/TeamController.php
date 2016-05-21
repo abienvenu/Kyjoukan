@@ -45,7 +45,7 @@ class TeamController extends Controller
 	 */
 	public function deleteAction(Team $team)
 	{
-		if ($this->get('kyjoukan.dispatcher')->removeTeamFromEvent($team->getEvent(), $team))
+		if ($this->get('kyjoukan.dispatcher')->removeTeamFromEvent($team))
 		{
 			$this->addFlash('success', "L'équipe a bien été supprimée");
 		}
