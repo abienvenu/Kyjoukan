@@ -28,8 +28,24 @@ class GameType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('team1', EntityType::class, ['class' => "KyjoukanBundle:Team", 'property' => 'name', 'label' => "Équipe A"])
-			->add('team2', EntityType::class, ['class' => "KyjoukanBundle:Team", 'property' => 'name', 'label' => "Équipe B"])
+			->add('team1', EntityType::class, [
+				'class' => "KyjoukanBundle:Team",
+				'property' => 'name',
+				'label' => "Équipe A",
+				'query_builder' => function(TeamRepository $repo)
+				{
+					return $repo->getTeamsForPhase($this->phase);
+				}
+			])
+			->add('team2', EntityType::class, [
+				'class' => "KyjoukanBundle:Team",
+				'property' => 'name',
+				'label' => "Équipe B",
+				'query_builder' => function(TeamRepository $repo)
+				{
+					return $repo->getTeamsForPhase($this->phase);
+				}
+			])
 			->add('referee', EntityType::class, [
 				'class' => "KyjoukanBundle:Team",
 				'property' => 'name',
