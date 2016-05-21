@@ -46,12 +46,12 @@
 				{% for team in event.teams %}
 					<tr>
 						<td>
-							<a href="{{ path('abienvenu_kyjoukan_team_edit', {'slug_event': event.slug, 'id': team.id}) }}">
+							<a href="{{ path('abienvenu_kyjoukan_team_edit', {'id': team.id}) }}">
 								<button class="glyphicon glyphicon-edit btn btn-success btn-xs"></button>
 							</a>
 						</td>
 						<td>
-							<a href="{{ path('abienvenu_kyjoukan_team_delete', {'slug_event': event.slug, 'id': team.id}) }}"
+							<a href="{{ path('abienvenu_kyjoukan_team_delete', {'id': team.id}) }}"
 								onclick="return confirm('Vraiment supprimer cette équipe ?');">
 								<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>
 							</a>

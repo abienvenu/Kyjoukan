@@ -87,8 +87,11 @@
 							<td>{{ round.number }}</td>
 							{% for game in round.games %}
 								<td>
+									<a href="{{ path('abienvenu_kyjoukan_game_edit', {'id': game.id}) }}">
+										<span class="glyphicon glyphicon-edit"></span>
+									</a>
 									<strong>{{ game.team1.name }} / {{ game.team2.name }}</strong><br />
-									<i>{{ game.ground.name }}: {{ game.referee.name }}</i>
+									<small>{{ game.ground.name }}: {{ game.referee.name }}</small>
 								</td>
 							{% endfor %}
 						</tr>

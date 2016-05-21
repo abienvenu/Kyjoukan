@@ -1,0 +1,19 @@
+{% extends "KyjoukanBundle::layout.html.twig" %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('abienvenu_kyjoukan_default_index') }}">Accueil</a></li>
+		<li><a href="{{ path('abienvenu_kyjoukan_event_index', {'slug': game.pool.phase.event.slug}) }}">{{ game.pool.phase.event.name }}</a></li>
+		<li>
+			<a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': game.pool.phase.event.slug, 'slug': game.pool.phase.slug}) }}#games">
+				{{ game.pool.phase.event.name }}
+			</a>
+		</li>
+		<li class="active">Éditer un match</li>
+	</ol>
+
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<input type="submit" value="Enregistrer" />
+	{{ form_end(form) }}
+{% endblock %}
