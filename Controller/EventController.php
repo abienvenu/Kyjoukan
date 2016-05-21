@@ -27,6 +27,46 @@ class EventController extends Controller
 	}
 
 	/**
+	 * Displays a form to edit an existing Event entity.
+	 *
+	 * @Route("/edit")
+	 * @param Request $request
+	 * @param Event $event
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function editAction(Request $request, Event $event)
+	{
+		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\EventType', $event);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
+
+			return $this->redirectToRoute('abienvenu_kyjoukan_default_index');
+		}
+
+		return $this->render('KyjoukanBundle:Event:edit.html.twig', ['event' => $event, 'form' => $form->createView()]);
+	}
+
+	/**
+	 * Deletes a Event entity.
+	 *
+	 * @Route("/delete")
+	 * @param Event $event
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function deleteAction(Event $event)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$em->remove($event);
+		$em->flush();
+
+		return $this->redirectToRoute('abienvenu_kyjoukan_default_index');
+	}
+
+	/**
 	 * Creates a new Phase entity.
 	 *
 	 * @Route("/new_phase")

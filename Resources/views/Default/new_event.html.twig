@@ -1,0 +1,13 @@
+{% extends "KyjoukanBundle::layout.html.twig" %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('abienvenu_kyjoukan_default_index') }}">Accueil</a></li>
+		<li class="active">Ajouter un évènement</li>
+	</ol>
+
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<input type="submit" value="Ajouter" />
+	{{ form_end(form) }}
+{% endblock %}

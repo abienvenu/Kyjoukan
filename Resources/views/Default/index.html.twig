@@ -4,10 +4,32 @@
 	<ol class="breadcrumb">
 		<li class="active">Accueil</li>
 	</ol>
-	Évènements&nbsp;:
-	<ul>
-	{% for event in events %}
-		<li><a href="event/{{ event.slug }}">{{ event.name }}</a></li>
-	{% endfor %}
-	</ul>
+
+	<table class="table table-striped table-bordered table-hover">
+		{% for event in events %}
+			<tr>
+				<td>
+					<a href="{{ path('abienvenu_kyjoukan_event_edit', {'slug': event.slug }) }}">
+						<button class="glyphicon glyphicon-edit btn btn-success btn-xs"></button>
+					</a>
+				</td>
+				<td>
+					<a href="{{ path('abienvenu_kyjoukan_event_delete', {'slug': event.slug }) }}"
+					   onclick="return confirm('Vraiment supprimer cet évènement ?');">
+						<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>
+					</a>
+				</td>
+				<td width="99%">
+					<a href="{{ path('abienvenu_kyjoukan_event_index', {'slug': event.slug }) }}">
+						<span class="glyphicon glyphicon-forward"></span>
+						{{ event.name }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+	<a href="{{ path('abienvenu_kyjoukan_default_newevent') }}" class="btn btn-primary">
+		<span class="glyphicon glyphicon-plus"></span>
+		Créer un nouvel évènement
+	</a>
 {% endblock %}
