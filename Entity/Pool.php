@@ -99,10 +99,19 @@ class Pool
      * Remove games
      *
      * @param Game $game
+     * @return bool
      */
     public function removeGame(Game $game)
     {
-        $this->games->removeElement($game);
+	    if (!$game->isPlayed())
+	    {
+		    $this->games->removeElement($game);
+		    return true;
+	    }
+	    else
+	    {
+		    return false;
+	    }
     }
 
     /**

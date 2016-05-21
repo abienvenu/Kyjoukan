@@ -259,4 +259,25 @@ class Game
 	{
 		return $this->round;
 	}
+
+	/**
+	 * Tell if a Team is involved in this Game
+	 *
+	 * @param Team $team
+	 * @return bool
+	 */
+	public function hasTeam(Team $team)
+	{
+		return $this->getTeam1() == $team || $this->getTeam2() == $team || $this->getReferee() == $team;
+	}
+
+	/**
+	 * Tell if this Game is already played
+	 *
+	 * @return bool
+	 */
+	public function isPlayed()
+	{
+		return $this->getScore1() || $this->getScore2();
+	}
 }

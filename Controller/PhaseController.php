@@ -155,11 +155,17 @@ class PhaseController extends Controller
 	 */
 	public function removeTeamAction(Phase $phase, Team $team)
 	{
-		$phase->removeTeam($team);
-		$em = $this->getDoctrine()->getManager();
-		$em->flush();
+		if ($phase->removeTeam($team))
+		{
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
 
-		$this->addFlash('success', "Une équipe supprimée");
+			$this->addFlash('success', "Une équipe supprimée");
+		}
+		else
+		{
+			$this->addFlash('warning', "Impossible de supprimer cette équipe, elle a déjà joué des matchs!");
+		}
 		return $this->redirectToRoute('abienvenu_kyjoukan_phase_index', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
 	}
 

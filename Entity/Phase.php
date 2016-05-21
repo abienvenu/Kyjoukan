@@ -308,13 +308,33 @@ class Phase
 	}
 
 	/**
-	 * Remove team
+	 * Remove a team if
 	 *
 	 * @param Team $team
+	 * @return bool
 	 */
 	public function removeTeam(Team $team)
 	{
-		$this->teams->removeElement($team);
+		$ok = true;
+		foreach ($this->getPools() as $pool)
+		{
+			foreach ($pool->getGames() as $game)
+			{
+				if ($game->hasTeam($team))
+				{
+					$ok &= $pool->removeGame($game);
+				}
+			}
+			if ($ok)
+			{
+				$pool->removeTeam($team);
+			}
+		}
+		if ($ok)
+		{
+			$this->teams->removeElement($team);
+		}
+		return $ok;
 	}
 
 	/**
