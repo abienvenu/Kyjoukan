@@ -77,7 +77,8 @@ class PhaseController extends Controller
 	{
 		$this->get('kyjoukan.dispatcher')->shuffleGames($phase);
 		$this->addFlash('success', "Les matchs sont programmés.");
-		return $this->redirectToRoute("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
+		return $this->redirect(
+			$this->generateUrl("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#games");
 	}
 
 	/**

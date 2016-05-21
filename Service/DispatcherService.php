@@ -76,7 +76,7 @@ class DispatcherService
 		{
 			foreach ($pool->getGames() as $game)
 			{
-				if (!$game->getScore1() && !$game->getScore2())
+				if (!$game->isPlayed())
 				{
 					$pool->removeGame($game);
 					$game->getRound()->removeGame($game);

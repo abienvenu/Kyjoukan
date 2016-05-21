@@ -75,19 +75,29 @@
 				</a>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="games">
-				<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}">Programmer les matchs</a><br />
-				Matchs :
-				<ul>
+				<table class="table table-striped table-bordered table-hover text-center">
+					<tr>
+						<th></th>
+						{% for ground in phase.event.grounds %}
+							<th class="text-center">{{ ground.name }}</th>
+						{% endfor %}
+					</tr>
 					{% for round in phase.rounds %}
-						<li>Round {{ round.number }} :
-							<ul>
-								{% for game in round.games %}
-									<li>{{ game.ground.name }}: {{ game.team1.name }} / {{ game.team2.name }} ({{ game.referee.name }})</li>
-								{% endfor %}
-							</ul>
-						</li>
+						<tr>
+							<td>{{ round.number }}</td>
+							{% for game in round.games %}
+								<td>
+									<strong>{{ game.team1.name }} / {{ game.team2.name }}</strong><br />
+									<i>{{ game.ground.name }}: {{ game.referee.name }}</i>
+								</td>
+							{% endfor %}
+						</tr>
 					{% endfor %}
-				</ul>
+				</table>
+				<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}" class="btn btn-primary">
+					<span class="glyphicon glyphicon-random"></span>
+					Programmer les matchs
+				</a>
 			</div>
 		</div>
 	</div>
