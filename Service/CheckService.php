@@ -4,6 +4,7 @@ namespace Abienvenu\KyjoukanBundle\Service;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 
 class CheckService
@@ -48,6 +49,38 @@ class CheckService
 				}
 			}
 		}
+
+		return implode("<br />", $errors);
+	}
+
+	public function checkPhaseGames(Phase $phase)
+	{
+		$errors = [];
+		// Check a team does not play on several ground at the same time
+		foreach ($phase->getRounds() as $round)
+		{
+			$busyTeams = [];
+			foreach ($round->getGames() as $game)
+			{
+				if (in_array($game->getTeam1(), $busyTeams))
+				{
+					$errors[] = "L'équipe {$game->getTeam1()->getName()} est à deux endroits dans le round {$round->getNumber()}";
+				}
+				$busyTeams[] = $game->getTeam1();
+				if (in_array($game->getTeam2(), $busyTeams))
+				{
+					$errors[] = "L'équipe {$game->getTeam2()->getName()} est à deux endroits dans le round {$round->getNumber()}";
+				}
+				$busyTeams[] = $game->getTeam2();
+				if (in_array($game->getReferee(), $busyTeams))
+				{
+					$errors[] = "L'arbitre {$game->getTeam1()->getName()} joue déjà dans le round {$round->getNumber()}";
+				}
+				$busyTeams[] = $game->getReferee();
+			}
+		}
+
+		// TODO : other checks
 
 		return implode("<br />", $errors);
 	}

@@ -37,7 +37,6 @@ class Round
 
 	/**
 	 * @ORM\OneToMany(targetEntity="Game", mappedBy="round", cascade={"persist"})
-	 * @ORM\OrderBy({"ground" = "asc"})
 	 */
 	private $games;
 
