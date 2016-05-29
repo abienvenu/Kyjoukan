@@ -2,6 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Repository;
 
+use Abienvenu\KyjoukanBundle\Entity\Event;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Doctrine\ORM\EntityRepository;
 
@@ -15,5 +16,13 @@ class TeamRepository extends EntityRepository
 					->join('e.phases', 'p', 'WITH', 'p.id = :phase')
 					->join('p.teams', 't2', 'WITH', 't2 = t')
 		            ->setParameter('phase', $phase->getId());
+	}
+
+	public function getTeamsForEvent(Event $event)
+	{
+		// Find the teams that are in the given event
+		return $this->createQueryBuilder('t')
+		            ->join('t.event', 'e', 'WITH', 'e = :event')
+		            ->setParameter('event', $event);
 	}
 }

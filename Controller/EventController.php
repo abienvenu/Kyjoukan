@@ -6,6 +6,7 @@ use Abienvenu\KyjoukanBundle\Entity\Event;
 use Abienvenu\KyjoukanBundle\Entity\Ground;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
+use Abienvenu\KyjoukanBundle\Form\Type\PhaseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +92,7 @@ class EventController extends Controller
 	{
 		$phase = new Phase();
 		$phase->setStartDateTime(new \DateTime());
-		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\PhaseType', $phase);
+		$form = $this->createForm(new PhaseType($event), $phase);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())

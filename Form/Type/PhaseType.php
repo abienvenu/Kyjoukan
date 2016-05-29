@@ -2,7 +2,11 @@
 
 namespace Abienvenu\KyjoukanBundle\Form\Type;
 
+use Abienvenu\KyjoukanBundle\Entity\Event;
+use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Enum\Rule;
+use Abienvenu\KyjoukanBundle\Repository\TeamRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -13,6 +17,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PhaseType extends AbstractType
 {
+	private $event;
+
+	public function __construct(Event $event)
+	{
+		$this->event = $event;
+	}
+
 	/**
 	 * @param FormBuilderInterface $builder
 	 * @param array $options
@@ -27,6 +38,17 @@ class PhaseType extends AbstractType
 			], 'expanded' => true, 'label' => false])
 			->add('startDateTime', DateTimeType::class, ['time_widget' => 'text', 'label' => "Heure de début"])
 			->add('roundDuration', IntegerType::class, ['label' => "Durée estimée d'un round (en secondes)", 'required' => false])
+			->add('teams', EntityType::class, [
+				'label' => "Équipes",
+				'class' => 'Abienvenu\KyjoukanBundle\Entity\Team',
+				'property' => 'name',
+				'multiple' => true,
+				'expanded' => true,
+				'query_builder' => function(TeamRepository $repo)
+				{
+					return $repo->getTeamsForEvent($this->event);
+				}
+			])
 		;
 	}
 
