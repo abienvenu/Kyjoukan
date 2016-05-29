@@ -68,10 +68,36 @@ class CheckService
 					$errors[] = "L'arbitre {$game->getReferee()->getName()} joue déjà dans le round {$round->getNumber()}";
 				}
 				$busyTeams[] = $game->getReferee();
+
+				// Check all teams belong to the same pool
+				if (!$game->getPool()->hasTeam($game->getTeam1()))
+				{
+					$errors[] = "L'équipe {$game->getTeam1()->getName()} est programmée sur match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
+				}
+				if (!$game->getPool()->hasTeam($game->getTeam2()))
+				{
+					$errors[] = "L'équipe {$game->getTeam2()->getName()} est programmée sur match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
+				}
+				if (!$game->getPool()->hasTeam($game->getReferee()))
+				{
+					$errors[] = "L'équipe {$game->getReferee()->getName()} arbitre un match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
+				}
 			}
 		}
 
-		// TODO : other checks
+		// Check all pools are fully scheduled
+		foreach ($phase->getPools() as $pool)
+		{
+			$scheduledRate = $pool->getScheduledRate();
+			if ($scheduledRate < 1)
+			{
+				$errors[] = "Il manque des matchs dans le groupe {$pool->getName()}";
+			}
+			if ($scheduledRate > 1)
+			{
+				$errors[] = "Il y a des matchs en trop dans le groupe {$pool->getName()}";
+			}
+		}
 
 		return $errors;
 	}
