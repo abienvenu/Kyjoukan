@@ -33,8 +33,8 @@
 			<th>Points d'avance</th>
 			<th>Points marqués</th>
 		</tr>
-		{% for poolRankings in rankings %}
-			<tr><td colspan="7">Groupe {{ loop.index }}</td></tr>
+		{% for pool_name, poolRankings in rankings %}
+			<tr><td colspan="7">Groupe {{ pool_name }}</td></tr>
 			{% for ranking in poolRankings %}
 				<tr>
 					<td>{{ loop.index }}</td>

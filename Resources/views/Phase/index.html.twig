@@ -74,7 +74,8 @@
 									<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>
 								</a>
 							</td>
-							<td width="99%">
+							<td>{{ pool.name }}</td>
+							<td width="99%"{% if pool.color %} style="color: {{ pool.color }};"{% endif %}>
 								<ul>
 								{% for team in pool.teams %}
 									<li>{{ team.name }}</li>
@@ -113,7 +114,7 @@
 								<td>
 								{% for game in round.games %}
 									{% if game.ground == ground %}
-										<div{% if game.played %} class="bg-warning"{% endif %}>
+										<div{% if game.played %} class="bg-warning"{% endif %}{% if game.pool.color %} style="color: {{ game.pool.color }};"{% endif %}>
 											<a href="{{ path('abienvenu_kyjoukan_game_edit', {'id': game.id}) }}">
 												<span class="glyphicon glyphicon-edit"></span>
 											</a>

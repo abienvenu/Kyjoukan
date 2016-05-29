@@ -133,7 +133,14 @@ class PhaseController extends Controller
 		$rankings = [];
 		foreach ($phase->getPools() as $pool)
 		{
-			$rankings[] = $this->get('kyjoukan.ranker')->getPoolRanks($pool);
+			$index = 1;
+			$key = $pool->getName() ?: $index;
+			while (array_key_exists($key, $rankings))
+			{
+				$index++;
+				$key = $index;
+			}
+			$rankings[$key] = $this->get('kyjoukan.ranker')->getPoolRanks($pool);
 		}
 		return $this->render("KyjoukanBundle:Phase:ranking.html.twig", ['rankings' => $rankings]);
 	}

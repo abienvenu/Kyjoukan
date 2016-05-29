@@ -24,6 +24,16 @@ class Pool
 	private $id;
 
 	/**
+	 * @ORM\Column(name="name", type="string", length=255, nullable=true)
+	 */
+	private $name;
+
+	/**
+	 * @ORM\Column(name="color", type="string", length=255, nullable=true)
+	 */
+	private $color;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="Phase", inversedBy="pools")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
@@ -56,6 +66,42 @@ class Pool
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param string $name
+	 * @return Pool
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getColor()
+	{
+		return $this->color;
+	}
+
+	/**
+	 * @param string $color
+	 * @return Pool
+	 */
+	public function setColor($color)
+	{
+		$this->color = $color;
+		return $this;
 	}
 
 	/**
