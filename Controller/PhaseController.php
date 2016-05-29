@@ -123,6 +123,17 @@ class PhaseController extends Controller
 	}
 
 	/**
+	 * @Route("/ranking")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function rankingAction(Phase $phase)
+	{
+		$rankings = $this->get('kyjoukan.ranker')->getPhaseRanks($phase);
+		return $this->render("KyjoukanBundle:Phase:ranking.html.twig", ['rankings' => $rankings]);
+	}
+
+	/**
 	 * Displays a form to edit an existing Phase entity.
 	 *
 	 * @Route("/edit")

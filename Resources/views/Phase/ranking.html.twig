@@ -1,0 +1,44 @@
+<html>
+<head>
+	<style>
+		@media print {
+			@page {
+				margin: 12px;
+			}
+		}
+
+		html,body { height: 100%; margin: 0; padding: 0; }
+
+		table {
+			width: 100%;
+			text-align: center;
+			border-collapse: collapse;
+			font-size: 18px;
+		}
+		table, th, td
+		{
+			border: 3px solid black;
+		}
+		td { padding: 10px; }
+	</style>
+</head>
+<body>
+<table>
+	<tr>
+		<th>Équipe</th>
+		<th>Matchs gagnés</th>
+		<th>Matchs joués</th>
+		<th>Matchs perdus</th>
+		<th>Points d'avance</th>
+		<th>Points marqués</th>
+	</tr>
+	{% for ranking in rankings %}
+		<tr>
+			{% for value in ranking %}
+				<td>{{ value }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+</table>
+</body>
+</html>

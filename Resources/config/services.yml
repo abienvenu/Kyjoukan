@@ -6,3 +6,6 @@ services:
     kyjoukan.checker:
         class: Abienvenu\KyjoukanBundle\Service\CheckService
         arguments: ["@doctrine.orm.entity_manager"]
+
+    kyjoukan.ranker:
+        class: Abienvenu\KyjoukanBundle\Service\RankService
