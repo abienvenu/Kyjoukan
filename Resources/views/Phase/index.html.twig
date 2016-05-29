@@ -112,8 +112,9 @@
 											<a href="{{ path('abienvenu_kyjoukan_game_edit', {'id': game.id}) }}">
 												<span class="glyphicon glyphicon-edit"></span>
 											</a>
-											<strong>{{ game.team1.name }} {{ game.score1 }} - {{ game.score2 }} {{ game.team2.name }}</strong><br />
-											<small>{{ game.ground.name }}: {{ game.referee.name }}</small>
+											<span class="team">{{ game.team1.name }}</span> <span class="score">{{ game.score1 }}</span> -
+											<span class="score">{{ game.score2 }}</span> <span class="team">{{ game.team2.name }}</span><br />
+											<span class="ground">{{ game.ground.name }}: {{ game.referee.name }}</span>
 										</div>
 									{% endif %}
 								{% endfor %}
