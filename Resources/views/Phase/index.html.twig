@@ -50,6 +50,11 @@
 					{% for pool in phase.pools %}
 						<tr>
 							<td>
+								<a href="{{ path('abienvenu_kyjoukan_pool_edit', {'id': pool.id}) }}">
+									<button class="glyphicon glyphicon-edit btn btn-success btn-xs"></button>
+								</a>
+							</td>
+							<td>
 								<a href="{{ path('abienvenu_kyjoukan_pool_delete', {'id': pool.id}) }}"
 								   onclick="return confirm('Vraiment supprimer ce groupe ?');">
 									<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>

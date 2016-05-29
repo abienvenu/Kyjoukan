@@ -6,7 +6,7 @@
 		<li><a href="{{ path('abienvenu_kyjoukan_event_index', {'slug': game.pool.phase.event.slug}) }}">{{ game.pool.phase.event.name }}</a></li>
 		<li>
 			<a href="{{ path('abienvenu_kyjoukan_phase_index', {'slug_event': game.pool.phase.event.slug, 'slug': game.pool.phase.slug}) }}#games">
-				{{ game.pool.phase.event.name }}
+				{{ game.pool.phase.name }}
 			</a>
 		</li>
 		<li class="active">Éditer un match</li>
