@@ -26,7 +26,7 @@ class PoolType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('name', TextType::class, ['label' => "Nom", 'required' => false])
+			->add('name', TextType::class, ['label' => "Nom"])
 			->add('color', TextType::class, ['label' => "Couleur", 'required' => false])
 			->add('teams', EntityType::class, [
 				'label' => "Équipes",

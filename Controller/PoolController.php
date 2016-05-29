@@ -74,6 +74,7 @@ class PoolController extends Controller
 	public function newAction(Phase $phase)
 	{
 		$pool = new Pool();
+		$pool->setName("Groupe " . (count($phase->getPools()) + 1));
 		$phase->addPool($pool);
 		$em = $this->getDoctrine()->getManager();
 		$em->flush();
