@@ -56,8 +56,11 @@ class DispatcherService
 			if (!$phase->isTeamPooled($team))
 			{
 				$pool = $phase->getSmallestPool();
-				$pool->addTeam($team);
-				$dispatched++;
+				if ($pool)
+				{
+					$pool->addTeam($team);
+					$dispatched++;
+				}
 			}
 		}
 		$this->em->flush();
