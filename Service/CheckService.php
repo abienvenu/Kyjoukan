@@ -73,7 +73,7 @@ class CheckService
 				$busyTeams[] = $game->getTeam2();
 				if (in_array($game->getReferee(), $busyTeams))
 				{
-					$errors[] = "L'arbitre {$game->getTeam1()->getName()} joue déjà dans le round {$round->getNumber()}";
+					$errors[] = "L'arbitre {$game->getReferee()->getName()} joue déjà dans le round {$round->getNumber()}";
 				}
 				$busyTeams[] = $game->getReferee();
 			}
