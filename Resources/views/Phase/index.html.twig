@@ -31,7 +31,7 @@
 			<div role="tabpanel" class="tab-pane active" id="teams">
 				{% if errors.team %}
 					<div class="alert alert-warning">
-						{{ errors.team|join('<br />') }}
+						{{ errors.team|join('<br />')|raw }}
 					</div>
 				{% endif %}
 				<table class="table table-striped table-bordered table-hover">
@@ -57,7 +57,7 @@
 			<div role="tabpanel" class="tab-pane" id="pools">
 				{% if errors.pool %}
 					<div class="alert alert-warning">
-						{{ errors.pool|join('<br />') }}
+						{{ errors.pool|join('<br />')|raw }}
 					</div>
 				{% endif %}
 				<table class="table table-striped table-bordered table-hover">
@@ -96,7 +96,7 @@
 			<div role="tabpanel" class="tab-pane" id="games">
 				{% if errors.game %}
 					<div class="alert alert-warning">
-						{{ errors.game|join('<br />') }}
+						{{ errors.game|join('<br />')|raw }}
 					</div>
 				{% endif %}
 				<table class="table table-striped table-bordered table-hover text-center">
