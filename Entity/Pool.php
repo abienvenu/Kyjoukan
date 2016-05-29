@@ -167,11 +167,14 @@ class Pool
 	public function getScheduledRate()
 	{
 		$rule = $this->getPhase()->getRule();
+		$nbTeams = count($this->getTeams());
 		switch ($rule)
 		{
 			case Rule::ROUNDROBIN:
-				$nbTeams = count($this->getTeams());
 				$nbTotalGames = $nbTeams * ($nbTeams - 1) / 2;
+				break;
+			case Rule::BRACKETS:
+				$nbTotalGames = $nbTeams / 2;
 				break;
 			default:
 				throw new \Exception("Unknown rule: $rule");
