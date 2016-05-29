@@ -129,7 +129,11 @@ class PhaseController extends Controller
 	 */
 	public function rankingAction(Phase $phase)
 	{
-		$rankings = $this->get('kyjoukan.ranker')->getPhaseRanks($phase);
+		$rankings = [];
+		foreach ($phase->getPools() as $pool)
+		{
+			$rankings[] = $this->get('kyjoukan.ranker')->getPoolRanks($pool);
+		}
 		return $this->render("KyjoukanBundle:Phase:ranking.html.twig", ['rankings' => $rankings]);
 	}
 

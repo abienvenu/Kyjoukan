@@ -23,22 +23,27 @@
 	</style>
 </head>
 <body>
-<table>
-	<tr>
-		<th>Équipe</th>
-		<th>Matchs gagnés</th>
-		<th>Matchs joués</th>
-		<th>Matchs perdus</th>
-		<th>Points d'avance</th>
-		<th>Points marqués</th>
-	</tr>
-	{% for ranking in rankings %}
+	<table>
 		<tr>
-			{% for value in ranking %}
-				<td>{{ value }}</td>
-			{% endfor %}
+			<th>Place</th>
+			<th>Équipe</th>
+			<th>Matchs gagnés</th>
+			<th>Matchs joués</th>
+			<th>Matchs perdus</th>
+			<th>Points d'avance</th>
+			<th>Points marqués</th>
 		</tr>
-	{% endfor %}
-</table>
+		{% for poolRankings in rankings %}
+			<tr><td colspan="7">Groupe {{ loop.index }}</td></tr>
+			{% for ranking in poolRankings %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					{% for value in ranking %}
+						<td>{{ value }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
 </body>
 </html>
