@@ -22,6 +22,7 @@ class PhaseController extends Controller
 	public function indexAction(Phase $phase)
 	{
 		$errors = [
+			'team' => $this->get('kyjoukan.checker')->checkPhaseTeams($phase),
 			'pool' => $this->get('kyjoukan.checker')->checkPhasePools($phase),
 		    'game' => $this->get('kyjoukan.checker')->checkPhaseGames($phase),
 		];

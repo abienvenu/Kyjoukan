@@ -24,7 +24,11 @@
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="teams">
-
+				{% if errors.team %}
+					<div class="alert alert-warning">
+						{{ errors.team|join('<br />') }}
+					</div>
+				{% endif %}
 				<table class="table table-striped table-bordered table-hover">
 					{% for team in phase.teams %}
 						<tr>
@@ -48,7 +52,7 @@
 			<div role="tabpanel" class="tab-pane" id="pools">
 				{% if errors.pool %}
 					<div class="alert alert-warning">
-						{{ errors.pool|raw }}
+						{{ errors.pool|join('<br />') }}
 					</div>
 				{% endif %}
 				<table class="table table-striped table-bordered table-hover">
@@ -87,7 +91,7 @@
 			<div role="tabpanel" class="tab-pane" id="games">
 				{% if errors.game %}
 					<div class="alert alert-warning">
-						{{ errors.game|raw }}
+						{{ errors.game|join('<br />') }}
 					</div>
 				{% endif %}
 				<table class="table table-striped table-bordered table-hover text-center">

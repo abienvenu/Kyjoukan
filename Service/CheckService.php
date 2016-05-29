@@ -4,7 +4,6 @@ namespace Abienvenu\KyjoukanBundle\Service;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 
 class CheckService
@@ -50,7 +49,7 @@ class CheckService
 			}
 		}
 
-		return implode("<br />", $errors);
+		return $errors;
 	}
 
 	public function checkPhaseGames(Phase $phase)
@@ -82,6 +81,26 @@ class CheckService
 
 		// TODO : other checks
 
-		return implode("<br />", $errors);
+		return $errors;
+	}
+
+	public function checkPhaseTeams(Phase $phase)
+	{
+		$errors = [];
+		if (count($phase->getTeams()))
+		{
+			foreach ($phase->getEvent()->getTeams() as $team)
+			{
+				if (!$phase->hasTeam($team))
+				{
+					$errors[] = "L'équipe {$team->getName()} est exclue de cette phase";
+				}
+			}
+		}
+		else
+		{
+			$errors[] = "Aucune équipe n'est chargée dans cette phase. Utilisez le bouton \"Chargez les équipes de l'évènement\" pour recopier toutes les équipes de l'évènement dans cette phase";
+		}
+		return $errors;
 	}
 }

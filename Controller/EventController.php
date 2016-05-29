@@ -23,6 +23,19 @@ class EventController extends Controller
 	 */
 	public function indexAction(Event $event)
 	{
+		if (!count($event->getPhases()))
+		{
+			$this->addFlash('warning', "Veuillez créer au moins une phase");
+		}
+		if (!count($event->getTeams()))
+		{
+			$this->addFlash('warning', "Veuillez créer au moins une équipe");
+		}
+		if (!count($event->getGrounds()))
+		{
+			$this->addFlash('warning', "Veuillez créer au moins un terrain");
+		}
+
 		return $this->render("KyjoukanBundle:Event:index.html.twig", ['event' => $event]);
 	}
 
