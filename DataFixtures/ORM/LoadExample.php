@@ -72,9 +72,12 @@ class LoadTeam implements FixtureInterface
 		$event->addPhase($phase);
 
 		// Pools
+		$colors = [1 => "green", "red", "blue", "darkorange"];
 		for ($i = 1; $i <= 4; $i++)
 		{
 			$pool = new Pool();
+			$pool->setName("Pool $i");
+			$pool->setColor($colors[$i]);
 			$phase->addPool($pool);
 		}
 
