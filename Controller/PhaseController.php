@@ -21,6 +21,11 @@ class PhaseController extends Controller
 	 */
 	public function indexAction(Phase $phase)
 	{
+		$errors = $this->get('kyjoukan.checker')->checkPhasePools($phase);
+		if ($errors)
+		{
+			$this->addFlash('warning', $errors);
+		}
 		return $this->render("KyjoukanBundle:Phase:index.html.twig", ['phase' => $phase]);
 	}
 

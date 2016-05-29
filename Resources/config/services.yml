@@ -2,3 +2,7 @@ services:
     kyjoukan.dispatcher:
         class: Abienvenu\KyjoukanBundle\Service\DispatcherService
         arguments: ["@doctrine.orm.entity_manager"]
+
+    kyjoukan.checker:
+        class: Abienvenu\KyjoukanBundle\Service\CheckService
+        arguments: ["@doctrine.orm.entity_manager"]

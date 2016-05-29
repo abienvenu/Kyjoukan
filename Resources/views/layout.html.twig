@@ -56,7 +56,7 @@
 			{% for level in ['success', 'info', 'warning', 'danger'] %}
 				{% for flash_message in app.session.flashBag.get(level) %}
 					<div class="alert alert-{{ level }}" role="alert">
-						{{ flash_message }}
+						{{ flash_message|raw }}
 					</div>
 				{% endfor %}
 			{% endfor %}
