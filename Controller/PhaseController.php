@@ -205,22 +205,4 @@ class PhaseController extends Controller
 		}
 		return $this->redirectToRoute('abienvenu_kyjoukan_phase_index', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]);
 	}
-
-	/**
-	 * Add a Pool to the Phase
-	 *
-	 * @Route("/add_pool")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 */
-	public function addPoolAction(Phase $phase)
-	{
-		$pool = new Pool();
-		$phase->addPool($pool);
-		$em = $this->getDoctrine()->getManager();
-		$em->flush();
-
-		return $this->redirect(
-			$this->generateUrl('abienvenu_kyjoukan_phase_index', ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#pools");
-	}
 }

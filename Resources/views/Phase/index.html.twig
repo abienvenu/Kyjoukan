@@ -85,7 +85,7 @@
 						</tr>
 					{% endfor %}
 				</table>
-				<a href="{{ path('abienvenu_kyjoukan_phase_addpool', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}" class="btn btn-primary">
+				<a href="{{ path('abienvenu_kyjoukan_pool_new', {'id': phase.id}) }}" class="btn btn-primary">
 					<span class="glyphicon glyphicon-plus"></span>
 					Ajouter un groupe
 				</a>
