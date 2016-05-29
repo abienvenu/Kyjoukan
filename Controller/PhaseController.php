@@ -3,7 +3,6 @@
 namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
-use Abienvenu\KyjoukanBundle\Entity\Pool;
 use Abienvenu\KyjoukanBundle\Entity\Team;
 use Abienvenu\KyjoukanBundle\Form\Type\PhaseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

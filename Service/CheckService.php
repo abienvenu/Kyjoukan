@@ -4,7 +4,6 @@ namespace Abienvenu\KyjoukanBundle\Service;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
-use Doctrine\ORM\EntityManager;
 
 class CheckService
 {
