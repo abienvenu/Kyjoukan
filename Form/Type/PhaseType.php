@@ -3,7 +3,6 @@
 namespace Abienvenu\KyjoukanBundle\Form\Type;
 
 use Abienvenu\KyjoukanBundle\Entity\Event;
-use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Abienvenu\KyjoukanBundle\Repository\TeamRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
