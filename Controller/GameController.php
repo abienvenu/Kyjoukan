@@ -24,7 +24,7 @@ class GameController extends Controller
 	 */
 	public function editAction(Request $request, Game $game)
 	{
-		$form = $this->createForm(new GameType($game->getPool()->getPhase()), $game);
+		$form = $this->createForm(new GameType($game->getPool()), $game);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())

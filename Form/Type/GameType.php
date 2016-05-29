@@ -2,7 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Form\Type;
 
-use Abienvenu\KyjoukanBundle\Entity\Phase;
+use Abienvenu\KyjoukanBundle\Entity\Pool;
 use Abienvenu\KyjoukanBundle\Repository\GroundRepository;
 use Abienvenu\KyjoukanBundle\Repository\RoundRepository;
 use Abienvenu\KyjoukanBundle\Repository\TeamRepository;
@@ -14,11 +14,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GameType extends AbstractType
 {
-	private $phase;
+	private $pool;
 
-	public function __construct(Phase $phase)
+	public function __construct(Pool $pool)
 	{
-		$this->phase = $phase;
+		$this->pool = $pool;
 	}
 
 	/**
@@ -34,7 +34,7 @@ class GameType extends AbstractType
 				'label' => "Équipe A",
 				'query_builder' => function(TeamRepository $repo)
 				{
-					return $repo->getTeamsForPhase($this->phase);
+					return $repo->getTeamsForPool($this->pool);
 				}
 			])
 			->add('team2', EntityType::class, [
@@ -43,7 +43,7 @@ class GameType extends AbstractType
 				'label' => "Équipe B",
 				'query_builder' => function(TeamRepository $repo)
 				{
-					return $repo->getTeamsForPhase($this->phase);
+					return $repo->getTeamsForPool($this->pool);
 				}
 			])
 			->add('referee', EntityType::class, [
@@ -52,7 +52,7 @@ class GameType extends AbstractType
 				'label' => "Arbitre",
 				'query_builder' => function(TeamRepository $repo)
 				{
-					return $repo->getTeamsForPhase($this->phase);
+					return $repo->getTeamsForPhase($this->pool->getPhase());
 				}
 			])
 			->add('ground', EntityType::class, [
@@ -61,7 +61,7 @@ class GameType extends AbstractType
 				'label' => "Terrain",
 			    'query_builder' => function(GroundRepository $repo)
 					{
-						return $repo->getGroundsForEvent($this->phase->getEvent());
+						return $repo->getGroundsForEvent($this->pool->getPhase()->getEvent());
 					}
 			])
 			->add('round', EntityType::class, [
@@ -70,7 +70,7 @@ class GameType extends AbstractType
 				'label' => "Tour",
 			    'query_builder' => function(RoundRepository $repo)
 					{
-						return $repo->getRoundsForPhase($this->phase);
+						return $repo->getRoundsForPhase($this->pool->getPhase());
 					}
 			])
 			->add('score1', IntegerType::class, ['label' => "Score de A", 'required' => false])
