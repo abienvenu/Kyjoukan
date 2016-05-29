@@ -85,13 +85,19 @@
 					{% for round in phase.rounds %}
 						<tr>
 							<td>{{ round.number }}</td>
-							{% for game in round.games %}
-								<td{% if game.played %} class="warning"{% endif %}>
-									<a href="{{ path('abienvenu_kyjoukan_game_edit', {'id': game.id}) }}">
-										<span class="glyphicon glyphicon-edit"></span>
-									</a>
-									<strong>{{ game.team1.name }} {{ game.score1 }} - {{ game.score2 }} {{ game.team2.name }}</strong><br />
-									<small>{{ game.ground.name }}: {{ game.referee.name }}</small>
+							{% for ground in phase.event.grounds %}
+								<td>
+								{% for game in round.games %}
+									{% if game.ground == ground %}
+										<div{% if game.played %} class="bg-warning"{% endif %}>
+											<a href="{{ path('abienvenu_kyjoukan_game_edit', {'id': game.id}) }}">
+												<span class="glyphicon glyphicon-edit"></span>
+											</a>
+											<strong>{{ game.team1.name }} {{ game.score1 }} - {{ game.score2 }} {{ game.team2.name }}</strong><br />
+											<small>{{ game.ground.name }}: {{ game.referee.name }}</small>
+										</div>
+									{% endif %}
+								{% endfor %}
 								</td>
 							{% endfor %}
 						</tr>
