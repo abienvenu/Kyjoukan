@@ -36,7 +36,7 @@
 				<tr>
 					<td>
 						{% if phase.startdatetime and phase.roundduration %}
-							{{ phase.startDateTime|date_modify("+" ~ loop.index * phase.roundduration ~ " second")|date("H\\hi") }}
+							{{ phase.startDateTime|date_modify("+" ~ loop.index0 * phase.roundduration ~ " second")|date("H\\hi") }}
 						{% else %}
 							{{ loop.index }}
 						{% endif %}
