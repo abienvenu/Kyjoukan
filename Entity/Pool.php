@@ -226,7 +226,7 @@ class Pool
 				throw new \Exception("Unknown rule: $rule");
 		}
 
-		return (count($this->getGames()) + 1) / ($nbTotalGames + 1);
+		return count($this->getGames()) / max($nbTotalGames, 1);
 	}
 
 	/**
