@@ -190,6 +190,11 @@ class DispatcherService
 					$refereeCounter[$team->getId()]++;
 					break;
 				}
+				if (!$game->getReferee())
+				{
+					// Default
+					$game->setReferee($game->getTeam1());
+				}
 			}
 		}
 
