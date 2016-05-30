@@ -149,7 +149,7 @@ class Round
 	{
 		foreach ($this->getGames() as $game)
 		{
-			if ($game->getTeam1() == $team || $game->getTeam2() == $team)
+			if ($game->getTeam1() == $team || $game->getTeam2() == $team || $game->getReferee() == $team)
 			{
 				return true;
 			}
