@@ -56,11 +56,6 @@ kyjoukan:
     resource: "@KyjoukanBundle/Resources/config/routing.yml"
     prefix: /kyjoukan
 ```
-* Include the config from your app/config/config.yml :
-```YAML
-    imports:
-	- { resource: "@KyjoukanBundle/Resources/config/config.yml" }
-```
 * Also activate sluggable in your app/config/config.yml :
 ```YAML
 stof_doctrine_extensions:
