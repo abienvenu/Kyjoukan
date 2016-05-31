@@ -7,13 +7,13 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Kyela is distributed in the hope that it will be useful,
+    Kyjoukan is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with Kyela.  If not, see <http://www.gnu.org/licenses/>.
+    along with Kyjoukan.  If not, see <http://www.gnu.org/licenses/>.
 
 #}<!DOCTYPE html>
 <html>
@@ -55,6 +55,17 @@
 			span.team { font-weight: bold; }
 			span.score { text-decoration: underline; }
 			span.ground { font-size: 12px; }
+
+			#footer {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				font-size: 10px;
+				text-align: center;
+				height: 30px;
+				padding: 6px;
+				background-color: #f5f5f5;
+			}
 		</style>
 	</head>
 	<body>
@@ -68,6 +79,16 @@
 			{% endfor %}
 
 			{% block body %}{% endblock %}
+		</div>
+		<div id="footer">
+			<p>
+				&copy; Arnaud Bienvenu 2016 - v0.1 -
+				       Icons by <a href="http://glyphicons.com/">GLYPHICONS.com</a> -
+				<span id="forkongithub"><a href="https://github.com/abienvenu/Kyjoukan">Fork me on GitHub</a></span> -
+				<a href="https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6">
+					<img src="https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6/mini.png" alt="SensioLabsInsight Medal" />
+				</a>
+			</p>
 		</div>
 	</body>
 </html>
