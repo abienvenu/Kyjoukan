@@ -12,20 +12,25 @@ Then the user will create the first phase of the game, with two possible rules :
 - Round-robin : each team plays against each other team in the same pool
 - Brackets : each team plays another one; each winner play another winner, and so on...
 
-Planned features
-----------------
+Features
+--------
 
 Once given the teams, grounds and number of pools (group of teams), the application will:
 - Automatically dispatch the teams into pools
 - Let the user fine tune manually this dispatch
-- Automatically compute a complete schedule
-- Let the user fine tune manually this schedule
-- Enable the user to publish the schedule on the web, and to print it
+- Provide a printable schedule
 - Provide printable game sheets ready to be filled
-
-As soon as the user enters the results, he/she will get a printable hall of fame, available on the web.
+- Enable the user to type in results
+- Provide printable rankings
 
 Once the first phase is over, the user can create another one (and so on...).
+
+Planned features
+----------------
+- Ability to add games manually
+- Ability to remove games manually
+- Ability to order teams
+- Dispatch by order
 
 Server Installation
 -------------------
