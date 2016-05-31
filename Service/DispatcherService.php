@@ -78,6 +78,7 @@ class DispatcherService
 		// Delete all games that have not been played
 		foreach ($phase->getPools() as $pool)
 		{
+			/** @var Game $game */
 			foreach ($pool->getGames() as $game)
 			{
 				if (!$game->isPlayed())
@@ -418,6 +419,7 @@ class DispatcherService
 	{
 		$isClear = true;
 		// Delete the games where this team plays
+		/** @var Game $game */
 		foreach ($pool->getGames() as $game)
 		{
 			if ($game->hasTeam($team))
@@ -476,6 +478,7 @@ class DispatcherService
 	public function removePoolFromPhase(Pool $pool)
 	{
 		$isClear = true;
+		/** @var Game $game */
 		foreach($pool->getGames() as $game)
 		{
 			if ($game->isPlayed())

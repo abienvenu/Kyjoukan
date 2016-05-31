@@ -154,7 +154,7 @@ class Pool
     /**
      * Get games
      *
-     * @return Game[]
+     * @return ArrayCollection
      */
     public function getGames()
     {
@@ -238,6 +238,7 @@ class Pool
 	public function getTeamNbParticipations(Team $team)
 	{
 		$nb = 0;
+		/** @var Game $game */
 		foreach ($this->getGames() as $game)
 		{
 			if ($game->getTeam1() == $team || $game->getTeam2() == $team)
@@ -250,6 +251,7 @@ class Pool
 
 	public function hasGame(Team $team1, Team $team2)
 	{
+		/** @var Game $game */
 		foreach ($this->getGames() as $game)
 		{
 			if (($game->getTeam1() == $team1 && $game->getTeam2() == $team2) ||
