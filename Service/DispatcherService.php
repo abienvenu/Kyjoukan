@@ -7,6 +7,7 @@ use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Pool;
 use Abienvenu\KyjoukanBundle\Entity\Round;
 use Abienvenu\KyjoukanBundle\Entity\Team;
+use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
@@ -98,44 +99,13 @@ class DispatcherService
 			}
 		}
 
-		$eventGrounds = $phase->getEvent()->getGrounds();
-
-		// Loop while we have games to schedule
-		while (!$phase->isFullyScheduled())
+		if ($phase->getRule() == Rule::ROUNDROBIN)
 		{
-			// Create a new game
-			$newGame = $this->nextGameSlot($phase, $eventGrounds);
-
-			// Order the pools from the lazyiest to the busyiest
-			/** @var ArrayCollection $pools */
-			$pools = $phase->getPools();
-			$poolsArray = $pools->toArray();
-			usort($poolsArray,
-				function (Pool $a, Pool $b)
-				{
-					return $a->getScheduledRate() > $b->getScheduledRate();
-				}
-			);
-
-			// Try to schedule games for the lazyiest pool first, then try busyier pools
-			/** @var Pool $pool */
-			foreach ($poolsArray as $pool)
-			{
-				if ($pool->getScheduledRate() >= 1)
-				{
-					// This pool is already fully scheduled
-					continue;
-				}
-
-				// Populate the game with lazyiest teams
-				$this->setLazyiestTeams($newGame, $pool);
-
-				if ($newGame->getTeam1() && $newGame->getTeam2())
-				{
-					$pool->addGame($newGame);
-					break;
-				}
-			}
+			$this->dispatchRoundRobinGames($phase);
+		}
+		else if ($phase->getRule() == Rule::BRACKETS)
+		{
+			$this->dispatchBracketGames($phase);
 		}
 
 		// The phase is fully scheduled with playing teams
@@ -199,6 +169,54 @@ class DispatcherService
 		}
 
 		$this->em->flush();
+	}
+
+	protected function dispatchRoundRobinGames(Phase $phase)
+	{
+		$eventGrounds = $phase->getEvent()->getGrounds();
+
+		// Loop while we have games to schedule
+		while (!$phase->isFullyScheduled())
+		{
+			// Create a new game
+			$newGame = $this->nextGameSlot($phase, $eventGrounds);
+
+			// Order the pools from the lazyiest to the busyiest
+			/** @var ArrayCollection $pools */
+			$pools = $phase->getPools();
+			$poolsArray = $pools->toArray();
+			usort($poolsArray,
+				function (Pool $a, Pool $b)
+				{
+					return $a->getScheduledRate() > $b->getScheduledRate();
+				}
+			);
+
+			// Try to schedule games for the lazyiest pool first, then try busyier pools
+			/** @var Pool $pool */
+			foreach ($poolsArray as $pool)
+			{
+				if ($pool->getScheduledRate() >= 1)
+				{
+					// This pool is already fully scheduled
+					continue;
+				}
+
+				// Populate the game with lazyiest teams
+				$this->setLazyiestTeams($newGame, $pool);
+
+				if ($newGame->getTeam1() && $newGame->getTeam2())
+				{
+					$pool->addGame($newGame);
+					break;
+				}
+			}
+		}
+	}
+
+	protected function dispatchBracketGames(Phase $phase)
+	{
+		
 	}
 
 	/**

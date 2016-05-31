@@ -4,6 +4,7 @@ namespace Abienvenu\KyjoukanBundle\Entity;
 
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -259,5 +260,68 @@ class Pool
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Build all possible games with a bracket rules
+	 * Existing games are preserved
+	 * Played games have winners, which allow to create new games
+	 *
+	 * @param ArrayCollection|null $selectedTeams
+	 * @return ArrayCollection
+	 */
+	public function getBracketGames(ArrayCollection $selectedTeams = null)
+	{
+		$games = new ArrayCollection();
+
+		if (is_null($selectedTeams))
+		{
+			$selectedTeams = $this->getTeams();
+		}
+
+		$nextSelectedTeams = new ArrayCollection();
+		while (count($selectedTeams) >= 2)
+		{
+			$team1 = $selectedTeams->get(0);
+			$selectedTeams->remove(0);
+			$team2 = $selectedTeams->get(0);
+			$selectedTeams->remove(0);
+
+			$exists = false;
+			$game = null;
+			foreach ($this->getGames() as $game)
+			{
+				if (($game->getTeam1() == $team1 && $game->getTeam2() == $team2) ||
+				    ($game->getTeam1() == $team2 && $game->getTeam2() == $team1))
+				{
+					$exists = true;
+
+					if ($game->isPlayed())
+					{
+						$winner = $game->getScore1() > $game->getScore2() ? $game->getTeam1() : $game->getTeam2();
+						$nextSelectedTeams->add($winner);
+					}
+
+					break;
+				}
+
+			}
+			if (!$exists)
+			{
+				$game = new Game();
+				$game->setTeam1($team1);
+				$game->setTeam2($team2);
+			}
+			$games->add($game);
+		}
+
+		if (count($nextSelectedTeams) >= 2)
+		{
+			foreach ($this->getBracketGames($nextSelectedTeams) as $nextGame)
+			{
+				$games->add($nextGame);
+			}
+		}
+		return $games;
 	}
 }
