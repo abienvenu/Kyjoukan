@@ -38,7 +38,7 @@
 					{% for team in phase.teams %}
 						<tr>
 							<td>
-								<a href="{{ path('abienvenu_kyjoukan_phase_removeteam', {'slug_event': phase.event.slug, 'slug': phase.slug, 'team': team.id}) }}">
+								<a href="{{ path('abienvenu_kyjoukan_team_removefromphase', {'phase': phase.id, 'id': team.id}) }}">
 									<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>
 								</a>
 							</td>
