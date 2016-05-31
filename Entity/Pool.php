@@ -4,7 +4,6 @@ namespace Abienvenu\KyjoukanBundle\Entity;
 
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -221,8 +220,8 @@ class Pool
 				$nbTotalGames = $nbTeams * ($nbTeams - 1) / 2;
 				break;
 			case Rule::BRACKETS:
-				$nbTotalGames = $nbTeams / 2;
-				break;
+				// Schedule rate has no sense for brackets
+				return 1;
 			default:
 				throw new \Exception("Unknown rule: $rule");
 		}

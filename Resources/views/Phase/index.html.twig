@@ -129,11 +129,15 @@
 						</tr>
 					{% endfor %}
 				</table>
-				<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}"
-				   onclick="return confirm('Tous les matchs non joués vont être reprogrammés');"
-				   class="btn btn-primary">
+				<a href="{{ path('abienvenu_kyjoukan_phase_shuffle', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}" class="btn btn-success">
 					<span class="glyphicon glyphicon-random"></span>
 					Programmer les matchs
+				</a>
+				<a href="{{ path('abienvenu_kyjoukan_phase_clean', {'slug_event': phase.event.slug, 'slug': phase.slug}) }}"
+				   onclick="return confirm('Supprimer tous les matchs non joués ?')"
+				   class="btn btn-warning">
+					<span class="glyphicon glyphicon-erase"></span>
+					Supprimer les matchs non joués
 				</a>
 			</div>
 		</div>

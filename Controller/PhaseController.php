@@ -72,6 +72,21 @@ class PhaseController extends Controller
 	}
 
 	/**
+	 * Clean all unplayed games
+	 *
+	 * @Route("/clean")
+	 * @param Phase $phase
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function cleanAction(Phase $phase)
+	{
+		$this->get('kyjoukan.dispatcher')->cleanGames($phase);
+		$this->addFlash('success', "Nettoyage effectué.");
+		return $this->redirect(
+			$this->generateUrl("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#games");
+	}
+
+	/**
 	 * Shuffle games into the phase
 	 *
 	 * @Route("/shuffle")

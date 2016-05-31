@@ -69,11 +69,11 @@ class DispatcherService
 	}
 
 	/**
-	 * Dispatch all the games into the phase, for every pool
+	 * Remove all unplayed games and empty rounds
 	 *
 	 * @param Phase $phase
 	 */
-	public function shuffleGames(Phase $phase)
+	public function cleanGames(Phase $phase)
 	{
 		// Delete all games that have not been played
 		foreach ($phase->getPools() as $pool)
@@ -98,7 +98,16 @@ class DispatcherService
 				$this->em->remove($round);
 			}
 		}
+		$this->em->flush();
+	}
 
+	/**
+	 * Dispatch all the games into the phase, for every pool
+	 *
+	 * @param Phase $phase
+	 */
+	public function shuffleGames(Phase $phase)
+	{
 		if ($phase->getRule() == Rule::ROUNDROBIN)
 		{
 			$this->dispatchRoundRobinGames($phase);
@@ -107,14 +116,32 @@ class DispatcherService
 		{
 			$this->dispatchBracketGames($phase);
 		}
-
 		// The phase is fully scheduled with playing teams
 		// Now let's find referees for each game
+		$this->findReferees($phase);
+
+		$this->em->flush();
+	}
+
+	/**
+	 * Try to set a referee for each game
+	 *
+	 * @param Phase $phase
+	 */
+	protected function findReferees(Phase $phase)
+	{
 		$refereeCounter = [];
+
 		foreach ($phase->getRounds() as $round)
 		{
 			foreach ($round->getGames() as $game)
 			{
+				if ($game->getReferee())
+				{
+					// The game already has a referee
+					continue;
+				}
+
 				$poolTeams = $game->getPool()->getTeams();
 				$teams = $phase->getTeams()->toArray();
 				usort($teams,
@@ -167,10 +194,13 @@ class DispatcherService
 				}
 			}
 		}
-
-		$this->em->flush();
 	}
 
+	/**
+	 * Dispatch games according to the round robin rule
+	 *
+	 * @param Phase $phase
+	 */
 	protected function dispatchRoundRobinGames(Phase $phase)
 	{
 		$eventGrounds = $phase->getEvent()->getGrounds();
@@ -214,6 +244,10 @@ class DispatcherService
 		}
 	}
 
+	/**
+	 * Dispatch games according to the brackets rule
+	 * @param Phase $phase
+	 */
 	protected function dispatchBracketGames(Phase $phase)
 	{
 		$eventGrounds = $phase->getEvent()->getGrounds();
