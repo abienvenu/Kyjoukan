@@ -216,7 +216,84 @@ class DispatcherService
 
 	protected function dispatchBracketGames(Phase $phase)
 	{
-		
+		$eventGrounds = $phase->getEvent()->getGrounds();
+
+		do
+		{
+			$areWeDone = true;
+			foreach ($phase->getPools() as $pool)
+			{
+				$game = $this->getNextBracketGame($pool->getGames()->toArray(), $pool->getTeams()->toArray());
+				if ($game)
+				{
+					$newGame = $this->nextGameSlot($phase, $eventGrounds);
+					$newGame->setTeam1($game->getTeam1());
+					$newGame->setTeam2($game->getTeam2());
+					$pool->addGame($newGame);
+					$areWeDone = false;
+				}
+			}
+		}
+		while (!$areWeDone);
+	}
+
+	/**
+	 * Get the next unscheduled game according to bracket rules
+	 *
+	 * @param Game[] $existingGames
+	 * @param Team[] $selectedTeams
+	 * @return Game|null
+	 */
+	public function getNextBracketGame(array $existingGames, array $selectedTeams)
+	{
+		$nextSelectedTeams = [];
+		while (count($selectedTeams) >= 2)
+		{
+			$team1 = array_shift($selectedTeams);
+			$team2 = array_shift($selectedTeams);
+
+			$exists = false;
+			$game = null;
+
+			// Search this game of team1 Vs team2 in existing games
+			foreach ($existingGames as $game)
+			{
+				if (($game->getTeam1() == $team1 && $game->getTeam2() == $team2) ||
+				    ($game->getTeam1() == $team2 && $game->getTeam2() == $team1))
+				{
+					$exists = true;
+
+					if ($game->isPlayed())
+					{
+						$winner = $game->getScore1() > $game->getScore2() ? $game->getTeam1() : $game->getTeam2();
+						$nextSelectedTeams[] = $winner;
+					}
+
+					// Found the game
+					break;
+				}
+
+			}
+			if (!$exists)
+			{
+				$game = new Game();
+				$game->setTeam1($team1);
+				$game->setTeam2($team2);
+				// We are done, this is a new unscheduled bracket game
+				return $game;
+			}
+		}
+
+		// All games are scheduled at this level
+		if (count($nextSelectedTeams) >= 2)
+		{
+			// Go search for a game at the next level
+			return $this->getNextBracketGame($existingGames, $nextSelectedTeams);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
