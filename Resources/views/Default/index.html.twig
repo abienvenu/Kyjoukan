@@ -5,20 +5,15 @@
 		<li class="active">Accueil</li>
 	</ol>
 
+	<p>
+		Kyjoukan vous aide à planifier vos tournois.<br />
+		N'hésitez pas à visiter les exemples, ou à créer un évènement pour tester les différentes possibilités.<br />
+		Seuls les évènements d'exemple sont listés sur la page d'accueil.<br />
+	</p>
+
 	<table class="table table-striped table-bordered table-hover">
 		{% for event in events %}
 			<tr>
-				<td>
-					<a href="{{ path('abienvenu_kyjoukan_event_edit', {'slug': event.slug }) }}">
-						<button class="glyphicon glyphicon-edit btn btn-success btn-xs"></button>
-					</a>
-				</td>
-				<td>
-					<a href="{{ path('abienvenu_kyjoukan_event_delete', {'slug': event.slug }) }}"
-					   onclick="return confirm('Vraiment supprimer cet évènement ?');">
-						<button class="glyphicon glyphicon-trash btn btn-danger btn-xs"></button>
-					</a>
-				</td>
 				<td width="99%">
 					<a href="{{ path('abienvenu_kyjoukan_event_index', {'slug': event.slug }) }}">
 						<span class="glyphicon glyphicon-forward"></span>

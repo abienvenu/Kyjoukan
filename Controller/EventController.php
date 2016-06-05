@@ -50,6 +50,8 @@ class EventController extends Controller
 	 */
 	public function editAction(Request $request, Event $event)
 	{
+		$oldSlug = $event->getSlug();
+
 		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\EventType', $event);
 		$form->handleRequest($request);
 
@@ -58,7 +60,12 @@ class EventController extends Controller
 			$em = $this->getDoctrine()->getManager();
 			$em->flush();
 
-			return $this->redirectToRoute('abienvenu_kyjoukan_default_index');
+			if ($event->getSlug() != $oldSlug)
+			{
+				$url = $this->generateUrl("abienvenu_kyjoukan_event_index", ['slug' => $event->getSlug()], true);
+				$this->addFlash('danger', "L'adresse de votre évènement a été modifiée. Notez bien sa nouvelle URL : <a href='$url'>$url</a>");
+			}
+			return $this->redirectToRoute("abienvenu_kyjoukan_event_index", ['slug' => $event->getSlug()]);
 		}
 
 		return $this->render('KyjoukanBundle:Event:edit.html.twig', ['event' => $event, 'form' => $form->createView()]);

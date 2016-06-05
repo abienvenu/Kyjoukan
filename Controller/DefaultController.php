@@ -14,7 +14,7 @@ class DefaultController extends Controller
 	 */
 	public function indexAction()
 	{
-		$events = $this->getDoctrine()->getRepository("KyjoukanBundle:Event")->findAll();
+		$events = $this->getDoctrine()->getRepository("KyjoukanBundle:Event")->findBySlug("exemple-de-tournoi");
 		return $this->render('KyjoukanBundle:Default:index.html.twig', ['events' => $events]);
 	}
 
@@ -37,7 +37,9 @@ class DefaultController extends Controller
 			$em->persist($event);
 			$em->flush();
 
-			return $this->redirectToRoute('abienvenu_kyjoukan_default_index');
+			$url = $this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $event->getSlug()], true);
+			$this->addFlash('danger', "Votre évènement a été créé. Notez bien son URL : <a href='$url'>$url</a>");
+			return $this->redirect($url);
 		}
 
 		return $this->render('KyjoukanBundle:Default:new_event.html.twig', ['form' => $form->createView()]);
