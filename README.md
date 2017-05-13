@@ -1,5 +1,6 @@
 Kyjoukan
 ========
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6/mini.png)](https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6)
 
 Tournament planner and scheduler
 
