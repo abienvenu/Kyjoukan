@@ -35,7 +35,18 @@ Planned features
 Server Installation
 -------------------
 
-To install and run Kyjoukan on your own server :
+### Docker
+
+* Install docker
+* Download and run the application :
+```bash
+$ docker run -d --name kyjoukan -p 8043:80 abienvenu/kyjoukan
+```
+* Point your browser to http://localhost:8043/
+
+### Native
+
+You can install Kyjoukan like in the good old days. This is quiet a longer way though...
 
 * Install Symfony 2.8 http://symfony.com/download
 * Download Kyjoukan :
@@ -68,3 +79,8 @@ stof_doctrine_extensions:
         default:
             sluggable: true
 ```
+
+CHANGELOG
+---------
+* v0.2 : Dockerization
+* v0.1 : First working version
