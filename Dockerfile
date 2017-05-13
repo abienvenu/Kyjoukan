@@ -6,18 +6,25 @@ RUN apt-get update \
 	&& a2enmod rewrite \
 	&& apache2ctl graceful
 
+# Configure Apache
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/kyjoukan/web|' /etc/apache2/sites-enabled/000-default.conf
+
 # Install and configure Composer and Symfony
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 	&& curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony && chmod a+x /usr/local/bin/symfony \
-	&& symfony --ansi new /var/www/html 2.8
+	&& symfony --ansi new /var/www/kyjoukan 2.8
 
-WORKDIR "/var/www/html"
+WORKDIR "/var/www/kyjoukan"
+
+# Install PHP dependencies
+RUN composer require doctrine/doctrine-fixtures-bundle stof/doctrine-extensions-bundle
 
 # Install Kyjoukan into Symfony
-COPY . src/Abienvenu/Kyjoukan
-RUN composer require doctrine/doctrine-fixtures-bundle stof/doctrine-extensions-bundle \
-	&& cp src/Abienvenu/KyjoukanBundle/docker/patches/config.yml app/config/config.yml \
+COPY . src/Abienvenu/KyjoukanBundle
+RUN cp src/Abienvenu/KyjoukanBundle/docker/patches/config.yml app/config/config.yml \
 	&& cp src/Abienvenu/KyjoukanBundle/docker/patches/routing.yml app/config/routing.yml \
+	&& patch -p1 -i src/Abienvenu/KyjoukanBundle/docker/patches/AppKernel.php.diff app/AppKernel.php \
+	&& patch -p1 -i src/Abienvenu/KyjoukanBundle/docker/patches/app_dev.php.diff web/app_dev.php \
 	&& rm -rf src/AppBundle
 
 # Create database and load example data
