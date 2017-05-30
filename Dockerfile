@@ -21,6 +21,7 @@ RUN composer require doctrine/doctrine-fixtures-bundle stof/doctrine-extensions-
 
 # Install Kyjoukan into Symfony
 COPY . src/Abienvenu/KyjoukanBundle
+COPY Resources/public/favicon.ico web/favicon.ico
 RUN cp src/Abienvenu/KyjoukanBundle/docker/patches/config.yml app/config/config.yml \
 	&& cp src/Abienvenu/KyjoukanBundle/docker/patches/routing.yml app/config/routing.yml \
 	&& patch -p1 -i src/Abienvenu/KyjoukanBundle/docker/patches/AppKernel.php.diff app/AppKernel.php \
