@@ -50,3 +50,11 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable: true
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ KyjoukanBundle ]
+    filters:
+        cssrewrite: ~

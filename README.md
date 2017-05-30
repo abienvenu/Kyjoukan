@@ -84,5 +84,6 @@ stof_doctrine_extensions:
 
 CHANGELOG
 ---------
+* v0.3 : Do not call remote CDN, so that Kyjoukan can work without Internet access
 * v0.2 : Dockerization
 * v0.1 : First working version

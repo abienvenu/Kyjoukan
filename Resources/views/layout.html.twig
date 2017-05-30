@@ -1,19 +1,19 @@
 {#  Copyright 2016 Arnaud Bienvenu
 
-    This file is part of Kyjoukan.
+	This file is part of Kyjoukan.
 
-    Kyjoukan is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	Kyjoukan is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    Kyjoukan is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+	Kyjoukan is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with Kyjoukan.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU Affero General Public License
+	along with Kyjoukan.  If not, see <http://www.gnu.org/licenses/>.
 
 #}<!DOCTYPE html>
 <html>
@@ -28,14 +28,22 @@
 		{% block robots %}
 			<meta name="robots" content="noindex, nofollow">
 		{% endblock %}
-		<link rel="icon" type="image/png" href="/bundles/kyjoukan/kyjoukan.png" />
+		{% image '@KyjoukanBundle/Resources/public/kyjoukan.png' %}
+			<link rel="icon" type="image/png" href="{{ asset_url }}" />
+		{% endimage %}
 
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		{# CDN Bootstrap #}
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		{% stylesheets
+			'components/bootstrap/css/bootstrap.min.css'
+			'components/bootstrap/css/bootstrap-theme.min.css'
+			filter='cssrewrite' %}
+			<link rel="stylesheet" href="{{ asset_url }}" />
+		{% endstylesheets %}
+
+		{% javascripts
+			'components/jquery/jquery.min.js'
+			'components/bootstrap/js/bootstrap.min.js' %}
+			<script type="text/javascript" src="{{ asset_url }}"></script>
+		{% endjavascripts %}
 
 		<!-- Preselect navigation tabs according to # anchor -->
 		<script type="text/javascript">
@@ -83,12 +91,14 @@
 		</div>
 		<div id="footer">
 			<p>
-				&copy; Arnaud Bienvenu 2016-2017 - v0.2 -
-				       Icons by <a href="http://glyphicons.com/">GLYPHICONS.com</a> -
+				&copy; Arnaud Bienvenu 2016-2017 - v0.3 -
+					   Icons by <a href="http://glyphicons.com/">GLYPHICONS.com</a> -
 				<span id="forkongithub"><a href="https://github.com/abienvenu/Kyjoukan">Fork me on GitHub</a></span> -
-				<a href="https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6">
-					<img src="https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6/mini.png" alt="SensioLabsInsight Medal" />
-				</a>
+				{% image 'https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6/mini.png' %}
+					<a href="https://insight.sensiolabs.com/projects/c04af8c2-5229-48b3-884a-2e7aa6b7c9d6">
+						<img src="{{ asset_url }}" alt="SensioLabsInsight Medal" />
+					</a>
+				{% endimage %}
 			</p>
 		</div>
 	</body>

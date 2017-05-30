@@ -1,11 +1,12 @@
 diff -ur app.src/AppKernel.php app.dst/AppKernel.php
 --- app.src/AppKernel.php	2017-05-01 19:42:50.000000000 +0200
 +++ app.dst/AppKernel.php	2017-05-13 23:05:36.229802779 +0200
-@@ -15,7 +15,8 @@
+@@ -15,7 +15,9 @@
              new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
              new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
              new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 -            new AppBundle\AppBundle(),
++            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 +            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 +            new Abienvenu\KyjoukanBundle\KyjoukanBundle(),
          );

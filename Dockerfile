@@ -16,20 +16,21 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR "/var/www/kyjoukan"
 
-# Install PHP dependencies
-RUN composer require doctrine/doctrine-fixtures-bundle stof/doctrine-extensions-bundle
-
 # Install Kyjoukan into Symfony
 COPY . src/Abienvenu/KyjoukanBundle
 COPY Resources/public/favicon.ico web/favicon.ico
-RUN cp src/Abienvenu/KyjoukanBundle/docker/patches/config.yml app/config/config.yml \
+RUN patch -p1 -i src/Abienvenu/KyjoukanBundle/docker/patches/composer.json.diff composer.json \
+	&& composer require symfony/assetic-bundle doctrine/doctrine-fixtures-bundle stof/doctrine-extensions-bundle robloach/component-installer \
+		"components/jquery ^3.1" "components/bootstrap ^3.3" \
+	&& cp src/Abienvenu/KyjoukanBundle/docker/patches/config.yml app/config/config.yml \
 	&& cp src/Abienvenu/KyjoukanBundle/docker/patches/routing.yml app/config/routing.yml \
 	&& patch -p1 -i src/Abienvenu/KyjoukanBundle/docker/patches/AppKernel.php.diff app/AppKernel.php \
-	&& patch -p1 -i src/Abienvenu/KyjoukanBundle/docker/patches/app_dev.php.diff web/app_dev.php \
+	&& sed -i "s/array('127.0.0.1', '::1'))/array('127.0.0.1', '172.17.0.1', '::1'))/" web/app_dev.php \
 	&& rm -rf src/AppBundle
 
 # Create database and load example data
 RUN app/console assets:install \
+	&& app/console assetic:dump \
 	&& mkdir data \
 	&& app/console doctrine:schema:create \
 	&& app/console doctrine:fixtures:load --append \
