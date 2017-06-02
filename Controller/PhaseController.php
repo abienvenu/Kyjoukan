@@ -192,6 +192,12 @@ class PhaseController extends Controller
 	public function deleteAction(Phase $phase)
 	{
 		$em = $this->getDoctrine()->getManager();
+		// It is important to remove the teams, or SQLite will create a constraint violation if we recreate another phase with the same teams
+		foreach ($phase->getTeams() as $team)
+		{
+			$phase->removeTeam($team);
+		}
+		$em->flush();
 		$em->remove($phase);
 		$em->flush();
 
