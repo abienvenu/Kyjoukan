@@ -22,15 +22,22 @@ class RankService
 		{
 			if ($game->getScore1() || $game->getScore2())
 			{
-				if ($game->getScore1() >= $game->getScore2())
+				if ($game->getScore1() > $game->getScore2())
 				{
 					$rankings[$game->getTeam1()->getId()]["win"]++;
 					$rankings[$game->getTeam2()->getId()]["loose"]++;
 				}
-				else
+				else if ($game->getScore1() < $game->getScore2())
 				{
 					$rankings[$game->getTeam1()->getId()]["loose"]++;
 					$rankings[$game->getTeam2()->getId()]["win"]++;
+				}
+				else
+				{
+					$rankings[$game->getTeam1()->getId()]["loose"] += 0.5;
+					$rankings[$game->getTeam1()->getId()]["win"] += 0.5;
+					$rankings[$game->getTeam2()->getId()]["loose"] += 0.5;
+					$rankings[$game->getTeam2()->getId()]["win"] += 0.5;
 				}
 				$rankings[$game->getTeam1()->getId()]["played"]++;
 				$rankings[$game->getTeam2()->getId()]["played"]++;
