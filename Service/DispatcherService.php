@@ -210,6 +210,10 @@ class DispatcherService
 	{
 		$eventGrounds = $phase->getEvent()->getGrounds();
 
+		/** @var ArrayCollection $pools */
+		$pools = $phase->getPools();
+		$poolsArray = $pools->toArray();
+
 		// Loop while we have games to schedule
 		while (!$phase->isFullyScheduled())
 		{
@@ -217,9 +221,6 @@ class DispatcherService
 			$newGame = $this->nextGameSlot($phase, $eventGrounds);
 
 			// Order the pools from the lazyiest to the busyiest
-			/** @var ArrayCollection $pools */
-			$pools = $phase->getPools();
-			$poolsArray = $pools->toArray();
 			usort($poolsArray,
 				function (Pool $a, Pool $b)
 				{
@@ -280,6 +281,10 @@ class DispatcherService
 	{
 		$eventGrounds = $phase->getEvent()->getGrounds();
 
+		$pools = $phase->getPools();
+		$poolsArray = $pools->toArray();
+		$targetScheduledRate = floor(end($poolsArray)->getScheduledRate()) + 1;
+
 		do
 		{
 			$areWeDone = true;
@@ -288,17 +293,12 @@ class DispatcherService
 
 			// Order the pools from the lazyiest to the busyiest
 			/** @var ArrayCollection $pools */
-			$pools = $phase->getPools();
-			$poolsArray = $pools->toArray();
 			usort($poolsArray,
 				function (Pool $a, Pool $b)
 				{
 					return $a->getScheduledRate() > $b->getScheduledRate();
 				}
 			);
-
-			$targetScheduledRate = floor(end($poolsArray)->getScheduledRate()) + 1;
-			reset($poolsArray);
 
 			// Try to schedule games for the lazyiest pool first, then try busyier pools
 			/** @var Pool $pool */
