@@ -64,12 +64,12 @@ class Phase
 	private $event;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Pool", mappedBy="phase", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity="Pool", mappedBy="phase", cascade={"persist", "remove"})
 	 */
 	private $pools;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Round", mappedBy="phase", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity="Round", mappedBy="phase", cascade={"persist", "remove"})
 	 * @ORM\OrderBy({"number" = "ASC"})
 	 */
 	private $rounds;
