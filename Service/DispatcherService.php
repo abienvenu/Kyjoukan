@@ -16,9 +16,10 @@ class DispatcherService
 {
 	private $em;
 
-	public function __construct(EntityManager $em)
+	public function __construct(EntityManager $em, RankService $ranker)
 	{
 		$this->em = $em;
+		$this->ranker = $ranker;
 	}
 
 	/**
@@ -463,9 +464,25 @@ class DispatcherService
 		usort($teams,
 			function (Team $a, Team $b) use ($pool)
 			{
+				if ($pool->getTeamNbParticipations($a) == $pool->getTeamNbParticipations($b))
+				{
+					// In this case, we try to match the worst teams first (for CumulativeRank game)
+					foreach ($this->ranker->getPoolRanks($pool) as $teamId => $rank)
+					{
+						if ($teamId == $a->getId())
+						{
+							return 1;
+						}
+						if ($teamId == $b->getId())
+						{
+							return -1;
+						}
+					}
+				}
 				return $pool->getTeamNbParticipations($a) > $pool->getTeamNbParticipations($b);
 			}
 		);
+
 		// Try to schedule the lazyiest team first
 		foreach ($teams as $team1)
 		{
@@ -480,7 +497,7 @@ class DispatcherService
 				{
 					continue;
 				}
-				if ($pool->hasGame($team1, $team2))
+				if ($pool->hasGame($team1, $team2) && $pool->getPhase()->getRule() != Rule::CUMULATIVERANK)
 				{
 					continue;
 				}

@@ -41,7 +41,7 @@ class RankService
 			}
 		}
 
-		usort($rankings, function (array $rank1, array $rank2)
+		uasort($rankings, function (array $rank1, array $rank2)
 			{
 				foreach (["win", "advantage", "points", "played"] as $criteria)
 				{
