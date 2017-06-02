@@ -117,6 +117,10 @@ class DispatcherService
 		{
 			$this->dispatchBracketGames($phase);
 		}
+		else if ($phase->getRule() == Rule::CUMULATIVERANK)
+		{
+			$this->dispatchCumulativeRankGames($phase);
+		}
 		// The phase is fully scheduled with playing teams
 		// Now let's find referees for each game
 		$this->findReferees($phase);
@@ -266,6 +270,54 @@ class DispatcherService
 					$newGame->setTeam2($game->getTeam2());
 					$pool->addGame($newGame);
 					$areWeDone = false;
+				}
+			}
+		}
+		while (!$areWeDone);
+	}
+
+	protected function dispatchCumulativeRankGames(Phase $phase)
+	{
+		$eventGrounds = $phase->getEvent()->getGrounds();
+
+		do
+		{
+			$areWeDone = true;
+			// Create a new game
+			$newGame = $this->nextGameSlot($phase, $eventGrounds);
+
+			// Order the pools from the lazyiest to the busyiest
+			/** @var ArrayCollection $pools */
+			$pools = $phase->getPools();
+			$poolsArray = $pools->toArray();
+			usort($poolsArray,
+				function (Pool $a, Pool $b)
+				{
+					return $a->getScheduledRate() > $b->getScheduledRate();
+				}
+			);
+
+			$targetScheduledRate = floor(end($poolsArray)->getScheduledRate()) + 1;
+			reset($poolsArray);
+
+			// Try to schedule games for the lazyiest pool first, then try busyier pools
+			/** @var Pool $pool */
+			foreach ($poolsArray as $pool)
+			{
+				if ($pool->getScheduledRate() >= $targetScheduledRate)
+				{
+					// This pool is already fully scheduled
+					continue;
+				}
+				$areWeDone = false;
+
+				// Populate the game with lazyiest teams
+				$this->setLazyiestTeams($newGame, $pool);
+
+				if ($newGame->getTeam1() && $newGame->getTeam2())
+				{
+					$pool->addGame($newGame);
+					break;
 				}
 			}
 		}

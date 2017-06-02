@@ -34,6 +34,7 @@ class PhaseType extends AbstractType
 			->add('rule', ChoiceType::class, ['choices_as_values' => true, 'choices' => [
 				'Poules'=> Rule::ROUNDROBIN,
 				'Éliminatoires' => Rule::BRACKETS,
+				'Classement Cumulatif' => Rule::CUMULATIVERANK,
 			], 'expanded' => true, 'label' => false])
 			->add('startDateTime', DateTimeType::class, ['time_widget' => 'text', 'label' => "Heure de début"])
 			->add('roundDuration', IntegerType::class, ['label' => "Durée estimée d'un round (en secondes)", 'required' => false])

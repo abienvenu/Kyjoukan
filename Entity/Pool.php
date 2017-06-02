@@ -222,6 +222,10 @@ class Pool
 			case Rule::BRACKETS:
 				// Schedule rate has no sense for brackets
 				return 1;
+			case Rule::CUMULATIVERANK:
+				// For cumulative rank, the scheduled rate can go higher than 1
+				$nbTotalGames = $nbTeams / 2;
+				break;
 			default:
 				throw new \Exception("Unknown rule: $rule");
 		}
