@@ -209,6 +209,7 @@ class DispatcherService
 	protected function dispatchRoundRobinGames(Phase $phase)
 	{
 		$eventGrounds = $phase->getEvent()->getGrounds();
+		$emptyGames = [];
 
 		/** @var ArrayCollection $pools */
 		$pools = $phase->getPools();
@@ -247,6 +248,17 @@ class DispatcherService
 					break;
 				}
 			}
+
+			if (!$newGame->getTeam1() || !$newGame->getTeam2())
+			{
+				$emptyGames[] = $newGame;
+			}
+		}
+
+		// Cleanup of game slots that could not be filled
+		foreach ($emptyGames as $emptyGame)
+		{
+			$emptyGame->getRound()->removeGame($emptyGame);
 		}
 	}
 
