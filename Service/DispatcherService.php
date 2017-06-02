@@ -292,6 +292,7 @@ class DispatcherService
 	protected function dispatchCumulativeRankGames(Phase $phase)
 	{
 		$eventGrounds = $phase->getEvent()->getGrounds();
+		$emptyGames = [];
 
 		$pools = $phase->getPools();
 		$poolsArray = $pools->toArray();
@@ -332,8 +333,20 @@ class DispatcherService
 					break;
 				}
 			}
+
+			if (!$newGame->getTeam1() || !$newGame->getTeam2())
+			{
+				$emptyGames[] = $newGame;
+			}
 		}
 		while (!$areWeDone);
+
+		// Cleanup of game slots that could not be filled
+		foreach ($emptyGames as $emptyGame)
+		{
+			$emptyGame->getRound()->removeGame($emptyGame);
+		}
+
 	}
 
 	/**
