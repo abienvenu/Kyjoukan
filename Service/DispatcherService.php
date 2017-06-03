@@ -587,7 +587,12 @@ class DispatcherService
 		}
 		if ($isClear)
 		{
+			foreach ($pool->getTeams() as $team)
+			{
+				$pool->removeTeam($team);
+			}
 			$pool->getPhase()->removePool($pool);
+			$this->em->flush();
 			$this->em->remove($pool);
 		}
 		$this->em->flush();
