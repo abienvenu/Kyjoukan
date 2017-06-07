@@ -318,7 +318,7 @@ class DispatcherService
 			/** @var Pool $pool */
 			foreach ($poolsArray as $pool)
 			{
-				if ($pool->getScheduledRate() >= $targetScheduledRate)
+				if ($pool->getScheduledRate() >= $targetScheduledRate || count($pool->getTeams()) <= 1)
 				{
 					// This pool is already fully scheduled
 					continue;
