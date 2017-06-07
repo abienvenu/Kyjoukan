@@ -4,6 +4,7 @@ namespace Abienvenu\KyjoukanBundle\Service;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
+use Abienvenu\KyjoukanBundle\Enum\Rule;
 
 class CheckService
 {
@@ -46,41 +47,47 @@ class CheckService
 
 	public function checkPhaseGames(Phase $phase)
 	{
-		$errors = [];
+		$errors = ['info' => [], 'warning' => [], 'danger' => []];
 		// Check a team does not play on several ground at the same time
 		foreach ($phase->getRounds() as $round)
 		{
-			$busyTeams = [];
+			$playingTeams = [];
+			$refereeTeams = [];
 			foreach ($round->getGames() as $game)
 			{
-				if (in_array($game->getTeam1(), $busyTeams))
+				if (in_array($game->getTeam1(), $playingTeams))
 				{
-					$errors[] = "L'équipe {$game->getTeam1()->getName()} est à deux endroits dans le round {$round->getNumber()}";
+					$errors['danger'][] = "L'équipe {$game->getTeam1()->getName()} est à deux endroits dans le round {$round->getNumber()}";
 				}
-				$busyTeams[] = $game->getTeam1();
-				if (in_array($game->getTeam2(), $busyTeams))
+				$playingTeams[] = $game->getTeam1();
+				if (in_array($game->getTeam2(), $playingTeams))
 				{
-					$errors[] = "L'équipe {$game->getTeam2()->getName()} est à deux endroits dans le round {$round->getNumber()}";
+					$errors['danger'][] = "L'équipe {$game->getTeam2()->getName()} est à deux endroits dans le round {$round->getNumber()}";
 				}
-				$busyTeams[] = $game->getTeam2();
-				if (in_array($game->getReferee(), $busyTeams))
+				$playingTeams[] = $game->getTeam2();
+
+				if (in_array($game->getReferee(), $playingTeams))
 				{
-					$errors[] = "L'arbitre {$game->getReferee()->getName()} joue déjà dans le round {$round->getNumber()}";
+					$errors['warning'][] = "L'arbitre {$game->getReferee()->getName()} joue déjà dans le round {$round->getNumber()}";
 				}
-				$busyTeams[] = $game->getReferee();
+				if (in_array($game->getReferee(), $refereeTeams))
+				{
+					$errors['info'][] = "L'arbitre {$game->getReferee()->getName()} arbitre déjà dans le round {$round->getNumber()}";
+				}
+				$refereeTeams[] = $game->getReferee();
 
 				// Check all teams belong to the same pool
 				if (!$game->getPool()->hasTeam($game->getTeam1()))
 				{
-					$errors[] = "L'équipe {$game->getTeam1()->getName()} est programmée sur match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
+					$errors['danger'][] = "L'équipe {$game->getTeam1()->getName()} est programmée sur match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
 				}
 				if (!$game->getPool()->hasTeam($game->getTeam2()))
 				{
-					$errors[] = "L'équipe {$game->getTeam2()->getName()} est programmée sur match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
+					$errors['danger'][] = "L'équipe {$game->getTeam2()->getName()} est programmée sur match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
 				}
 				if (!$game->getPool()->hasTeam($game->getReferee()))
 				{
-					$errors[] = "L'équipe {$game->getReferee()->getName()} arbitre un match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
+					$errors['info'][] = "L'équipe {$game->getReferee()->getName()} arbitre un match du groupe {$game->getPool()->getName()} dans le round {$round->getNumber()}";
 				}
 			}
 		}
@@ -91,11 +98,11 @@ class CheckService
 			$scheduledRate = $pool->getScheduledRate();
 			if ($scheduledRate < 1)
 			{
-				$errors[] = "Il manque des matchs dans le groupe {$pool->getName()}";
+				$errors['warning'][] = "Il manque des matchs dans le groupe {$pool->getName()}";
 			}
-			if ($scheduledRate > 1)
+			if ($scheduledRate > 1 && $phase->getRule() != Rule::CUMULATIVERANK)
 			{
-				$errors[] = "Il y a des matchs en trop dans le groupe {$pool->getName()}";
+				$errors['danger'][] = "Il y a des matchs en trop dans le groupe {$pool->getName()}";
 			}
 		}
 

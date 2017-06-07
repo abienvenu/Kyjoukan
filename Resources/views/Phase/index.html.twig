@@ -95,11 +95,13 @@
 				</a>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="games">
-				{% if errors.game %}
-					<div class="alert alert-warning">
-						{{ errors.game|join('<br />')|raw }}
-					</div>
-				{% endif %}
+				{% for level, messages in errors.game %}
+					{% if messages %}
+						<div class="alert alert-{{ level }}">
+							{{ messages|join('<br />')|raw }}
+						</div>
+					{% endif %}
+				{% endfor %}
 				<table class="table table-striped table-bordered table-hover text-center">
 					<tr>
 						<th></th>
