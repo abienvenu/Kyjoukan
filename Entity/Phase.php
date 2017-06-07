@@ -388,7 +388,7 @@ class Phase
 		$isFullyScheduled = true;
 		foreach ($this->getPools() as $pool)
 		{
-			$isFullyScheduled &= $pool->getScheduledRate() >= 1;
+			$isFullyScheduled &= ($pool->getScheduledRate() >= 1 || !count($pool->getTeams()));
 		}
 		return $isFullyScheduled;
 	}
