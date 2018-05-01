@@ -37,53 +37,16 @@ Planned features
 Server Installation
 -------------------
 
-### Docker
-
 * Install docker
 * Download and run the application :
 ```bash
-$ docker run -d --name kyjoukan -p 8043:80 abienvenu/kyjoukan
+$ docker run -d --name kyjoukan -p 8043:80 -e APP_ENV=prod abienvenu/kyjoukan
 ```
 * Point your browser to http://localhost:8043/
 
-### Native
-
-You can install Kyjoukan like in the good old days. This is quiet a longer way though...
-
-* Install Symfony 2.8 http://symfony.com/download
-* Download Kyjoukan :
-```bash
-$ php composer.phar require "abienvenu/kyjoukan":"dev-master"
-```
-* Add Kyjoukan in your AppKernel.php, and also load StofDoctrineExtensionsBundle :
-```php
-// app/AppKernel.php
-
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new Abienvenu\KyjoukanBundle\KyjoukanBundle(),
-        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-    );
-}
-```
-* Include the route from your app/config/routing.yml :
-```YAML
-kyjoukan:
-    resource: "@KyjoukanBundle/Resources/config/routing.yml"
-    prefix: /kyjoukan
-```
-* Also activate sluggable in your app/config/config.yml :
-```YAML
-stof_doctrine_extensions:
-    orm:
-        default:
-            sluggable: true
-```
-
 CHANGELOG
 ---------
+* v0.6 : Upgrade to Symfony 3.4
 * v0.5 : Improved warning display + shuffling bugfixes
 * v0.4 : Added the "Cumulative Ranking" rule
 * v0.3 : Do not call remote CDN, so that Kyjoukan can work without Internet access

@@ -1,0 +1,22 @@
+imports:
+    - { resource: "@KyjoukanBundle/Resources/config/config.yml" }
+
+parameters:
+    secret: dd761720ab3b5648828e032b12275985
+    locale: fr
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ KyjoukanBundle ]
+    filters:
+        cssrewrite: ~
+    read_from:            '%kernel.project_dir%'
+    write_to:             '%kernel.project_dir%/public'
