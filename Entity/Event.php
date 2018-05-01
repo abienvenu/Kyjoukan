@@ -7,10 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Event
- *
  * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\EventRepository")
+ * @ORM\Entity()
  */
 class Event
 {
@@ -52,9 +50,6 @@ class Event
 	 */
 	private $teams;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		$this->phases = new ArrayCollection();
@@ -67,59 +62,29 @@ class Event
 		return $this->id;
 	}
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 * @return Event
-	 */
-	public function setName($name)
+	public function setName(string $name) : Event
 	{
 		$this->name = $name;
-
 		return $this;
 	}
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
+	public function getName() : ?string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * Set slug
-	 *
-	 * @param string $slug
-	 * @return Event
-	 */
-	public function setSlug($slug)
+	public function setSlug(string $slug) : Event
 	{
 		$this->slug = $slug;
-
 		return $this;
 	}
 
-	/**
-	 * Get slug
-	 *
-	 * @return string
-	 */
-	public function getSlug()
+	public function getSlug() : string
 	{
 		return $this->slug;
 	}
 
-	/**
-	 * Add phases
-	 *
-	 * @param Phase $phase
-	 * @return Event
-	 */
-	public function addPhase(Phase $phase)
+	public function addPhase(Phase $phase) : Event
 	{
 		$this->phases[] = $phase;
 		$phase->setEvent($this);
@@ -127,18 +92,6 @@ class Event
 	}
 
 	/**
-	 * Remove phases
-	 *
-	 * @param Phase $phases
-	 */
-	public function removePhase(Phase $phases)
-	{
-		$this->phases->removeElement($phases);
-	}
-
-	/**
-	 * Get phases
-	 *
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
 	public function getPhases()
@@ -146,33 +99,14 @@ class Event
 		return $this->phases;
 	}
 
-	/**
-	 * Add ground
-	 *
-	 * @param Ground $ground
-	 * @return Event
-	 */
-	public function addGround(Ground $ground)
+	public function addGround(Ground $ground) : Event
 	{
 		$this->grounds[] = $ground;
 		$ground->setEvent($this);
-
 		return $this;
 	}
 
 	/**
-	 * Remove grounds
-	 *
-	 * @param Ground $ground
-	 */
-	public function removeGround(Ground $ground)
-	{
-		$this->grounds->removeElement($ground);
-	}
-
-	/**
-	 * Get grounds
-	 *
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
 	public function getGrounds()
@@ -180,13 +114,7 @@ class Event
 		return $this->grounds;
 	}
 
-    /**
-     * Add team
-     *
-     * @param Team $team
-     * @return Event
-     */
-    public function addTeam(Team $team)
+    public function addTeam(Team $team) : Event
     {
         $this->teams[] = $team;
 	    $team->setEvent($this);
@@ -194,19 +122,12 @@ class Event
         return $this;
     }
 
-    /**
-     * Remove team
-     *
-     * @param Team $team
-     */
-    public function removeTeam(Team $team)
+    public function removeTeam(Team $team) : void
     {
         $this->teams->removeElement($team);
     }
 
     /**
-     * Get teams
-     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getTeams()

@@ -4,13 +4,12 @@ namespace Abienvenu\KyjoukanBundle\Entity;
 
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Pool
- *
  * @ORM\Table(name="pool")
- * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\PoolRepository")
+ * @ORM\Entity()
  */
 class Pool
 {
@@ -58,148 +57,82 @@ class Pool
 		$this->teams = new ArrayCollection();
 	}
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName()
+	public function getName() : ?string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @param string $name
-	 * @return Pool
-	 */
-	public function setName($name)
+	public function setName(string $name) : Pool
 	{
 		$this->name = $name;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getColor()
+	public function getColor() : ?string
 	{
 		return $this->color;
 	}
 
-	/**
-	 * @param string $color
-	 * @return Pool
-	 */
-	public function setColor($color)
+	public function setColor(string $color) : Pool
 	{
 		$this->color = $color;
 		return $this;
 	}
 
-	/**
-	 * Set phase
-	 *
-	 * @param Phase $phase
-	 * @return Pool
-	 */
-	public function setPhase($phase)
+	public function setPhase(Phase $phase) : Pool
 	{
 		$this->phase = $phase;
 
 		return $this;
 	}
 
-	/**
-	 * Get phase
-	 *
-	 * @return Phase
-	 */
-	public function getPhase()
+	public function getPhase() : Phase
 	{
 		return $this->phase;
 	}
 
-    /**
-     * Add games
-     *
-     * @param Game $game
-     * @return Pool
-     */
-    public function addGame(Game $game)
+    public function addGame(Game $game) : Pool
     {
         $this->games[] = $game;
 	    $game->setPool($this);
-
         return $this;
     }
 
-    /**
-     * Remove games
-     *
-     * @param Game $game
-     */
     public function removeGame(Game $game)
     {
 	    $this->games->removeElement($game);
     }
 
-    /**
-     * Get games
-     *
-     * @return ArrayCollection
-     */
-    public function getGames()
+    public function getGames() : Collection
     {
         return $this->games;
     }
 
-	/**
-	 * Add team
-	 *
-	 * @param Team $team
-	 * @return Phase
-	 */
-	public function addTeam(Team $team)
+	public function addTeam(Team $team) : Pool
 	{
 		$this->teams[] = $team;
 		return $this;
 	}
 
-	/**
-	 * Remove team
-	 *
-	 * @param Team $team
-	 */
 	public function removeTeam(Team $team)
 	{
 		$this->teams->removeElement($team);
 	}
 
-	/**
-	 * Get teams
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getTeams()
+	public function getTeams() : Collection
 	{
 		return $this->teams;
 	}
 
 	/**
 	 * Test if the Team is already registered in the Pool
-	 *
-	 * @param Team $team
-	 * @return bool
 	 */
-	public function hasTeam(Team $team)
+	public function hasTeam(Team $team) : bool
 	{
 		return $this->getTeams()->contains($team);
 	}
@@ -207,10 +140,9 @@ class Pool
 	/**
 	 * Tell how much games are scheduled
 	 *
-	 * @return mixed 0 if no game is scheduled, 1 if all games are scheduled
-	 * @throws \Exception
+	 * @return float 0 if no game is scheduled, 1 if all games are scheduled
 	 */
-	public function getScheduledRate()
+	public function getScheduledRate() : float
 	{
 		$rule = $this->getPhase()->getRule();
 		$nbTeams = count($this->getTeams());
@@ -235,17 +167,14 @@ class Pool
 
 	/**
 	 * Return the number of participations of the given team
-	 *
-	 * @param Team $team
-	 * @return int
 	 */
-	public function getTeamNbParticipations(Team $team)
+	public function getTeamNbParticipations(Team $team) : int
 	{
 		$nb = 0;
 		/** @var Game $game */
 		foreach ($this->getGames() as $game)
 		{
-			if ($game->getTeam1() == $team || $game->getTeam2() == $team)
+			if ($game->getTeam1() === $team || $game->getTeam2() === $team)
 			{
 				$nb++;
 			}
@@ -258,8 +187,8 @@ class Pool
 		/** @var Game $game */
 		foreach ($this->getGames() as $game)
 		{
-			if (($game->getTeam1() == $team1 && $game->getTeam2() == $team2) ||
-			    ($game->getTeam1() == $team2 && $game->getTeam2() == $team1))
+			if (($game->getTeam1() === $team1 && $game->getTeam2() === $team2) ||
+			    ($game->getTeam1() === $team2 && $game->getTeam2() === $team1))
 			{
 				return true;
 			}

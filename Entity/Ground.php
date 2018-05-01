@@ -5,8 +5,6 @@ namespace Abienvenu\KyjoukanBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Ground
- *
  * @ORM\Table(name="ground")
  * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\GroundRepository")
  */
@@ -34,58 +32,29 @@ class Ground
 	 */
 	private $event;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 * @return Ground
-	 */
-	public function setName($name)
+	public function setName(string $name) : Ground
 	{
 		$this->name = $name;
-
 		return $this;
 	}
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
+	public function getName() : ?string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * Set event
-	 *
-	 * @param Event $event
-	 * @return Ground
-	 */
-	public function setEvent(Event $event)
+	public function setEvent(Event $event) : Ground
 	{
 		$this->event = $event;
-
 		return $this;
 	}
 
-	/**
-	 * Get event
-	 *
-	 * @return Event
-	 */
-	public function getEvent()
+	public function getEvent() : Event
 	{
 		return $this->event;
 	}

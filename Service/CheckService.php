@@ -19,7 +19,6 @@ class CheckService
 		else
 		{
 			// Check every team is dispatched once and only once
-			/** @var Team $team */
 			foreach ($phase->getTeams() as $team)
 			{
 				$nbPooled = 0;

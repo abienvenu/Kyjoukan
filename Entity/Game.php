@@ -5,8 +5,6 @@ namespace Abienvenu\KyjoukanBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Game
- *
  * @ORM\Table(name="game")
  * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\GameRepository")
  */
@@ -71,212 +69,111 @@ class Game
 	 */
 	private $score2;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * Set team1
-	 *
-	 * @param Team $team1
-	 * @return Game
-	 */
-	public function setTeam1($team1)
+	public function setTeam1($team1) : Game
 	{
 		$this->team1 = $team1;
-
 		return $this;
 	}
 
-	/**
-	 * Get team1
-	 *
-	 * @return Team
-	 */
-	public function getTeam1()
+	public function getTeam1() : ?Team
 	{
 		return $this->team1;
 	}
 
-	/**
-	 * Set team2
-	 *
-	 * @param Team $team2
-	 * @return Game
-	 */
-	public function setTeam2($team2)
+	public function setTeam2($team2) : Game
 	{
 		$this->team2 = $team2;
-
 		return $this;
 	}
 
-	/**
-	 * Get team2
-	 *
-	 * @return Team
-	 */
-	public function getTeam2()
+	public function getTeam2() : ?Team
 	{
 		return $this->team2;
 	}
 
-	/**
-	 * @param Team $referee
-	 * @return Game
-	 */
-	public function setReferee($referee)
+	public function setReferee(Team $referee) : Game
 	{
 		$this->referee = $referee;
 		return $this;
 	}
 
-	/**
-	 * @return Team
-	 */
-	public function getReferee()
+	public function getReferee() : ?Team
 	{
 		return $this->referee;
 	}
 
-	/**
-	 * Set ground
-	 *
-	 * @param Ground $ground
-	 * @return Game
-	 */
-	public function setGround($ground)
+	public function setGround(Ground $ground) : Game
 	{
 		$this->ground = $ground;
-
 		return $this;
 	}
 
-	/**
-	 * Get ground
-	 *
-	 * @return Ground
-	 */
-	public function getGround()
+	public function getGround() : ?Ground
 	{
 		return $this->ground;
 	}
 
-	/**
-	 * Set score1
-	 *
-	 * @param integer $score1
-	 * @return Game
-	 */
-	public function setScore1($score1)
+	public function setScore1(int $score1) : Game
 	{
 		$this->score1 = $score1;
-
 		return $this;
 	}
 
-	/**
-	 * Get score1
-	 *
-	 * @return integer
-	 */
-	public function getScore1()
+	public function getScore1() : ?int
 	{
 		return $this->score1;
 	}
 
-	/**
-	 * Set score2
-	 *
-	 * @param integer $score2
-	 * @return Game
-	 */
-	public function setScore2($score2)
+	public function setScore2(int $score2) : Game
 	{
 		$this->score2 = $score2;
-
 		return $this;
 	}
 
-	/**
-	 * Get score2
-	 *
-	 * @return integer
-	 */
-	public function getScore2()
+	public function getScore2() : ?int
 	{
 		return $this->score2;
 	}
 
-	/**
-	 * Set pool
-	 *
-	 * @param Pool $pool
-	 * @return Game
-	 */
-	public function setPool(Pool $pool)
+	public function setPool(Pool $pool) : Game
 	{
 		$this->pool = $pool;
-
 		return $this;
 	}
 
-	/**
-	 * Get pool
-	 *
-	 * @return Pool
-	 */
-	public function getPool()
+	public function getPool() : Pool
 	{
 		return $this->pool;
 	}
 
-	/**
-	 * Set round
-	 *
-	 * @param Round $round
-	 * @return Game
-	 */
-	public function setRound(Round $round)
+	public function setRound(Round $round) : Game
 	{
 		$this->round = $round;
-
 		return $this;
 	}
 
-	/**
-	 * Get round
-	 *
-	 * @return Round
-	 */
-	public function getRound()
+	public function getRound() : ?Round
 	{
 		return $this->round;
 	}
 
 	/**
 	 * Tell if a Team is involved in this Game
-	 *
-	 * @param Team $team
-	 * @return bool
 	 */
-	public function hasTeam(Team $team)
+	public function hasTeam(Team $team) : bool
 	{
-		return $this->getTeam1() == $team || $this->getTeam2() == $team || $this->getReferee() == $team;
+		return $this->getTeam1() === $team || $this->getTeam2() === $team || $this->getReferee() === $team;
 	}
 
 	/**
 	 * Tell if this Game is already played
-	 *
-	 * @return bool
 	 */
-	public function isPlayed()
+	public function isPlayed() : bool
 	{
 		return $this->getScore1() || $this->getScore2();
 	}

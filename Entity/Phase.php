@@ -3,14 +3,13 @@
 namespace Abienvenu\KyjoukanBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Phase
- *
  * @ORM\Table(name="phase")
- * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\PhaseRepository")
+ * @ORM\Entity()
  */
 class Phase
 {
@@ -89,128 +88,68 @@ class Phase
 		$this->teams= new ArrayCollection();
 	}
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 * @return Phase
-	 */
-	public function setName($name)
+	public function setName(string $name) : Phase
 	{
 		$this->name = $name;
-
 		return $this;
 	}
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
+	public function getName() : ?string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * Set rule
-	 *
-	 * @param integer $rule
-	 * @return Phase
-	 */
-	public function setRule($rule)
+	public function setRule(int $rule) : Phase
 	{
 		$this->rule = $rule;
-
 		return $this;
 	}
 
-	/**
-	 * Get rule
-	 *
-	 * @return integer
-	 */
-	public function getRule()
+	public function getRule() : ?int
 	{
 		return $this->rule;
 	}
 
-	/**
-	 * @param \DateTime $startDateTime
-	 * @return Phase
-	 */
-	public function setStartDateTime(\DateTime $startDateTime)
+	public function setStartDateTime(\DateTime $startDateTime) : Phase
 	{
 		$this->startDateTime = $startDateTime;
 		return $this;
 	}
 
-	/**
-	 * @return \DateTime
-	 */
-	public function getStartDateTime()
+	public function getStartDateTime() : ?\DateTime
 	{
 		return $this->startDateTime;
 	}
 
-	/**
-	 * @param int $roundDuration
-	 * @return Phase
-	 */
-	public function setRoundDuration($roundDuration)
+	public function setRoundDuration(int $roundDuration) : Phase
 	{
 		$this->roundDuration = $roundDuration;
 		return $this;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getRoundDuration()
+	public function getRoundDuration() : ?int
 	{
 		return $this->roundDuration;
 	}
 
-	/**
-	 * Set event
-	 *
-	 * @param Event $event
-	 * @return Phase
-	 */
-	public function setEvent(Event $event)
+	public function setEvent(Event $event) : Phase
 	{
 		$this->event = $event;
 
 		return $this;
 	}
 
-	/**
-	 * Get event
-	 *
-	 * @return Event
-	 */
-	public function getEvent()
+	public function getEvent() : Event
 	{
 		return $this->event;
 	}
 
-	/**
-	 * Add pool
-	 *
-	 * @param Pool $pool
-	 * @return Phase
-	 */
-	public function addPool(Pool $pool)
+	public function addPool(Pool $pool) : Phase
 	{
 		$this->pools[] = $pool;
 		$pool->setPhase($this);
@@ -218,134 +157,81 @@ class Phase
 		return $this;
 	}
 
-	/**
-	 * Remove pool
-	 *
-	 * @param Pool $pool
-	 */
 	public function removePool(Pool $pool)
 	{
 		$this->pools->removeElement($pool);
 	}
 
 	/**
-	 * Get pools
-	 *
 	 * @return Pool[]
 	 */
-	public function getPools()
+	public function getPools() : Collection
 	{
 		return $this->pools;
 	}
 
-	/**
-	 * Add round
-	 *
-	 * @param Round $round
-	 * @return Phase
-	 */
-	public function addRound(Round $round)
+	public function addRound(Round $round) : Phase
 	{
 		$this->rounds[] = $round;
 		$round->setPhase($this);
-
 		return $this;
 	}
 
-	/**
-	 * Remove round
-	 *
-	 * @param Round $round
-	 */
 	public function removeRound(Round $round)
 	{
 		$this->rounds->removeElement($round);
 	}
 
 	/**
-	 * Get rounds
-	 *
 	 * @return Round[]
 	 */
-	public function getRounds()
+	public function getRounds() : Collection
 	{
 		return $this->rounds;
 	}
 
-	/**
-	 * Set slug
-	 *
-	 * @param string $slug
-	 * @return Phase
-	 */
-	public function setSlug($slug)
+	public function setSlug(string $slug) : Phase
 	{
 		$this->slug = $slug;
-
 		return $this;
 	}
 
-	/**
-	 * Get slug
-	 *
-	 * @return string
-	 */
-	public function getSlug()
+	public function getSlug() : string
 	{
 		return $this->slug;
 	}
 
-	/**
-	 * Add team
-	 *
-	 * @param Team $team
-	 * @return Phase
-	 */
-	public function addTeam(Team $team)
+	public function addTeam(Team $team) : Phase
 	{
 		$this->teams[] = $team;
 		return $this;
 	}
 
-	/**
-	 * Remove a team
-	 *
-	 * @param Team $team
-	 * @return bool
-	 */
 	public function removeTeam(Team $team)
 	{
 		$this->teams->removeElement($team);
 	}
 
 	/**
-	 * Get teams
-	 *
-	 * @return ArrayCollection
+	 * @return Team[]
 	 */
-	public function getTeams()
+	public function getTeams() : Collection
 	{
 		return $this->teams;
 	}
 
 	/**
 	 * Determine if the Team is already registered in the Phase
-	 *
-	 * @param Team $team
-	 * @return bool
 	 */
-	public function hasTeam(Team $team)
+	public function hasTeam(Team $team) : bool
 	{
 		return $this->getTeams()->contains($team);
 	}
 
 	/**
 	 * Determine if the Team is inside a Pool of the Phase
-	 *
-	 * @param Team $team
-	 * @return bool
 	 */
-	public function isTeamPooled(Team $team)
+	public function isTeamPooled(Team $team) : bool
 	{
 		foreach ($this->getPools() as $pool)
 		{
@@ -359,10 +245,8 @@ class Phase
 
 	/**
 	 * Return the Pool that has the fewest teams inside it
-	 *
-	 * @return Pool|null
 	 */
-	public function getSmallestPool()
+	public function getSmallestPool() : ?Pool
 	{
 		$min = null;
 		$smallestPool = null;
@@ -380,10 +264,8 @@ class Phase
 
 	/**
 	 * Tell if the Phase is fully scheduled
-	 *
-	 * @return bool
 	 */
-	public function isFullyScheduled()
+	public function isFullyScheduled() : bool
 	{
 		$isFullyScheduled = true;
 		foreach ($this->getPools() as $pool)

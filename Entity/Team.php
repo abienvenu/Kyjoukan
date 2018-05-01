@@ -5,8 +5,6 @@ namespace Abienvenu\KyjoukanBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Team
- *
  * @ORM\Table(name="team")
  * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\TeamRepository")
  */
@@ -34,58 +32,29 @@ class Team
 	 */
 	private $event;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 * @return Team
-	 */
-	public function setName($name)
+	public function setName(string $name) : Team
 	{
 		$this->name = $name;
-
 		return $this;
 	}
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
+	public function getName() : ?string
 	{
 		return $this->name;
 	}
 
-    /**
-     * Set event
-     *
-     * @param Event $event
-     * @return Team
-     */
-    public function setEvent(Event $event)
+    public function setEvent(Event $event) : Team
     {
         $this->event = $event;
-
         return $this;
     }
 
-    /**
-     * Get event
-     *
-     * @return Event
-     */
-    public function getEvent()
+    public function getEvent() : Event
     {
         return $this->event;
     }

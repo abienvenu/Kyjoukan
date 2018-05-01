@@ -3,11 +3,10 @@
 namespace Abienvenu\KyjoukanBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Round
- *
  * @ORM\Table(name="round")
  * @ORM\Entity(repositoryClass="Abienvenu\KyjoukanBundle\Repository\RoundRepository")
  */
@@ -49,107 +48,62 @@ class Round
 	}
 
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * Set number
-	 *
-	 * @param integer $number
-	 * @return Round
-	 */
-	public function setNumber($number)
+	public function setNumber(int $number) : Round
 	{
 		$this->number = $number;
 
 		return $this;
 	}
 
-	/**
-	 * Get number
-	 *
-	 * @return integer
-	 */
-	public function getNumber()
+	public function getNumber() : ?int
 	{
 		return $this->number;
 	}
 
-	/**
-	 * Set phase
-	 *
-	 * @param Phase $phase
-	 * @return Pool
-	 */
-	public function setPhase($phase)
+	public function setPhase(Phase $phase) : Round
 	{
 		$this->phase = $phase;
-
 		return $this;
 	}
 
-	/**
-	 * Get phase
-	 *
-	 * @return Phase
-	 */
-	public function getPhase()
+	public function getPhase() : Phase
 	{
 		return $this->phase;
 	}
 
-	/**
-	 * Add games
-	 *
-	 * @param Game $game
-	 * @return Pool
-	 */
-	public function addGame(Game $game)
+	public function addGame(Game $game) : Round
 	{
 		$this->games[] = $game;
 		$game->setRound($this);
-
 		return $this;
 	}
 
-	/**
-	 * Remove games
-	 *
-	 * @param Game $game
-	 */
 	public function removeGame(Game $game)
 	{
 		$this->games->removeElement($game);
 	}
 
 	/**
-	 * Get games
-	 *
 	 * @return Game[]
 	 */
-	public function getGames()
+	public function getGames() : Collection
 	{
 		return $this->games;
 	}
 
 	/**
 	 * Determine if the Team is already scheduled during this Round
-	 *
-	 * @param Team $team
-	 * @return bool
 	 */
-	public function hasTeam(Team $team)
+	public function hasTeam(Team $team) : bool
 	{
 		foreach ($this->getGames() as $game)
 		{
-			if ($game->getTeam1() == $team || $game->getTeam2() == $team || $game->getReferee() == $team)
+			if ($game->getTeam1() === $team || $game->getTeam2() === $team || $game->getReferee() === $team)
 			{
 				return true;
 			}
