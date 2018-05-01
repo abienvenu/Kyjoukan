@@ -22,8 +22,6 @@ class DefaultController extends Controller
 	 * Creates a new Event entity.
 	 *
 	 * @Route("/new_event")
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function newEventAction(Request $request)
 	{
@@ -44,5 +42,4 @@ class DefaultController extends Controller
 
 		return $this->render('KyjoukanBundle:Default:new_event.html.twig', ['form' => $form->createView()]);
 	}
-
 }

@@ -19,8 +19,6 @@ class EventController extends Controller
 
 	/**
 	 * @Route("")
-	 * @param Event $event
-	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function indexAction(Event $event)
 	{
@@ -44,9 +42,6 @@ class EventController extends Controller
 	 * Displays a form to edit an existing Event entity.
 	 *
 	 * @Route("/edit")
-	 * @param Request $request
-	 * @param Event $event
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Event $event)
 	{
@@ -75,8 +70,6 @@ class EventController extends Controller
 	 * Deletes a Event entity.
 	 *
 	 * @Route("/delete")
-	 * @param Event $event
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction(Event $event)
 	{
@@ -91,15 +84,12 @@ class EventController extends Controller
 	 * Creates a new Phase entity.
 	 *
 	 * @Route("/new_phase")
-	 * @param Request $request
-	 * @param Event $event
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function newPhaseAction(Request $request, Event $event)
 	{
 		$phase = new Phase();
 		$phase->setStartDateTime(new \DateTime());
-		$form = $this->createForm(new PhaseType($event), $phase);
+		$form = $this->createForm(PhaseType::class, $phase, ['event' => $event]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
@@ -118,9 +108,6 @@ class EventController extends Controller
 	 * Create a new Team entity
 	 *
 	 * @Route("/new_team")
-	 * @param Request $request
-	 * @param Event $event
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function newTeamAction(Request $request, Event $event)
 	{
@@ -143,9 +130,6 @@ class EventController extends Controller
 	 * Create a new Ground entity
 	 *
 	 * @Route("/new_ground")
-	 * @param Request $request
-	 * @param Event $event
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function newGroundAction(Request $request, Event $event)
 	{

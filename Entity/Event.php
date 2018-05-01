@@ -62,12 +62,7 @@ class Event
 		$this->teams = new ArrayCollection();
 	}
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}

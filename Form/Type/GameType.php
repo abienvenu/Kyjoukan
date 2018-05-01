@@ -2,7 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Form\Type;
 
-use Abienvenu\KyjoukanBundle\Entity\Pool;
+use Abienvenu\KyjoukanBundle\Entity\Game;
 use Abienvenu\KyjoukanBundle\Repository\GroundRepository;
 use Abienvenu\KyjoukanBundle\Repository\RoundRepository;
 use Abienvenu\KyjoukanBundle\Repository\TeamRepository;
@@ -14,63 +14,52 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GameType extends AbstractType
 {
-	private $pool;
-
-	public function __construct(Pool $pool)
-	{
-		$this->pool = $pool;
-	}
-
-	/**
-	 * @param FormBuilderInterface $builder
-	 * @param array $options
-	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
 			->add('team1', EntityType::class, [
 				'class' => "KyjoukanBundle:Team",
-				'property' => 'name',
+				'choice_label' => 'name',
 				'label' => "Équipe A",
-				'query_builder' => function(TeamRepository $repo)
+				'query_builder' => function(TeamRepository $repo) use ($options)
 				{
-					return $repo->getTeamsForPool($this->pool);
+					return $repo->getTeamsForPool($options['pool']);
 				}
 			])
 			->add('team2', EntityType::class, [
 				'class' => "KyjoukanBundle:Team",
-				'property' => 'name',
+				'choice_label' => 'name',
 				'label' => "Équipe B",
-				'query_builder' => function(TeamRepository $repo)
+				'query_builder' => function(TeamRepository $repo) use ($options)
 				{
-					return $repo->getTeamsForPool($this->pool);
+					return $repo->getTeamsForPool($options['pool']);
 				}
 			])
 			->add('referee', EntityType::class, [
 				'class' => "KyjoukanBundle:Team",
-				'property' => 'name',
+				'choice_label' => 'name',
 				'label' => "Arbitre",
-				'query_builder' => function(TeamRepository $repo)
+				'query_builder' => function(TeamRepository $repo) use ($options)
 				{
-					return $repo->getTeamsForPhase($this->pool->getPhase());
+					return $repo->getTeamsForPhase($options['pool']->getPhase());
 				}
 			])
 			->add('ground', EntityType::class, [
 				'class' => "KyjoukanBundle:Ground",
-				'property' => 'name',
+				'choice_label' => 'name',
 				'label' => "Terrain",
-			    'query_builder' => function(GroundRepository $repo)
+			    'query_builder' => function(GroundRepository $repo) use ($options)
 					{
-						return $repo->getGroundsForEvent($this->pool->getPhase()->getEvent());
+						return $repo->getGroundsForEvent($options['pool']->getPhase()->getEvent());
 					}
 			])
 			->add('round', EntityType::class, [
 				'class' => "KyjoukanBundle:Round",
-				'property' => 'number',
+				'choice_label' => 'number',
 				'label' => "Tour",
-			    'query_builder' => function(RoundRepository $repo)
+			    'query_builder' => function(RoundRepository $repo) use ($options)
 					{
-						return $repo->getRoundsForPhase($this->pool->getPhase());
+						return $repo->getRoundsForPhase($options['pool']->getPhase());
 					}
 			])
 			->add('score1', IntegerType::class, ['label' => "Score de A", 'required' => false])
@@ -78,11 +67,8 @@ class GameType extends AbstractType
 		;
 	}
 
-	/**
-	 * @param OptionsResolver $resolver
-	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(['data_class' => 'Abienvenu\KyjoukanBundle\Entity\Game']);
+		$resolver->setDefaults(['data_class' => Game::class, 'pool' => null]);
 	}
 }

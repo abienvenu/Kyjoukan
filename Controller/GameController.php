@@ -18,13 +18,10 @@ class GameController extends Controller
 	 * Displays a form to edit an existing Team entity.
 	 *
 	 * @Route("/edit")
-	 * @param Request $request
-	 * @param Game $game
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Game $game)
 	{
-		$form = $this->createForm(new GameType($game->getPool()), $game);
+		$form = $this->createForm(GameType::class, $game, ['pool' => $game->getPool()]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())

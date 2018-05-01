@@ -15,8 +15,6 @@ class PhaseController extends Controller
 {
 	/**
 	 * @Route("");
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function indexAction(Phase $phase)
 	{
@@ -33,8 +31,6 @@ class PhaseController extends Controller
 	 * The user may remove some of them (in case they are unable to participate in the given phase)
 	 *
 	 * @Route("/load_teams")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function loadTeamsAction(Phase $phase)
 	{
@@ -52,8 +48,6 @@ class PhaseController extends Controller
 
 	/**
 	 * @Route("/dispatch_teams")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function dispatchTeamsAction(Phase $phase)
 	{
@@ -74,8 +68,6 @@ class PhaseController extends Controller
 	 * Clean all unplayed games
 	 *
 	 * @Route("/clean")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function cleanAction(Phase $phase)
 	{
@@ -89,8 +81,6 @@ class PhaseController extends Controller
 	 * Shuffle games into the phase
 	 *
 	 * @Route("/shuffle")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function shuffleAction(Phase $phase)
 	{
@@ -113,11 +103,8 @@ class PhaseController extends Controller
 
 	/**
 	 * @Route("/gamecards/{page}", requirements={"page": "\d+"})
-	 * @param Phase $phase
-	 * @param int $page
-	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function gameCardsAction(Phase $phase, $page)
+	public function gameCardsAction(Phase $phase, int $page)
 	{
 		$cardsPerPage = 6;
 		$games = $this->getDoctrine()->getRepository('KyjoukanBundle:Game')->findByPhase($phase);
@@ -128,8 +115,6 @@ class PhaseController extends Controller
 
 	/**
 	 * @Route("/planning")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function planningAction(Phase $phase)
 	{
@@ -162,13 +147,10 @@ class PhaseController extends Controller
 	 * Displays a form to edit an existing Phase entity.
 	 *
 	 * @Route("/edit")
-	 * @param Request $request
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Phase $phase)
 	{
-		$form = $this->createForm(new PhaseType($phase->getEvent()), $phase);
+		$form = $this->createForm(PhaseType::class, $phase, ['event' => $phase->getEvent()]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
@@ -186,8 +168,6 @@ class PhaseController extends Controller
 	 * Deletes a Phase entity.
 	 *
 	 * @Route("/delete")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction(Phase $phase)
 	{

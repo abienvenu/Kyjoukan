@@ -16,9 +16,6 @@ class GroundController extends Controller
 	 * Displays a form to edit an existing Ground entity.
 	 *
 	 * @Route("/edit")
-	 * @param Request $request
-	 * @param Ground $ground
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Ground $ground)
 	{
@@ -40,8 +37,6 @@ class GroundController extends Controller
 	 * Deletes a Ground entity.
 	 *
 	 * @Route("/delete")
-	 * @param Ground $ground
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction(Ground $ground)
 	{

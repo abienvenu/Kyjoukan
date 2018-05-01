@@ -18,13 +18,10 @@ class PoolController extends Controller
 	 * Displays a form to edit an existing Pool entity.
 	 *
 	 * @Route("/{id}/edit")
-	 * @param Request $request
-	 * @param Pool $pool
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Pool $pool)
 	{
-		$form = $this->createForm(new PoolType($pool->getPhase()), $pool);
+		$form = $this->createForm(PoolType::class, $pool, ['phase' => $pool->getPhase()]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
@@ -44,8 +41,6 @@ class PoolController extends Controller
 	 * Deletes a Pool entity.
 	 *
 	 * @Route("/{id}/delete")
-	 * @param Pool $pool
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction(Pool $pool)
 	{
@@ -68,8 +63,6 @@ class PoolController extends Controller
 	 * Add a Pool to the Phase
 	 *
 	 * @Route("/{id}/new")
-	 * @param Phase $phase
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function newAction(Phase $phase)
 	{

@@ -2,7 +2,7 @@
 
 namespace Abienvenu\KyjoukanBundle\Form\Type;
 
-use Abienvenu\KyjoukanBundle\Entity\Event;
+use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Abienvenu\KyjoukanBundle\Repository\TeamRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,17 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PhaseType extends AbstractType
 {
-	private $event;
-
-	public function __construct(Event $event)
-	{
-		$this->event = $event;
-	}
-
-	/**
-	 * @param FormBuilderInterface $builder
-	 * @param array $options
-	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
@@ -41,22 +30,19 @@ class PhaseType extends AbstractType
 			->add('teams', EntityType::class, [
 				'label' => "Équipes",
 				'class' => 'Abienvenu\KyjoukanBundle\Entity\Team',
-				'property' => 'name',
+				'choice_label' => 'name',
 				'multiple' => true,
 				'expanded' => true,
-				'query_builder' => function(TeamRepository $repo)
+				'query_builder' => function(TeamRepository $repo) use ($options)
 				{
-					return $repo->getTeamsForEvent($this->event);
+					return $repo->getTeamsForEvent($options['event']);
 				}
 			])
 		;
 	}
 
-	/**
-	 * @param OptionsResolver $resolver
-	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(['data_class' => 'Abienvenu\KyjoukanBundle\Entity\Phase']);
+		$resolver->setDefaults(['data_class' => Phase::class, 'event' => null]);
 	}
 }

@@ -17,9 +17,6 @@ class TeamController extends Controller
 	 * Displays a form to edit an existing Team entity.
 	 *
 	 * @Route("/edit")
-	 * @param Request $request
-	 * @param Team $team
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction(Request $request, Team $team)
 	{
@@ -41,8 +38,6 @@ class TeamController extends Controller
 	 * Deletes a Team entity.
 	 *
 	 * @Route("/delete")
-	 * @param Team $team
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction(Team $team)
 	{
@@ -62,9 +57,6 @@ class TeamController extends Controller
 	 * Remove a Team from a Phase
 	 *
 	 * @Route("/remove/{phase}")
-	 * @param Phase $phase
-	 * @param Team $team
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function removeFromPhaseAction(Phase $phase, Team $team)
 	{
