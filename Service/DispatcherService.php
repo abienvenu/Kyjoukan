@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManager;
 class DispatcherService
 {
 	private $em;
+	private $ranker;
 
 	public function __construct(EntityManager $em, RankService $ranker)
 	{
@@ -204,8 +205,6 @@ class DispatcherService
 
 	/**
 	 * Dispatch games according to the round robin rule
-	 *
-	 * @param Phase $phase
 	 */
 	protected function dispatchRoundRobinGames(Phase $phase)
 	{

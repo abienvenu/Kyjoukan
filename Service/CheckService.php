@@ -3,7 +3,6 @@
 namespace Abienvenu\KyjoukanBundle\Service;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
-use Abienvenu\KyjoukanBundle\Entity\Team;
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 
 class CheckService

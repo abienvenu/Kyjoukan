@@ -4,6 +4,8 @@ namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Team;
+use Abienvenu\KyjoukanBundle\Service\DispatcherService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +20,14 @@ class TeamController extends Controller
 	 *
 	 * @Route("/edit")
 	 */
-	public function editAction(Request $request, Team $team)
+	public function editAction(Request $request, Team $team, EntityManagerInterface $em)
 	{
 		$form = $this->createForm('Abienvenu\KyjoukanBundle\Form\Type\TeamType', $team);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
 		{
-			$em = $this->getDoctrine()->getManager();
 			$em->flush();
-
 			return $this->redirect($this->generateUrl('abienvenu_kyjoukan_event_index', ['slug' => $team->getEvent()->getSlug()]) . "#teams");
 		}
 
@@ -39,9 +39,9 @@ class TeamController extends Controller
 	 *
 	 * @Route("/delete")
 	 */
-	public function deleteAction(Team $team)
+	public function deleteAction(DispatcherService $dispatcherService, Team $team)
 	{
-		if ($this->get('kyjoukan.dispatcher')->removeTeamFromEvent($team))
+		if ($dispatcherService->removeTeamFromEvent($team))
 		{
 			$this->addFlash('success', "L'équipe a bien été supprimée");
 		}
@@ -58,9 +58,9 @@ class TeamController extends Controller
 	 *
 	 * @Route("/remove/{phase}")
 	 */
-	public function removeFromPhaseAction(Phase $phase, Team $team)
+	public function removeFromPhaseAction(DispatcherService $dispatcherService, Phase $phase, Team $team)
 	{
-		if ($this->get('kyjoukan.dispatcher')->removeTeamFromPhase($phase, $team))
+		if ($dispatcherService->removeTeamFromPhase($phase, $team))
 		{
 			$this->addFlash('success', "L'équipe a été supprimée");
 		}

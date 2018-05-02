@@ -5,6 +5,7 @@ namespace Abienvenu\KyjoukanBundle\Controller;
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Entity\Pool;
 use Abienvenu\KyjoukanBundle\Form\Type\PoolType;
+use Abienvenu\KyjoukanBundle\Service\DispatcherService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,9 +43,9 @@ class PoolController extends Controller
 	 *
 	 * @Route("/{id}/delete")
 	 */
-	public function deleteAction(Pool $pool)
+	public function deleteAction(DispatcherService $dispatcherService, Pool $pool)
 	{
-		if ($this->get('kyjoukan.dispatcher')->removePoolFromPhase($pool))
+		if ($dispatcherService->removePoolFromPhase($pool))
 		{
 			$this->addFlash('success', "Groupe supprimé");
 		}

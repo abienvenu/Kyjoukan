@@ -4,6 +4,9 @@ namespace Abienvenu\KyjoukanBundle\Controller;
 
 use Abienvenu\KyjoukanBundle\Entity\Phase;
 use Abienvenu\KyjoukanBundle\Form\Type\PhaseType;
+use Abienvenu\KyjoukanBundle\Service\CheckService;
+use Abienvenu\KyjoukanBundle\Service\DispatcherService;
+use Abienvenu\KyjoukanBundle\Service\RankService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,14 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
 class PhaseController extends Controller
 {
 	/**
-	 * @Route("");
+	 * @Route("")
 	 */
-	public function indexAction(Phase $phase)
+	public function indexAction(CheckService $checkService, Phase $phase)
 	{
 		$errors = [
-			'team' => $this->get('kyjoukan.checker')->checkPhaseTeams($phase),
-			'pool' => $this->get('kyjoukan.checker')->checkPhasePools($phase),
-		    'game' => $this->get('kyjoukan.checker')->checkPhaseGames($phase),
+			'team' => $checkService->checkPhaseTeams($phase),
+			'pool' => $checkService->checkPhasePools($phase),
+		    'game' => $checkService->checkPhaseGames($phase),
 		];
 		return $this->render("KyjoukanBundle:Phase:index.html.twig", ['phase' => $phase, 'errors' => $errors]);
 	}
@@ -32,9 +35,9 @@ class PhaseController extends Controller
 	 *
 	 * @Route("/load_teams")
 	 */
-	public function loadTeamsAction(Phase $phase)
+	public function loadTeamsAction(DispatcherService $dispatcherService, Phase $phase)
 	{
-		$loaded = $this->get('kyjoukan.dispatcher')->loadTeamsIntoPhase($phase);
+		$loaded = $dispatcherService->loadTeamsIntoPhase($phase);
 		if ($loaded)
 		{
 			$this->addFlash('success', "Équipes chargées avec succès : $loaded");
@@ -49,9 +52,9 @@ class PhaseController extends Controller
 	/**
 	 * @Route("/dispatch_teams")
 	 */
-	public function dispatchTeamsAction(Phase $phase)
+	public function dispatchTeamsAction(DispatcherService $dispatcherService, Phase $phase)
 	{
-		$dispatched = $this->get('kyjoukan.dispatcher')->dispatchTeamsIntoPools($phase);
+		$dispatched = $dispatcherService->dispatchTeamsIntoPools($phase);
 		if ($dispatched)
 		{
 			$this->addFlash('success', "Équipes réparties dans des groupes : $dispatched");
@@ -69,9 +72,9 @@ class PhaseController extends Controller
 	 *
 	 * @Route("/clean")
 	 */
-	public function cleanAction(Phase $phase)
+	public function cleanAction(DispatcherService $dispatcherService, Phase $phase)
 	{
-		$this->get('kyjoukan.dispatcher')->cleanGames($phase);
+		$dispatcherService->cleanGames($phase);
 		$this->addFlash('success', "Nettoyage effectué.");
 		return $this->redirect(
 			$this->generateUrl("abienvenu_kyjoukan_phase_index", ['slug_event' => $phase->getEvent()->getSlug(), 'slug' => $phase->getSlug()]) . "#games");
@@ -82,7 +85,7 @@ class PhaseController extends Controller
 	 *
 	 * @Route("/shuffle")
 	 */
-	public function shuffleAction(Phase $phase)
+	public function shuffleAction(DispatcherService $dispatcherService, Phase $phase)
 	{
 		if (!count($phase->getEvent()->getGrounds()))
 		{
@@ -94,7 +97,7 @@ class PhaseController extends Controller
 		}
 		else
 		{
-			$this->get('kyjoukan.dispatcher')->shuffleGames($phase);
+			$dispatcherService->shuffleGames($phase);
 			$this->addFlash('success', "Les matchs sont programmés.");
 		}
 		return $this->redirect(
@@ -126,7 +129,7 @@ class PhaseController extends Controller
 	 * @param Phase $phase
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function rankingAction(Phase $phase)
+	public function rankingAction(RankService $rankService, Phase $phase)
 	{
 		$rankings = [];
 		foreach ($phase->getPools() as $pool)
@@ -138,7 +141,7 @@ class PhaseController extends Controller
 				$index++;
 				$key = "{$pool->getName()}_$index";
 			}
-			$rankings[$key] = $this->get('kyjoukan.ranker')->getPoolRanks($pool);
+			$rankings[$key] = $rankService->getPoolRanks($pool);
 		}
 		return $this->render("KyjoukanBundle:Phase:ranking.html.twig", ['rankings' => $rankings]);
 	}

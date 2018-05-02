@@ -1,10 +1,10 @@
 services:
-    kyjoukan.dispatcher:
-        class: Abienvenu\KyjoukanBundle\Service\DispatcherService
-        arguments: ["@doctrine.orm.entity_manager", "@kyjoukan.ranker"]
+    Abienvenu\KyjoukanBundle\Service\:
+        resource: '../../Service/*'
 
-    kyjoukan.checker:
-        class: Abienvenu\KyjoukanBundle\Service\CheckService
+    Abienvenu\KyjoukanBundle\Service\DispatcherService:
+        arguments: ['@doctrine.orm.entity_manager', '@Abienvenu\KyjoukanBundle\Service\RankService']
 
-    kyjoukan.ranker:
-        class: Abienvenu\KyjoukanBundle\Service\RankService
+    Abienvenu\KyjoukanBundle\Controller\:
+        resource: '../../Controller/*'
+        tags: ['controller.service_arguments']
