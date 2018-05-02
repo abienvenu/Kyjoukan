@@ -1,9 +1,10 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     Abienvenu\KyjoukanBundle\Service\:
         resource: '../../Service/*'
-
-    Abienvenu\KyjoukanBundle\Service\DispatcherService:
-        arguments: ['@doctrine.orm.entity_manager', '@Abienvenu\KyjoukanBundle\Service\RankService']
 
     Abienvenu\KyjoukanBundle\Controller\:
         resource: '../../Controller/*'

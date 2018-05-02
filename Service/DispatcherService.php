@@ -10,14 +10,14 @@ use Abienvenu\KyjoukanBundle\Entity\Team;
 use Abienvenu\KyjoukanBundle\Enum\Rule;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DispatcherService
 {
 	private $em;
 	private $ranker;
 
-	public function __construct(EntityManager $em, RankService $ranker)
+	public function __construct(EntityManagerInterface $em, RankService $ranker)
 	{
 		$this->em = $em;
 		$this->ranker = $ranker;
