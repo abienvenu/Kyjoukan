@@ -43,6 +43,6 @@ class PhaseType extends AbstractType
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(['data_class' => Phase::class, 'event' => null]);
+		$resolver->setDefaults(['data_class' => Phase::class, 'event' => null, 'translation_domain' => false]);
 	}
 }

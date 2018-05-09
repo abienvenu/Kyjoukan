@@ -20,6 +20,6 @@ class GroundType extends AbstractType
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(['data_class' => Ground::class]);
+		$resolver->setDefaults(['data_class' => Ground::class, 'translation_domain' => false]);
 	}
 }

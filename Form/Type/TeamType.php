@@ -19,6 +19,6 @@ class TeamType extends AbstractType
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(['data_class' => Team::class]);
+		$resolver->setDefaults(['data_class' => Team::class, 'translation_domain' => false]);
 	}
 }

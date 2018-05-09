@@ -33,6 +33,6 @@ class PoolType extends AbstractType
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(['data_class' => Pool::class, 'phase' => null]);
+		$resolver->setDefaults(['data_class' => Pool::class, 'phase' => null, 'translation_domain' => false]);
 	}
 }
