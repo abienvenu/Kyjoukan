@@ -223,9 +223,19 @@ class DispatcherService
 
 			// Order the pools from the lazyiest to the busyiest
 			usort($poolsArray,
-				function (Pool $a, Pool $b)
+				function (Pool $poolA, Pool $poolB) use ($newGame)
 				{
-					return $a->getScheduledRate() > $b->getScheduledRate();
+					if ($poolA->getScheduledRate() == $poolB->getScheduledRate())
+					{
+						// Try to spread matches across various grounds
+						$ground = $newGame->getGround();
+						return $ground->countPool($poolA) > $ground->countPool($poolB);
+					}
+					else
+					{
+						// Use the lazyiest pool
+						return $poolA->getScheduledRate() > $poolB->getScheduledRate();
+					}
 				}
 			);
 
@@ -452,30 +462,35 @@ class DispatcherService
 
 	/**
 	 * Populate $newGame with the lazyiest teams in $pool
-	 *
-	 * @param Game $newGame
-	 * @param Pool $pool
 	 */
 	private function setLazyiestTeams(Game $newGame, Pool $pool)
 	{
 		// Order the teams from the lazyiest to the busyiest
 		$teams = $pool->getTeams()->toArray();
 		usort($teams,
-			function (Team $a, Team $b) use ($pool)
+			function (Team $a, Team $b) use ($newGame, $pool)
 			{
 				if ($pool->getTeamNbParticipations($a) == $pool->getTeamNbParticipations($b))
 				{
-					// In this case, we try to match the worst teams first (for CumulativeRank game)
-					foreach ($this->ranker->getPoolRanks($pool) as $teamId => $rank)
+					if ($pool->getPhase()->getRule() == Rule::CUMULATIVERANK)
 					{
-						if ($teamId == $a->getId())
+						// In this case, we try to match the worst teams first (for CumulativeRank game)
+						foreach ($this->ranker->getPoolRanks($pool) as $teamId => $rank)
 						{
-							return 1;
+							if ($teamId == $a->getId())
+							{
+								return 1;
+							}
+							if ($teamId == $b->getId())
+							{
+								return -1;
+							}
 						}
-						if ($teamId == $b->getId())
-						{
-							return -1;
-						}
+					}
+					else
+					{
+						// Try to spread teams across various grounds
+						return $newGame->getGround()->countTeam($a) > $newGame->getGround()->countTeam($b);
 					}
 				}
 				return $pool->getTeamNbParticipations($a) > $pool->getTeamNbParticipations($b);

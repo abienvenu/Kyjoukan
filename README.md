@@ -46,6 +46,7 @@ $ docker run -d --name kyjoukan -p 8043:80 -e APP_ENV=prod abienvenu/kyjoukan
 
 CHANGELOG
 ---------
+* v0.7 : Spreading of teams across grounds
 * v0.6 : Upgrade to Symfony 3.4
 * v0.5 : Improved warning display + shuffling bugfixes
 * v0.4 : Added the "Cumulative Ranking" rule

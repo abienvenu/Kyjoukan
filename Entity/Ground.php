@@ -58,4 +58,47 @@ class Ground
 	{
 		return $this->event;
 	}
+
+	/**
+	 * Returns the number of times the given pool has played on this ground
+	 */
+	public function countPool(Pool $pool) : int
+	{
+		$nb = 0;
+		/** @var Game $game */
+		foreach ($pool->getGames() as $game)
+		{
+			if ($game->getGround()->getId() == $this->getId())
+			{
+				$nb++;
+			}
+		}
+		return $nb;
+	}
+
+	/**
+	 * Returns the number of times the given team has played on this ground across all phases
+	 */
+	public function countTeam(Team $team) : int
+	{
+		$nb = 0;
+		/** @var Phase $phase */
+		foreach ($this->getEvent()->getPhases() as $phase)
+		{
+			foreach ($phase->getRounds() as $round)
+			{
+				foreach ($round->getGames() as $game)
+				{
+					if ($game->getTeam1() && $game->getTeam2())
+					{
+						if ($game->getTeam1()->getId() == $team->getId() || $game->getTeam2()->getId() == $team->getId())
+						{
+							$nb++;
+						}
+					}
+				}
+			}
+		}
+		return $nb;
+	}
 }
