@@ -3,6 +3,9 @@
 build:
 	docker build -t abienvenu/kyjoukan ..
 
+build-rpi:
+	docker build -t abienvenu/kyjoukan -f ../Dockerfile-rpi ..
+
 volume:
 	docker volume create --name kyjoukan-data
 
