@@ -46,6 +46,7 @@ $ docker run -d --name kyjoukan -p 8043:80 -e APP_ENV=prod abienvenu/kyjoukan
 
 CHANGELOG
 ---------
+* v0.6.1 : Removed footer, space is important
 * v0.6 : Upgrade to Symfony 3.4, spreading of teams across grounds
 * v0.5 : Improved warning display + shuffling bugfixes
 * v0.4 : Added the "Cumulative Ranking" rule
